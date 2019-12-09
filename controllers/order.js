@@ -1,6 +1,9 @@
 const {Order, cartItem} = require('../models/order')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey('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')
+
 exports.orderById = (req, res, next, id) => {
     Order.findById(id)
         .populate('products.product', 'name price')
@@ -26,6 +29,19 @@ exports.create = (req, res) => {
                 error: errorHandler(error)
             })
         }
+
+        const emailData = {
+            to: 'theoxmode@gmail.com',
+            from: 'team@lucidha.us',
+            subject: `A new order is received`,
+            html: `
+            <p>Customer name:</p>
+            <p>Total products: ${order.products.length}</p>
+            <p>Total cost: ${order.amount}</p>
+            <p>Login to dashboard to the order in detail.</p>`
+        }
+        sgMail.send(emailData)
+
         res.json(data)
     })
 }
@@ -51,7 +67,7 @@ exports.getStatusValues = (req, res) => {
 exports.updateOrderStatus = (req, res) => {
     Order.update({_id: req.body.orderId}, {$set: {status: req.body.status}},
         (err, order) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 })
