@@ -11,8 +11,8 @@ const gateway = braintree.connect({
 })
 
 exports.generateToken = (req, res) => {
-    gateway.clientToken.generate({}, function(err, response) {
-        if(err) {
+    gateway.clientToken.generate({}, function (err, response) {
+        if (err) {
             res.status(500).send(err)
         } else {
             res.send(response)
@@ -32,8 +32,8 @@ exports.processPayment = (req, res) => {
             submitForSettlement: true
         }
     }, (error, result) => {
-        if(error) {
-            res.status(500),json(error)
+        if (error) {
+            res.status(500), json(error)
         } else {
             res.json(result)
         }

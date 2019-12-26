@@ -298,9 +298,9 @@ exports.decreaseQuantity = (req, res, next) => {
     })
 
     Product.bulkWrite(bulkOps, {}, (error, products) => {
-        if(error) {
+        if (error) {
             return res.status(400).json({
-                error: "Could not update product"
+                error: 'Could not update product'
             })
         }
         next()

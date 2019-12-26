@@ -1,40 +1,41 @@
 const express = require('express')
 const router = express.Router()
-const { requireSignin, isAuth, isAdmin} = require('../controllers/auth')
-const { listSearch } = require('../controllers/product')
+const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
+const {listSearch} = require('../controllers/product')
 
-const { userById } = require('../controllers/user')
-const { productById,
-  create,
-  read,
-  remove,
-  update,
-  list,
-  listRelated,
-  listCategories,
-  listBySearch,
-  photo
+const {userById} = require('../controllers/user')
+const {
+    productById,
+    create,
+    read,
+    remove,
+    update,
+    list,
+    listRelated,
+    listCategories,
+    listBySearch,
+    photo
 } = require('../controllers/product')
 
 
 router.get('/product/:productId', read)
 router.post(
-  '/product/create/:userId',
-  requireSignin,
-  isAuth,
-  isAdmin,
-  create)
+    '/product/create/:userId',
+    requireSignIn,
+    isAuth,
+    isAdmin,
+    create)
 router.delete('/product/:productId/:userId',
-  requireSignin,
-  isAuth,
-  isAdmin,
-  remove
+    requireSignIn,
+    isAuth,
+    isAdmin,
+    remove
 )
 router.put('/product/:productId/:userId',
-  requireSignin,
-  isAuth,
-  isAdmin,
-  update
+    requireSignIn,
+    isAuth,
+    isAdmin,
+    update
 )
 
 router.get('/products', list)
@@ -44,7 +45,7 @@ router.get('/products/categories', listCategories)
 router.post('/products/by/search', listBySearch)
 router.get('/product/photo/:productId', photo)
 
-router.param('userId', userById )
-router.param('productId', productById )
+router.param('userId', userById)
+router.param('productId', productById)
 
 module.exports = router

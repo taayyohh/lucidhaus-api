@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  signup,
-  signin,
-  signout,
-  requireSignin
+    signup,
+    signin,
+    signout,
+    requireSignIn
 } = require('../controllers/auth')
-const { userSignupValidator } = require('../validator')
+const {userSignupValidator} = require('../validator')
 
 //
 router.post('/signup', userSignupValidator, signup)
