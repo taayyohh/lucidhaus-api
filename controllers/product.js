@@ -207,7 +207,7 @@ exports.listCategories = (req, res) => {
  * list products by search
  * we will implement product search in react frontend
  * we will show categories in checkbox and price range in radio buttons
- * as the user clicks on those checkbox and radio buttons
+ * as the User clicks on those checkbox and radio buttons
  * we will make api request and show the products to users based on what he wants
  */
 

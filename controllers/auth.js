@@ -29,8 +29,8 @@ exports.signin = (req, res) => {
             })
         }
 
-        //if user is found make sure email and pw match
-        //create auth method iin user model
+        //if User is found make sure email and pw match
+        //create auth method iin User model
         if (!user.authenticate(password)) {
             return res.status(401).json({
                 error: 'Email and pw dont match'
