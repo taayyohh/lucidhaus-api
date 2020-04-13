@@ -1,4 +1,9 @@
 const mongoose = require('mongoose')
+const slug = require('mongoose-slug-updater');
+
+
+mongoose.plugin(slug);
+
 
 
 const categorySchema = new mongoose.Schema({
@@ -9,6 +14,7 @@ const categorySchema = new mongoose.Schema({
         unique: true,
         maxLength: 32
     },
+    slug: { type: String, slug: "name", unique: true },
 
 }, {timestamps: true})
 

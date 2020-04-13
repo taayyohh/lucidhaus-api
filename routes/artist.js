@@ -5,6 +5,7 @@ const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 const {userById} = require('../controllers/user')
 const {
     artistById,
+    artistBySlug,
     create,
     read,
     remove,
@@ -14,20 +15,21 @@ const {
 } = require('../controllers/artist')
 
 
-router.get('/artist/:artistId', read)
+// router.get('/artist/:artistId', read)
+router.get('/artist/:slug', read)
 router.post(
     '/artist/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create)
-router.delete('/artist/:artistId/:userId',
+router.delete('/artist/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/artist/:artistId/:userId',
+router.put('/artist/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
@@ -39,5 +41,6 @@ router.get('/artist/photo/:artistId', photo)
 
 router.param('userId', userById)
 router.param('artistId', artistById)
+router.param('slug', artistBySlug)
 
 module.exports = router

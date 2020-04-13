@@ -19,6 +19,19 @@ exports.productById = (req, res, next, id) => {
         })
 }
 
+exports.productBySlug = (req, res, next, slug) => {
+    Product.findOne({slug: slug})
+        .exec((err, product) => {
+            if (err || !product) {
+                return res.status(400).json({
+                    error: 'product not found'
+                })
+            }
+            req.product = product
+            next()
+        })
+}
+
 
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()

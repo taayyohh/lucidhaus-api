@@ -1,5 +1,10 @@
 const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema
+const slug = require('mongoose-slug-updater');
+
+
+mongoose.plugin(slug);
+
 
 
 const productSchema = new mongoose.Schema({
@@ -40,7 +45,8 @@ const productSchema = new mongoose.Schema({
     shipping: {
         required: false,
         type: Boolean
-    }
+    },
+    slug: { type: String, slug: "name", unique: true }
 
 }, {timestamps: true})
 

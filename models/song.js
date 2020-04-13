@@ -5,7 +5,7 @@ const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
 
-const artistSchema = new mongoose.Schema({
+const songSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
@@ -25,4 +25,4 @@ const artistSchema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('Artist', artistSchema)
+module.exports = mongoose.model('Song', songSchema)

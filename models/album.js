@@ -1,20 +1,16 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater');
 
-
 mongoose.plugin(slug);
 
 
-const artistSchema = new mongoose.Schema({
+const albumSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
         required: true,
-    },
-    description: {
-        type: String,
-        trim: true,
-        required: true,
+        unique: true,
+        maxLength: 32
     },
     photo: {
         data: Buffer,
@@ -22,7 +18,7 @@ const artistSchema = new mongoose.Schema({
     },
     slug: { type: String, slug: "name", unique: true },
 
-})
+}, {timestamps: true})
 
 
-module.exports = mongoose.model('Artist', artistSchema)
+module.exports = mongoose.model('Album', albumSchema)

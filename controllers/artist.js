@@ -18,6 +18,19 @@ exports.artistById = (req, res, next, id) => {
         })
 }
 
+exports.artistBySlug = (req, res, next, slug) => {
+    Artist.findOne({slug: slug})
+        .exec((err, artist) => {
+            if (err || !artist) {
+                return res.status(400).json({
+                    error: 'artist not found'
+                })
+            }
+            req.artist = artist
+            next()
+        })
+}
+
 
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
