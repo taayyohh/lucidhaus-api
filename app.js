@@ -13,11 +13,12 @@ require('dotenv').config()
 
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
-const categoryRoutes = require('./routes/category')
-const productRoutes = require('./routes/product')
 const artistRoutes = require('./routes/artist')
+const songRoutes = require('./routes/song')
 const braintreeRoutes = require('./routes/braintree')
+const productRoutes = require('./routes/product')
 const orderRoutes = require('./routes/order')
+const categoryRoutes = require('./routes/category')
 
 //app
 const app = express()
@@ -40,11 +41,14 @@ app.use(cors())
 //routes middleware
 app.use('/api', authRoutes)
 app.use('/api', userRoutes)
-app.use('/api', categoryRoutes)
-app.use('/api', productRoutes)
+
+
 app.use('/api', artistRoutes)
+app.use('/api', songRoutes)
 app.use('/api', braintreeRoutes)
+app.use('/api', productRoutes)
 app.use('/api', orderRoutes)
+app.use('/api', categoryRoutes)
 
 const port = process.env.port || 8000
 
