@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
+    "aws-sdk": "^2.673.0",
     "body-parser": "^1.19.0",
     "braintree": "^2.21.0",
     "cookie-parser": "^1.4.4",
@@ -27,6 +28,7 @@
     "mongoose-slug-updater": "^3.2.1",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.1",
+    "react-s3-uploader": "^4.9.2",
     "uuid": "^3.3.3"
   }
 }
