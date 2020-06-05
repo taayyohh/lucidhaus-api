@@ -16,7 +16,7 @@ exports.getSignedRequest = (req, res) => {
         Key: fileName,
         Expires: 60,
         ContentType: fileType,
-        ACL: 'public-read'
+        ACL: 'private'
     };
 
     s3.getSignedUrl('putObject', s3Params, (err, data) => {
