@@ -3,11 +3,11 @@ const router = express.Router()
 
 const {requireSignIn, isAuth} = require('../controllers/auth')
 const {userById} = require('../controllers/user')
-const {generateToken, processPayment} = require('../controllers/braintree')
+const {getSignedRequest} = require('../controllers/s3')
 
 
-router.get('/braintree/getToken/:userId', requireSignIn, isAuth, generateToken)
-router.post('/braintree/payment/:userId', requireSignIn, isAuth, processPayment)
+router.get('/sign-s3/', getSignedRequest)
+// router.post('/braintree/payment/:userId', requireSignIn, isAuth, processPayment)
 
 
 router.param('userId', userById)

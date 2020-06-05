@@ -9,15 +9,18 @@ const expressValidator = require('express-validator')
 require('dotenv').config()
 
 
-
 //import routes
 
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
-const categoryRoutes = require('./routes/category')
-const productRoutes = require('./routes/product')
+const artistRoutes = require('./routes/artist')
+const songRoutes = require('./routes/song')
+const albumRoutes = require('./routes/album')
 const braintreeRoutes = require('./routes/braintree')
+const s3Routes = require('./routes/s3')
+const productRoutes = require('./routes/product')
 const orderRoutes = require('./routes/order')
+const categoryRoutes = require('./routes/category')
 
 //app
 const app = express()
@@ -37,18 +40,22 @@ app.use(expressValidator())
 app.use(cors())
 
 
-
-
 //routes middleware
 app.use('/api', authRoutes)
 app.use('/api', userRoutes)
-app.use('/api', categoryRoutes)
-app.use('/api', productRoutes)
+
+
+app.use('/api', artistRoutes)
+app.use('/api', songRoutes)
+app.use('/api', albumRoutes)
 app.use('/api', braintreeRoutes)
+app.use('/api', s3Routes)
+app.use('/api', productRoutes)
 app.use('/api', orderRoutes)
+app.use('/api', categoryRoutes)
 
 const port = process.env.port || 8000
 
-app.listen(port, ()=> {
+app.listen(port, () => {
     console.log(`Server is running on ${port}`)
 })

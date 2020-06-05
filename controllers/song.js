@@ -1,21 +1,25 @@
-const Category = require('../models/category')
-const {errorHandler} = require('../helpers/dbErrorHandler')
+import {errorHandler} from '../helpers/dbErrorHandler'
 
-exports.categoryById = (req, res, next, id) => {
-    Category.findById(id).exec((err, category) => {
-        if (err || !category) {
+const Song = require('../models/song')
+const formidable = require('formidable')
+const _ = require('lodash')
+const fs = require('fs')
+
+exports.songById = (req, res, next, id) => {
+    Song.findById(id).exec((err, song) => {
+        if (err || !song) {
             return res.status(400).json({
-                error: 'category does not exist'
+                error: 'Song does not exist'
             })
         }
-        req.cagtegory = category
+        req.song = song
         next()
     })
 }
 
 exports.create = (req, res) => {
-    const category = new Category(req.body)
-    category.save((err, data) => {
+    const song = new Song(req.body)
+    song.save((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -27,13 +31,13 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    return res.json(req.category)
+    return res.json(req.song)
 }
 
 exports.update = (req, res) => {
-    const category = req.category
-    category.name = req.body.name
-    category.save((err, data) => {
+    const song = req.song
+    song.name = req.body.name
+    song.save((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler((err))
@@ -45,8 +49,8 @@ exports.update = (req, res) => {
 }
 
 exports.remove = (req, res) => {
-    const category = req.category
-    category.remove((err, data) => {
+    const song = req.song
+    song.remove((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler((err))
@@ -54,14 +58,13 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'Category successfully deleted'
+            message: 'Song successfully deleted'
         })
     })
 }
 
-
 exports.list = (req, res) => {
-    Category.find().exec((err, data) => {
+    Song.find().exec((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler((err))
@@ -71,3 +74,4 @@ exports.list = (req, res) => {
         res.json(data)
     })
 }
+
