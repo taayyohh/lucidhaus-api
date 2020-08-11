@@ -12,7 +12,7 @@ const {
     update,
     list,
     photo
-} = require('../controllers/artist')
+} = require('../controllers/business')
 
 
 // router.get('/artist/:artistId', read)

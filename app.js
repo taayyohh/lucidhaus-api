@@ -13,7 +13,7 @@ require('dotenv').config()
 
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
-const artistRoutes = require('./routes/artist')
+const businessRoutes = require('./routes/business')
 const songRoutes = require('./routes/song')
 const albumRoutes = require('./routes/album')
 const braintreeRoutes = require('./routes/braintree')
@@ -45,7 +45,7 @@ app.use('/api', authRoutes)
 app.use('/api', userRoutes)
 
 
-app.use('/api', artistRoutes)
+app.use('/api', businessRoutes)
 app.use('/api', songRoutes)
 app.use('/api', albumRoutes)
 app.use('/api', braintreeRoutes)

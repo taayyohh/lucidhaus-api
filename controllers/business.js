@@ -1,4 +1,4 @@
-const Artist = require('../models/artist')
+const Business = require('../models/artist')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
@@ -6,7 +6,7 @@ const {errorHandler} = require('../helpers/dbErrorHandler')
 
 
 exports.artistById = (req, res, next, id) => {
-    Artist.findById(id)
+    Business.findById(id)
         .exec((err, artist) => {
             if (err || !artist) {
                 return res.status(400).json({
@@ -19,7 +19,7 @@ exports.artistById = (req, res, next, id) => {
 }
 
 exports.artistBySlug = (req, res, next, slug) => {
-    Artist.findOne({slug: slug})
+    Business.findOne({slug: slug})
         .exec((err, artist) => {
             if (err || !artist) {
                 return res.status(400).json({
@@ -42,7 +42,7 @@ exports.create = (req, res) => {
                 })
             }
 
-            let artist = new Artist(fields)
+            let artist = new Business(fields)
 
             if (files.photo) {
 
@@ -144,7 +144,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'Artist deleted successfully'
+            message: 'Business deleted successfully'
         })
     })
 }
@@ -154,7 +154,7 @@ exports.list = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    Artist.find()
+    Business.find()
         .select('-photo')
         .sort([[sortBy, order]])
         .limit(limit)
