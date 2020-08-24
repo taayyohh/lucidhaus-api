@@ -1,32 +1,32 @@
-const Business = require('../models/artist')
+const Business = require('../models/business')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
 
-exports.artistById = (req, res, next, id) => {
+exports.businessById = (req, res, next, id) => {
     Business.findById(id)
-        .exec((err, artist) => {
-            if (err || !artist) {
+        .exec((err, business) => {
+            if (err || !business) {
                 return res.status(400).json({
-                    error: 'artist not found'
+                    error: 'business not found'
                 })
             }
-            req.artist = artist
+            req.business = business
             next()
         })
 }
 
-exports.artistBySlug = (req, res, next, slug) => {
+exports.businessBySlug = (req, res, next, slug) => {
     Business.findOne({slug: slug})
-        .exec((err, artist) => {
-            if (err || !artist) {
+        .exec((err, business) => {
+            if (err || !business) {
                 return res.status(400).json({
-                    error: 'artist not found'
+                    error: 'business not found'
                 })
             }
-            req.artist = artist
+            req.business = business
             next()
         })
 }
@@ -42,7 +42,7 @@ exports.create = (req, res) => {
                 })
             }
 
-            let artist = new Business(fields)
+            let business = new Business(fields)
 
             if (files.photo) {
 
@@ -61,12 +61,12 @@ exports.create = (req, res) => {
                     })
                 }
 
-                artist.photo.data = fs.readFileSync(files.photo.path)
-                artist.photo.contentType = files.photo.type
+                business.photo.data = fs.readFileSync(files.photo.path)
+                business.photo.contentType = files.photo.type
 
             }
 
-            artist.save((err, result) => {
+            business.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -81,8 +81,8 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    req.artist.photo = undefined
-    return res.json(req.artist)
+    req.business.photo = undefined
+    return res.json(req.business)
 }
 
 exports.update = (req, res) => {
@@ -95,8 +95,8 @@ exports.update = (req, res) => {
                 })
             }
 
-            let artist = req.artist
-            artist = _.extend(artist, fields)
+            let business = req.business
+            business = _.extend(business, fields)
 
             if (files.photo) {
 
@@ -115,12 +115,12 @@ exports.update = (req, res) => {
                     })
                 }
 
-                artist.photo.data = fs.readFileSync(files.photo.path)
-                artist.photo.contentType = files.photo.type
+                business.photo.data = fs.readFileSync(files.photo.path)
+                business.photo.contentType = files.photo.type
 
             }
 
-            artist.save((err, result) => {
+            business.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -135,8 +135,8 @@ exports.update = (req, res) => {
 }
 
 exports.remove = (req, res) => {
-    let artist = req.artist
-    artist.remove((err) => {
+    let business = req.business
+    business.remove((err) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -158,23 +158,23 @@ exports.list = (req, res) => {
         .select('-photo')
         .sort([[sortBy, order]])
         .limit(limit)
-        .exec((err, artists) => {
+        .exec((err, businesss) => {
             if (err) {
                 return res.status(400).json({
-                    message: 'artist not found'
+                    message: 'business not found'
                 })
             }
 
-            res.send(artists)
+            res.send(businesss)
         })
 }
 
 
 
 exports.photo = (req, res, next) => {
-    if (req.artist.photo.data) {
-        res.set('Content-Type', req.artist.photo.contentType)
-        return res.send(req.artist.photo.data)
+    if (req.business.photo.data) {
+        res.set('Content-Type', req.business.photo.contentType)
+        return res.send(req.business.photo.data)
     }
 
     next()

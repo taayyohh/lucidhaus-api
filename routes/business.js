@@ -4,8 +4,8 @@ const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 
 const {userById} = require('../controllers/user')
 const {
-    artistById,
-    artistBySlug,
+    businessById,
+    businessBySlug,
     create,
     read,
     remove,
@@ -15,32 +15,32 @@ const {
 } = require('../controllers/business')
 
 
-// router.get('/artist/:artistId', read)
-router.get('/artist/:slug', read)
+// router.get('/business/:businessId', read)
+router.get('/business/:slug', read)
 router.post(
-    '/artist/create/:userId',
+    '/business/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create)
-router.delete('/artist/:slug/:userId',
+router.delete('/business/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/artist/:slug/:userId',
+router.put('/business/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 
-router.get('/artists', list)
-router.get('/artist/photo/:artistId', photo)
+router.get('/businesses', list)
+router.get('/business/photo/:businessId', photo)
 
 router.param('userId', userById)
-router.param('artistId', artistById)
-router.param('slug', artistBySlug)
+router.param('businessId', businessById)
+router.param('slug', businessBySlug)
 
 module.exports = router
