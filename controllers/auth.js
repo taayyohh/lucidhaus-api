@@ -6,10 +6,10 @@ const expressJwt = require('express-jwt') // for auth
 
 exports.signup = (req, res) => {
     const user = new User(req.body)
-    user.save((err, user) => {
-        if (err) {
+    user.save((error, user) => {
+        if (error) {
             return res.status(400).json({
-                err: errorHandler(err)
+                error: errorHandler(error)
             })
         }
         user.salt = undefined
@@ -22,18 +22,18 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     const {email, password} = req.body
-    User.findOne({email}, (err, user) => {
-        if (err || !user) {
+    User.findOne({email}, (error, user) => {
+        if (error || !user) {
             return res.status(400).json({
                 error: 'Auth with that email does not exist'
             })
         }
 
         //if User is found make sure email and pw match
-        //create auth method iin User model
+        //create auth method in User model
         if (!user.authenticate(password)) {
             return res.status(401).json({
-                error: 'Email and pw dont match'
+                error: 'incorrect password'
             })
         }
 
@@ -64,9 +64,6 @@ exports.requireSignIn = expressJwt({
 
 
 exports.isAuth = (req, res, next) => {
-    console.log('MU FAULT')
-    console.log(req.profile)
-
     let user = req.profile && req.auth && req.profile._id == req.auth._id
     if (!user) {
         return res.status(403).json({

@@ -6,14 +6,8 @@
 const uniqueMessage = error => {
     let output
     try {
-        let fieldName = error.message.substring(
-            error.message.lastIndexOf('.$') + 2,
-            error.message.lastIndexOf('_1')
-        )
-        output =
-            fieldName.charAt(0).toUpperCase() +
-            fieldName.slice(1) +
-            ' already exists'
+        let fieldName = error.keyValue.email
+        output = `Looks like there's an account already associated with ${fieldName}`
     } catch (ex) {
         output = 'Unique field already exists'
     }
@@ -22,11 +16,12 @@ const uniqueMessage = error => {
 }
 
 /**
- * Get the erroror message from error object
+ * Get the error message from error object
  */
 exports.errorHandler = error => {
     let message = ''
 
+    console.log('ERROR', error)
     if (error.code) {
         switch (error.code) {
             case 11000:
@@ -37,9 +32,9 @@ exports.errorHandler = error => {
                 message = 'Something went wrong'
         }
     } else {
-        for (let errorName in error.errorors) {
-            if (error.errorors[errorName].message)
-                message = error.errorors[errorName].message
+        for (let errorName in error.errors) {
+            if (error.errors[errorName].message)
+                message = error.errors[errorName].message
         }
     }
 

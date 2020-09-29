@@ -3,7 +3,7 @@ const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 
 
-const {userById, read, update, purchaseHistory} = require('../controllers/user')
+const {userById, userBySlug, read, update, purchaseHistory} = require('../controllers/user')
 
 
 router.get('/secret/:userId', requireSignIn, isAuth, isAdmin, (req, res) => {
@@ -11,11 +11,12 @@ router.get('/secret/:userId', requireSignIn, isAuth, isAdmin, (req, res) => {
         user: req.profile
     })
 })
-
-router.get('/User/:userId', requireSignIn, isAuth, read)
-router.put('/User/:userId', requireSignIn, isAuth, update)
-router.get('/orders/by/User/:userId', requireSignIn, isAuth, purchaseHistory)
+router.get('/user/:slug', read)
+router.get('/user/:userId', requireSignIn, isAuth, read)
+router.put('/user/:userId', requireSignIn, isAuth, update)
+router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory)
 
 router.param('userId', userById)
+router.param('slug', userBySlug)
 
 module.exports = router

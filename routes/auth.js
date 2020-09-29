@@ -5,7 +5,6 @@ const {
     signup,
     signin,
     signout,
-    requireSignIn
 } = require('../controllers/auth')
 const {userSignupValidator} = require('../validator')
 
