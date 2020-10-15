@@ -10,7 +10,7 @@ exports.businessById = (req, res, next, id) => {
         .exec((err, business) => {
             if (err || !business) {
                 return res.status(400).json({
-                    error: 'business not found'
+                    error: 'admin not found'
                 })
             }
             req.business = business
@@ -23,7 +23,7 @@ exports.businessBySlug = (req, res, next, slug) => {
         .exec((err, business) => {
             if (err || !business) {
                 return res.status(400).json({
-                    error: 'business not found'
+                    error: 'admin not found'
                 })
             }
             req.business = business
@@ -33,9 +33,13 @@ exports.businessBySlug = (req, res, next, slug) => {
 
 
 exports.create = (req, res) => {
+    console.log('req', req)
+    console.log('res', res)
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
+            console.log('req', req)
+            console.log('files', files)
             if (err) {
                 return res.status(400).json({
                     error: 'Image could not be uploaded'
@@ -46,11 +50,6 @@ exports.create = (req, res) => {
 
             if (files.photo) {
 
-                if (files.photo.size > 2000000) {
-                    return res.status(400).json({
-                        error: 'Image should be less than 2MB'
-                    })
-                }
 
                 //check for all fields
                 const {name, description} = fields
@@ -161,7 +160,7 @@ exports.list = (req, res) => {
         .exec((err, businesss) => {
             if (err) {
                 return res.status(400).json({
-                    message: 'business not found'
+                    message: 'admin not found'
                 })
             }
 

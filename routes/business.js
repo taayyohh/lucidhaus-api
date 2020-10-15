@@ -15,7 +15,7 @@ const {
 } = require('../controllers/business')
 
 
-// router.get('/business/:businessId', read)
+// router.get('/admin/:businessId', read)
 router.get('/business/:slug', read)
 router.post(
     '/business/create/:userId',

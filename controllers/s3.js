@@ -9,14 +9,15 @@ exports.getSignedRequest = (req, res) => {
     const s3 = new aws.S3({
         signatureVersion: 'v4'
     });
-    const fileName = req.query['file-name'];
-    const fileType = req.query['file-type'];
+    const fileName = req.query['file-name']
+    const fileType = req.query['file-type']
+    const directory = req.query['directory']
     const s3Params = {
         Bucket: process.env.S3_BUCKET,
-        Key: fileName,
+        Key: directory + '/' + fileName,
         Expires: 60,
         ContentType: fileType,
-        ACL: 'private'
+        ACL: 'public-read' // this should be set to private and we should use s3 sdk to get and read private url
     };
 
     s3.getSignedUrl('putObject', s3Params, (err, data) => {
