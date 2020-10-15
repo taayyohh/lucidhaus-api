@@ -39,7 +39,7 @@ exports.create = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
             console.log('req', req)
-            console.log('files', files)
+            console.log('files', fields)
             if (err) {
                 return res.status(400).json({
                     error: 'Image could not be uploaded'
@@ -154,7 +154,6 @@ exports.list = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
     Business.find()
-        .select('-photo')
         .sort([[sortBy, order]])
         .limit(limit)
         .exec((err, businesss) => {

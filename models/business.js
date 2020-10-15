@@ -16,8 +16,9 @@ const businessSchema = new mongoose.Schema({
         required: true,
     },
     photo: {
-        data: Buffer,
-        contentType: 'String'
+        type: String,
+        trim: true,
+        required: true,
     },
     slug: {
         type: String,
