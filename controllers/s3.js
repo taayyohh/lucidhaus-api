@@ -11,10 +11,9 @@ exports.getSignedRequest = (req, res) => {
     });
     const fileName = req.query['file-name']
     const fileType = req.query['file-type']
-    const directory = req.query['directory']
     const s3Params = {
         Bucket: process.env.S3_BUCKET,
-        Key: directory + '/' + fileName,
+        Key: fileName,
         Expires: 60,
         ContentType: fileType,
         ACL: 'public-read' // this should be set to private and we should use s3 sdk to get and read private url

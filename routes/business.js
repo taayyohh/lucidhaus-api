@@ -22,7 +22,8 @@ router.post(
     requireSignIn,
     isAuth,
     isAdmin,
-    create)
+    create
+)
 router.delete('/business/:slug/:userId',
     requireSignIn,
     isAuth,
@@ -37,7 +38,6 @@ router.put('/business/:slug/:userId',
 )
 
 router.get('/businesses', list)
-router.get('/business/photo/:businessId', photo)
 
 router.param('userId', userById)
 router.param('businessId', businessById)
