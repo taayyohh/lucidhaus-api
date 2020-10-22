@@ -83,35 +83,16 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-            if (err) {
-                return res.status(400).json({
-                    error: 'Image could not be uploaded'
-                })
-            }
-
             let business = req.business
             business = _.extend(business, fields)
 
-            if (files.photo) {
+            //check for all fields
+            const {name, description} = fields
 
-                if (files.photo.size > 2000000) {
-                    return res.status(400).json({
-                        error: 'Image should be less than 2MB'
-                    })
-                }
-
-                //check for all fields
-                const {name, description} = fields
-
-                if (!name || !description) {
-                    return res.status(400).json({
-                        error: 'All fields required'
-                    })
-                }
-
-                business.photo.data = fs.readFileSync(files.photo.path)
-                business.photo.contentType = files.photo.type
-
+            if (!name || !description) {
+                return res.status(400).json({
+                    error: 'All fields required'
+                })
             }
 
             business.save((err, result) => {
@@ -161,7 +142,6 @@ exports.list = (req, res) => {
             res.send(businesss)
         })
 }
-
 
 
 exports.photo = (req, res, next) => {

@@ -27,13 +27,13 @@ router.post(
     isAuth,
     isAdmin,
     create)
-router.delete('/product/:productId/:userId',
+router.delete('/product/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/product/:productId/:userId',
+router.put('/product/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,

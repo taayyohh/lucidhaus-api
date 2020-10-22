@@ -2,12 +2,14 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema
 const slug = require('mongoose-slug-updater');
 
-
 mongoose.plugin(slug);
 
-
-
 const productSchema = new mongoose.Schema({
+    photo: {
+        type: String,
+        trim: true,
+        required: true,
+    },
     name: {
         type: String,
         trim: true,
@@ -29,7 +31,7 @@ const productSchema = new mongoose.Schema({
     category: {
         type: ObjectId,
         ref: 'Category',
-        required: true
+       // required: true
     },
     quantity: {
         type: Number,
@@ -37,10 +39,6 @@ const productSchema = new mongoose.Schema({
     sold: {
         type: Number,
         default: 0
-    },
-    photo: {
-        data: Buffer,
-        contentType: 'String'
     },
     shipping: {
         required: false,

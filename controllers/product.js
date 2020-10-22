@@ -82,7 +82,6 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    req.product.photo = undefined
     return res.json(req.product)
 }
 
@@ -90,36 +89,10 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-            if (err) {
-                return res.status(400).json({
-                    error: 'Image could not be uploaded'
-                })
-            }
 
             let product = req.product
             product = _.extend(product, fields)
 
-            if (files.photo) {
-
-                if (files.photo.size > 2000000) {
-                    return res.status(400).json({
-                        error: 'Image should be less than 2MB'
-                    })
-                }
-
-                //check for all fields
-                const {name, description, price, category, quantity} = fields
-
-                if (!name || !description || !price || !category || !quantity) {
-                    return res.status(400).json({
-                        error: 'All fields required'
-                    })
-                }
-
-                product.photo.data = fs.readFileSync(files.photo.path)
-                product.photo.contentType = files.photo.type
-
-            }
 
             product.save((err, result) => {
                 if (err) {
@@ -132,7 +105,6 @@ exports.update = (req, res) => {
             })
 
         })
-
 }
 
 exports.remove = (req, res) => {
@@ -163,7 +135,6 @@ exports.list = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
     Product.find()
-        .select('-photo')
         .populate('category')
         .sort([[sortBy, order]])
         .limit(limit)
@@ -250,7 +221,6 @@ exports.listBySearch = (req, res) => {
     }
 
     Product.find(findArgs)
-        .select('-photo')
         .populate('category')
         .sort([[sortBy, order]])
         .skip(skip)
@@ -296,7 +266,7 @@ exports.listSearch = (req, res) => {
                 })
             }
             res.json(products)
-        }).select('-photo')
+        })
     }
 }
 

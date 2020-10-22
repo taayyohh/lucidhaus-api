@@ -3,10 +3,7 @@ const crypto = require('crypto')
 const uuidv1 = require('uuid/v1')
 const slug = require('mongoose-slug-updater');
 
-
 mongoose.plugin(slug);
-
-
 
 const userSchema = new mongoose.Schema({
     name: {
