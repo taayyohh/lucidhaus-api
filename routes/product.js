@@ -26,7 +26,8 @@ router.post(
     requireSignIn,
     isAuth,
     isAdmin,
-    create)
+    create
+)
 router.delete('/product/:slug/:userId',
     requireSignIn,
     isAuth,

@@ -10,7 +10,7 @@ exports.businessById = (req, res, next, id) => {
         .exec((err, business) => {
             if (err || !business) {
                 return res.status(400).json({
-                    error: 'business not found'
+                    error: 'marketplace not found'
                 })
             }
             req.business = business
@@ -23,7 +23,7 @@ exports.businessBySlug = (req, res, next, slug) => {
         .exec((err, business) => {
             if (err || !business) {
                 return res.status(400).json({
-                    error: 'business not found'
+                    error: 'marketplace not found'
                 })
             }
             req.business = business

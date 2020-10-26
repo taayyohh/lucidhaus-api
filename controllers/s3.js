@@ -19,9 +19,9 @@ exports.getSignedRequest = (req, res) => {
         ACL: 'public-read' // this should be set to private and we should use s3 sdk to get and read private url
     };
 
-    s3.getSignedUrl('putObject', s3Params, (err, data) => {
-        if(err){
-            console.log(err);
+    s3.getSignedUrl('putObject', s3Params, (error, data) => {
+        if(error){
+            console.log(error);
             return res.end();
         }
         const returnData = {

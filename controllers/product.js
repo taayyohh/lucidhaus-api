@@ -1,13 +1,12 @@
 const Product = require('../models/product')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
 
 exports.productById = (req, res, next, id) => {
     Product.findById(id)
-        .populate('category')
+        .populate('productCategory')
         .exec((err, product) => {
             if (err || !product) {
                 return res.status(400).json({
@@ -36,36 +35,8 @@ exports.productBySlug = (req, res, next, slug) => {
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
-            if (err) {
-                return res.status(400).json({
-                    error: 'Image could not be uploaded'
-                })
-            }
-
+        form.parse(req, (err, fields) => {
             let product = new Product(fields)
-
-            if (files.photo) {
-
-                if (files.photo.size > 2000000) {
-                    return res.status(400).json({
-                        error: 'Image should be less than 2MB'
-                    })
-                }
-
-                //check for all fields
-                const {name, description, price, category, quantity, shipping} = fields
-
-                if (!name || !description || !price || !category || !quantity) {
-                    return res.status(400).json({
-                        error: 'All fields required'
-                    })
-                }
-
-                product.photo.data = fs.readFileSync(files.photo.path)
-                product.photo.contentType = files.photo.type
-
-            }
 
             product.save((err, result) => {
                 if (err) {
@@ -76,9 +47,7 @@ exports.create = (req, res) => {
 
                 res.json(result)
             })
-
         })
-
 }
 
 exports.read = (req, res) => {
@@ -135,7 +104,7 @@ exports.list = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
     Product.find()
-        .populate('category')
+        .populate('productCategory')
         .sort([[sortBy, order]])
         .limit(limit)
         .exec((err, products) => {
@@ -159,11 +128,11 @@ exports.listRelated = (req, res) => {
 
     Product.find({
         _id: {$ne: req.product},
-        category: req.product.category
+        productCategory: req.product.productCategory
     })
         .sort([[sortBy, order]])
         .limit(limit)
-        .populate('category', '_id name')
+        .populate('productCategory', '_id name')
         .exec((err, products) => {
             if (err) {
                 return res.status(400).json({
@@ -176,7 +145,7 @@ exports.listRelated = (req, res) => {
 }
 
 exports.listCategories = (req, res) => {
-    Product.distinct('category', {}, (err, categories) => {
+    Product.distinct('productCategory', {}, (err, categories) => {
         if (err) {
             return res.status(400).json({
                 message: 'no related products'
@@ -202,9 +171,6 @@ exports.listBySearch = (req, res) => {
     let skip = parseInt(req.body.skip)
     let findArgs = {}
 
-    // console.log(order, sortBy, limit, skip, req.body.filters);
-    // console.log("findArgs", findArgs);
-
     for (let key in req.body.filters) {
         if (req.body.filters[key].length > 0) {
             if (key === 'price') {
@@ -221,7 +187,7 @@ exports.listBySearch = (req, res) => {
     }
 
     Product.find(findArgs)
-        .populate('category')
+        .populate('productCategory')
         .sort([[sortBy, order]])
         .skip(skip)
         .limit(limit)
@@ -253,9 +219,9 @@ exports.listSearch = (req, res) => {
     //assign search value to query.namee
     if (req.query.search) {
         query.name = {$regex: req.query.search, $options: 'i'}
-        //assign cate gory value to query.category
-        if (req.query.category && req.query.category !== 'All') {
-            query.category = req.query.category
+        //assign cate gory value to query.productCategory
+        if (req.query.productCategory && req.query.productCategory !== 'All') {
+            query.productCategory = req.query.productCategory
         }
 
         //find product based on query obj (search and cat)

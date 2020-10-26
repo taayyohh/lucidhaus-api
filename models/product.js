@@ -22,19 +22,14 @@ const productSchema = new mongoose.Schema({
         required: true,
         maxLength: 2000
     },
+    quantity: {
+        type: Number,
+    },
     price: {
         type: Number,
         trim: true,
         required: true,
         maxLength: 32
-    },
-    category: {
-        type: ObjectId,
-        ref: 'Category',
-       // required: true
-    },
-    quantity: {
-        type: Number,
     },
     sold: {
         type: Number,
@@ -43,6 +38,11 @@ const productSchema = new mongoose.Schema({
     shipping: {
         required: false,
         type: Boolean
+    },
+    category: {
+        type: ObjectId,
+        ref: 'Category',
+       // required: true
     },
     slug: { type: String, slug: "name", unique: true }
 

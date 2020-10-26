@@ -24,8 +24,7 @@ const businessSchema = new mongoose.Schema({
         type: String,
         slug: "name",
         unique: true
-    },
-
+    }
 })
 
 module.exports = mongoose.model('Business', businessSchema)
