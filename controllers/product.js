@@ -20,6 +20,7 @@ exports.productById = (req, res, next, id) => {
 
 exports.productBySlug = (req, res, next, slug) => {
     Product.findOne({slug: slug})
+        .populate('productCategory')
         .exec((err, product) => {
             if (err || !product) {
                 return res.status(400).json({
@@ -30,7 +31,6 @@ exports.productBySlug = (req, res, next, slug) => {
             next()
         })
 }
-
 
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
@@ -57,10 +57,14 @@ exports.read = (req, res) => {
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
+        form.parse(req, (err, fields) => {
 
             let product = req.product
+            console.log('product first', product)
+
             product = _.extend(product, fields)
+
+            console.log('product', product)
 
 
             product.save((err, result) => {
@@ -256,4 +260,3 @@ exports.decreaseQuantity = (req, res, next) => {
     })
 }
 
-//
