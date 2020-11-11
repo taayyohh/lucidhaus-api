@@ -1,6 +1,8 @@
 const aws = require('aws-sdk');
+const spacesEndpoint = new aws.Endpoint(`${process.env.BUCKET_ENDPOINT}`);
+
 aws.config.update({
-    region: process.env.BUCKET_REGION,
+    endpoint: spacesEndpoint,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
@@ -12,7 +14,7 @@ exports.getSignedRequest = (req, res) => {
     const fileName = req.query['file-name']
     const fileType = req.query['file-type']
     const s3Params = {
-        Bucket: process.env.S3_BUCKET,
+        Bucket: process.env.BUCKET_NAME,
         Key: fileName,
         Expires: 60,
         ContentType: fileType,
@@ -26,7 +28,7 @@ exports.getSignedRequest = (req, res) => {
         }
         const returnData = {
             signedRequest: data,
-            url: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${fileName}`
+            url: `https://${process.env.BUCKET_NAME}.${process.env.BUCKET_ENDPOINT}/${fileName}`
         };
         res.write(JSON.stringify(returnData));
         res.end();
