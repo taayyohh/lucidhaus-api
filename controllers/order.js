@@ -2,7 +2,7 @@ const {Order, cartItem} = require('../models/order')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
 const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey('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')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 exports.orderById = (req, res, next, id) => {
     Order.findById(id)
@@ -22,6 +22,8 @@ exports.orderById = (req, res, next, id) => {
 exports.create = (req, res) => {
     req.body.order.user = req.profile
 
+    console.log('PROFILE', req.body.order.user)
+
     const order = new Order(req.body.order)
     order.save((error, data) => {
         if (error) {
@@ -31,16 +33,28 @@ exports.create = (req, res) => {
         }
 
         const emailData = {
-            to: 'theoxmode@gmail.com',
-            from: 'team@lucidha.us',
+            to: 'team@lucidha.us',
+            from: 'no-reply@lucidha.us',
             subject: `A new order is received`,
             html: `
-            <p>Customer name:</p>
+            <p>Customer name: ${req.body.order.user.name}</p>
             <p>Total products: ${order.products.length}</p>
             <p>Total cost: ${order.amount}</p>
             <p>Login to dashboard to the order in detail.</p>`
         }
         sgMail.send(emailData)
+
+        const customerReceipt = {
+            to: req.body.order.user.email,
+            from: 'no-reply@lucidha.us',
+            subject: `Thanks for your purchase!`,
+            html: `
+            <p>Customer name: ${req.body.order.user.name}</p>
+            <p>Total products: ${order.products.length}</p>
+            <p>Total cost: ${order.amount}</p>
+            <p>You can check on the status of your order here</p>`
+        }
+        sgMail.send(customerReceipt)
 
         res.json(data)
     })
