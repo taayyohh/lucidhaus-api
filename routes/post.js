@@ -4,43 +4,43 @@ const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 
 const {userById} = require('../controllers/user')
 const {
-    businessById,
-    businessBySlug,
+    postById,
+    postBySlug,
     create,
     read,
     remove,
     update,
     list,
     photo
-} = require('../controllers/business')
+} = require('../controllers/post')
 
 
-// router.get('/admin/:businessId', read)
-router.get('/business/:slug', read)
+// router.get('/admin/:postId', read)
+router.get('/post/:slug', read)
 router.post(
-    '/business/create/:userId',
+    '/post/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/business/:slug/:userId',
+router.delete('/post/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/business/:slug/:userId',
+router.put('/post/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 
-router.get('/businesses', list)
+router.get('/posts', list)
 
 router.param('userId', userById)
-router.param('businessId', businessById)
-router.param('slug', businessBySlug)
+router.param('postId', postById)
+router.param('slug', postBySlug)
 
 module.exports = router

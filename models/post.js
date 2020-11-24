@@ -3,7 +3,7 @@ const slug = require('mongoose-slug-updater');
 
 mongoose.plugin(slug);
 
-const businessSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
@@ -27,4 +27,4 @@ const businessSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Business', businessSchema)
+module.exports = mongoose.model('Post', postSchema)
