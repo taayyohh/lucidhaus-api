@@ -44,7 +44,8 @@ const productSchema = new mongoose.Schema({
         ref: 'Category',
        // required: true
     },
-    slug: { type: String, slug: "name", unique: true }
+    slug: { type: String, slug: "name", unique: true },
+    isPublished: Boolean
 
 }, {timestamps: true})
 

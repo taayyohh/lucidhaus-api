@@ -24,7 +24,8 @@ const postSchema = new mongoose.Schema({
         type: String,
         slug: "name",
         unique: true
-    }
+    },
+    isPublished: Boolean
 })
 
 module.exports = mongoose.model('Post', postSchema)
