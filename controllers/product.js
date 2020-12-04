@@ -223,7 +223,7 @@ exports.listSearch = (req, res) => {
     //assign search value to query.namee
     if (req.query.search) {
         query.name = {$regex: req.query.search, $options: 'i'}
-        //assign cate gory value to query.productCategory
+        //assign category value to query.productCategory
         if (req.query.productCategory && req.query.productCategory !== 'All') {
             query.productCategory = req.query.productCategory
         }

@@ -80,20 +80,14 @@ exports.read = (req, res) => {
 }
 
 exports.update = (req, res) => {
+    console.log('REQ', req.post)
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
+        form.parse(req, (err, fields) => {
+            let _id = req.post._id
             let post = req.post
             post = _.extend(post, fields)
 
-            //check for all fields
-            const {name, description} = fields
-
-            if (!name || !description) {
-                return res.status(400).json({
-                    error: 'All fields required'
-                })
-            }
 
             post.save((err, result) => {
                 if (err) {
@@ -143,14 +137,5 @@ exports.list = (req, res) => {
         })
 }
 
-
-exports.photo = (req, res, next) => {
-    if (req.post.photo.data) {
-        res.set('Content-Type', req.post.photo.contentType)
-        return res.send(req.post.photo.data)
-    }
-
-    next()
-}
 
 
