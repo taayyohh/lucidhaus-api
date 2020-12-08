@@ -12,11 +12,26 @@ const userSchema = new mongoose.Schema({
         required: true,
         maxLength: 32
     },
+    firstName: {
+        type: String,
+        trim: true,
+        required: true,
+        maxLength: 32
+    },
+    lastName: {
+        type: String,
+        trim: true,
+        required: true,
+        maxLength: 32
+    },
     email: {
         type: String,
         trim: true,
         required: true,
         unique: 32
+    },
+    phone: {
+        type: Number
     },
     hashed_password: {
         type: String,
