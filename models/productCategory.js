@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater')
+const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug)
 
@@ -17,7 +18,16 @@ const productCategorySchema = new mongoose.Schema({
         unique: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    id: false
+})
+
+productCategorySchema.virtual('objectID').get(function () {
+    return this._id.toHexString()
+})
+
+productCategorySchema.set('toJSON', {
+    virtuals: true
 })
 
 module.exports = mongoose.model('ProductCategory', productCategorySchema)

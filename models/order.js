@@ -29,8 +29,8 @@ const OrderSchema = new mongoose.Schema(
         phone: String,
         status: {
             type: String,
-            default: 'Not processed',
-            enum: ['Not processed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'] // enum means string objects
+            default: 'Pending',
+            enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'] // enum means string objects
         },
         updated: Date,
         user: {
@@ -38,8 +38,16 @@ const OrderSchema = new mongoose.Schema(
             ref: 'User'
         }
     },
-    {timestamps: true}
+    {timestamps: true, id: false}
 )
+
+OrderSchema.virtual('objectID').get(function(){
+    return this._id.toHexString();
+})
+
+OrderSchema.set('toJSON', {
+    virtuals: true
+})
 
 const Order = mongoose.model('Order', OrderSchema)
 

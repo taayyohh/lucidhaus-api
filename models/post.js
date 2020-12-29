@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater');
+const {ObjectId} = mongoose.Schema
+
 
 mongoose.plugin(slug);
+
 
 const postSchema = new mongoose.Schema({
     name: {
@@ -26,6 +29,14 @@ const postSchema = new mongoose.Schema({
         unique: true
     },
     isPublished: Boolean
+}, { id: false })
+
+postSchema.virtual('objectID').get(function(){
+    return this._id.toHexString();
+})
+
+postSchema.set('toJSON', {
+    virtuals: true
 })
 
 module.exports = mongoose.model('Post', postSchema)
