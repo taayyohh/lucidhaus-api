@@ -27,6 +27,7 @@ const OrderSchema = new mongoose.Schema(
         country: String,
         state: String,
         phone: String,
+        email: String,
         status: {
             type: String,
             default: 'Pending',
@@ -41,6 +42,8 @@ const OrderSchema = new mongoose.Schema(
     {timestamps: true, id: false}
 )
 
+
+//objectID necessary for algolia search
 OrderSchema.virtual('objectID').get(function(){
     return this._id.toHexString();
 })

@@ -24,6 +24,7 @@ const productSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
+        required: true
     },
     price: {
         type: Number,
@@ -35,20 +36,21 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    shipping: {
-        required: false,
-        type: Boolean
-    },
     category: {
         type: ObjectId,
         ref: 'Category',
-       // required: true
+        required: true
     },
-    slug: { type: String, slug: "name", unique: true },
+    slug: {
+        type: String,
+        slug: "name",
+        unique: true
+    },
     isPublished: Boolean
 
 }, {timestamps: true, id: false})
 
+//objectID necessary for algolia search
 productSchema.virtual('objectID').get(function(){
     return this._id.toHexString();
 })

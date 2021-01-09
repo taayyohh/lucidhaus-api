@@ -31,6 +31,7 @@ const postSchema = new mongoose.Schema({
     isPublished: Boolean
 }, { id: false })
 
+//objectID necessary for algolia search
 postSchema.virtual('objectID').get(function(){
     return this._id.toHexString();
 })
