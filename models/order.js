@@ -23,7 +23,7 @@ const OrderSchema = new mongoose.Schema(
         address: String,
         address2: String,
         city: String,
-        zip: Number,
+        zip: String,
         country: String,
         state: String,
         phone: String,

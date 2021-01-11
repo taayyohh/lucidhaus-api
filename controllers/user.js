@@ -57,32 +57,41 @@ exports.update = (req, res) => {
 exports.addOrderToUserHistory = (req, res, next) => {
     let history = []
 
+    console.log('REEQ', req)
+
     req.body.order.products.forEach(item => {
         history.push({
             _id: item._id,
             name: item.name,
+            slug: item.slug,
             description: item.description,
+            photo: item.photo,
             category: item.category,
-            quantity: item.count,
-            transaction_id: req.body.order.transaction_id,
+            quantity: item.quantity,
+            transactionId: req.body.order.transactionId,
             amount: req.body.order.amount
         })
     })
 
-    User.findOneAndUpdate({_id: req.profile._id}, {$push: {history: history}}, {new: true}, (error, data) => {
-        if (error) {
-            return res.status(400).json({
-                error: 'Could not update User purchase history'
-            })
-        }
+    if (!!req.profile_id) {
+        User.findOneAndUpdate({_id: req.profile._id}, {$push: {history: history}}, {new: true}, (error, data) => {
+            if (error) {
+                return res.status(400).json({
+                    error: 'Could not update User purchase history'
+                })
+            }
+            next()
+        })
+    } else {
         next()
-    })
+    }
+
 }
 
 exports.purchaseHistory = (req, res) => {
     Order.find({user: req.profile._id})
         .populate('user', '_id name')
-        .sort('-created')
+        .sort('-createdAt')
         .exec((err, orders) => {
             if (err) {
                 return res.status(400).json({

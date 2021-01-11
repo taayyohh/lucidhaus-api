@@ -32,6 +32,19 @@ exports.productBySlug = (req, res, next, slug) => {
         })
 }
 
+exports.productsByCategory = (req, res, next, productCategory) => {
+    Product.find({category: productCategory})
+        .exec((err, products) => {
+            if (err || !products) {
+                return res.status(400).json({
+                    error: 'products not found'
+                })
+            }
+            req.products = products
+            next()
+        })
+}
+
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -60,12 +73,8 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
 
             let product = req.product
-            console.log('product first', product)
 
             product = _.extend(product, fields)
-
-            console.log('product', product)
-
 
             product.save((err, result) => {
                 if (err) {
@@ -158,6 +167,10 @@ exports.listCategories = (req, res) => {
 
         res.json(categories)
     })
+}
+
+exports.listProductsByCategory = (req, res) => {
+    res.json(req.products)
 }
 
 /**

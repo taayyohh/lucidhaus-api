@@ -33,7 +33,8 @@ exports.processPayment = (req, res) => {
         }
     }, (error, result) => {
         if (error) {
-            res.status(500), json(error)
+            res.status(500)
+            res.json(error)
         } else {
             res.json(result)
         }

@@ -80,7 +80,6 @@ exports.read = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    console.log('REQ', req.post)
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {

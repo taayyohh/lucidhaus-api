@@ -21,8 +21,10 @@ exports.orderById = (req, res, next, id) => {
 
 exports.create = (req, res) => {
     req.body.order.user = req.profile
-
-    console.log('PROFILE', req.body.order.user)
+    const user = req.body.order.user
+    console.log('USER', user)
+    console.log('body', req.body)
+    console.log('profile', req.profile)
 
     const order = new Order(req.body.order)
     order.save((error, data) => {
@@ -37,19 +39,20 @@ exports.create = (req, res) => {
             from: 'no-reply@hyphajs.com',
             subject: `A new order is received`,
             html: `
-            <p>Customer name: ${req.body.order.user.name}</p>
+            <p>Customer name: ${!!user ? req.body.order.user.name : 'Guest User'}</p>
+            <p>Customer email: ${req.body.order.email}</p>
             <p>Total products: ${order.products.length}</p>
-            <p>Total cost: ${order.amount}</p>
+            <p>Total cost: $ ${order.amount}</p>
             <p>Login to dashboard to the order in detail.</p>`
         }
         sgMail.send(emailData)
 
         const customerReceipt = {
-            to: req.body.order.user.email,
+            to: !!user ? req.body.order.user.email : req.body.order.email,
             from: 'no-reply@hyphajs.com',
             subject: `Thanks for your purchase!`,
             html: `
-            <p>Customer name: ${req.body.order.user.name}</p>
+            <p>Customer name: ${!!user ? req.body.order.user.name : 'Guest'}</p>
             <p>Total products: ${order.products.length}</p>
             <p>Total cost: ${order.amount}</p>
             <p>You can check on the status of your order here</p>`
@@ -63,7 +66,7 @@ exports.create = (req, res) => {
 exports.listOrders = (req, res) => {
     Order.find()
         .populate('user', '_id name address')
-        .sort('-created')
+        .sort('-createdAt')
         .exec((err, orders) => {
             if (err) {
                 return res.status(400).json({

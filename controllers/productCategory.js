@@ -60,9 +60,6 @@ exports.update = (req, res) => {
             let category = req.category
            category = _.extend(category, fields)
 
-            console.log('req', req)
-
-
            category.save((err, result) => {
                 if (err) {
                     return res.status(400).json({

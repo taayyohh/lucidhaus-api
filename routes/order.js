@@ -7,9 +7,7 @@ const {create, listOrders, getStatusValues, orderById, updateOrderStatus} = requ
 const {decreaseQuantity} = require('../controllers/product')
 
 
-router.post('/order/create/:userId',
-    requireSignIn,
-    isAuth,
+router.post('/order/create/',
     addOrderToUserHistory,
     decreaseQuantity,
     create
@@ -32,7 +30,6 @@ router.put('/order/:orderId/status/:userId',
     isAdmin,
     updateOrderStatus
 )
-
 
 router.param('userId', userById)
 router.param('orderId', orderById)
