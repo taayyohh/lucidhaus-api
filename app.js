@@ -17,6 +17,9 @@ const s3Routes = require('./routes/s3')
 const productRoutes = require('./routes/product')
 const productCategoryRoutes = require('./routes/productCategory')
 const orderRoutes = require('./routes/order')
+const artistRoutes = require('./routes/artist')
+const albumRoutes = require('./routes/album')
+
 
 const app = express()
 
@@ -43,6 +46,9 @@ app.use('/api', s3Routes)
 app.use('/api', productRoutes)
 app.use('/api', productCategoryRoutes)
 app.use('/api', orderRoutes)
+app.use('/api', artistRoutes)
+app.use('/api', albumRoutes)
+
 
 const port = process.env.port || 9000
 
