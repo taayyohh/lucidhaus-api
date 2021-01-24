@@ -67,15 +67,17 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
             let album = req.album
 
-            if(!fields.hasOwnProperty('audio')) {
+            if (!fields.hasOwnProperty('audio')) {
                 album = _.extend(album, fields)
+            } else if (fields.remove) {
+                album.songs.id(fields._id).remove()
             } else {
-                album.songs.push(fields)
+                if (!!album.songs.id(fields._id)) {
+                    album.songs.id(fields._id).set(fields)
+                } else {
+                    album.songs.push(fields)
+                }
             }
-
-            console.log('fields', fields)
-            console.log('album', album)
-
 
             album.save((err, result) => {
                 if (err) {
@@ -88,7 +90,6 @@ exports.update = (req, res) => {
             })
 
         })
-
 }
 
 exports.remove = (req, res) => {

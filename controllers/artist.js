@@ -1,4 +1,5 @@
 const Artist = require('../models/artist')
+const Album = require('../models/album')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
@@ -30,6 +31,10 @@ exports.artistBySlug = (req, res, next, slug) => {
             next()
         })
 }
+
+// exports.getArtistsCatalogue = (req, res, next, slug) => {
+//     Album.find({primaryArtist: })
+// }
 
 
 exports.create = (req, res) => {
