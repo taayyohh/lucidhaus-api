@@ -10,13 +10,14 @@ const {
     read,
     remove,
     update,
+    getArtistsCatalogue,
     list,
     photo
 } = require('../controllers/artist')
 
 
 // router.get('/admin/:artistId', read)
-router.get('/artist/:slug', read)
+router.get('/artist/:slug', getArtistsCatalogue, read)
 router.post(
     '/artist/create/:userId',
     requireSignIn,

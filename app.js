@@ -36,6 +36,8 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressValidator())
 app.use(cors())
+app.use(require('prerender-node'));
+
 
 //routes
 app.use('/api', authRoutes)
