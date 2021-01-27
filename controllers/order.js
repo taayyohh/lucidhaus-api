@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 
         const emailData = {
             to: 'team@lucidha.us',
-            from: 'no-reply@hyphajs.com',
+            from: 'no-reply@lucid.haus',
             subject: `A new order is received`,
             html: `
             <p>Customer name: ${!!user ? req.body.order.user.name : 'Guest User'}</p>
@@ -49,7 +49,7 @@ exports.create = (req, res) => {
 
         const customerReceipt = {
             to: !!user ? req.body.order.user.email : req.body.order.email,
-            from: 'no-reply@hyphajs.com',
+            from: 'no-reply@lucid.haus',
             subject: `Thanks for your purchase!`,
             html: `
             <p>Customer name: ${!!user ? req.body.order.user.name : 'Guest'}</p>
