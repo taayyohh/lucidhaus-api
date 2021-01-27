@@ -36,7 +36,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressValidator())
 app.use(cors())
-app.use(require('prerender-node').set('prerenderToken', 'cD4eXmwHZPwc2DVBZinP'));
+app.use(require('prerender-node').set('prerenderToken', process.env.PRERENDER_IO));
 
 
 //routes
