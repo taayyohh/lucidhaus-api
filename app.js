@@ -5,6 +5,9 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
+const prerender = require('prerender-node');
+
+
 
 require('dotenv').config()
 
@@ -36,7 +39,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressValidator())
 app.use(cors())
-app.use(require('prerender-node').set('prerenderToken', process.env.PRERENDER_IO));
+app.use(prerender.set('prerenderToken', process.env.PRERENDER_IO));
 
 
 //routes
