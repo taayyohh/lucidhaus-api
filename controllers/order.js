@@ -20,13 +20,8 @@ exports.orderById = (req, res, next, id) => {
 
 
 exports.create = (req, res) => {
-    req.body.order.user = req.profile
-    const user = req.body.order.user
-    console.log('USER', user)
-    console.log('body', req.body)
-    console.log('profile', req.profile)
-
     const order = new Order(req.body.order)
+
     order.save((error, data) => {
         if (error) {
             return res.status(400).json({
@@ -39,7 +34,6 @@ exports.create = (req, res) => {
             from: 'no-reply@lucid.haus',
             subject: `A new order is received`,
             html: `
-            <p>Customer name: ${!!user ? req.body.order.user.name : 'Guest User'}</p>
             <p>Customer email: ${req.body.order.email}</p>
             <p>Total products: ${order.products.length}</p>
             <p>Total cost: $ ${order.amount}</p>
@@ -48,11 +42,10 @@ exports.create = (req, res) => {
         sgMail.send(emailData)
 
         const customerReceipt = {
-            to: !!user ? req.body.order.user.email : req.body.order.email,
+            to: req.body.order.email,
             from: 'no-reply@lucid.haus',
             subject: `Thanks for your purchase!`,
             html: `
-            <p>Customer name: ${!!user ? req.body.order.user.name : 'Guest'}</p>
             <p>Total products: ${order.products.length}</p>
             <p>Total cost: ${order.amount}</p>
             <p>You can check on the status of your order here</p>`

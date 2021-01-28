@@ -57,7 +57,7 @@ exports.update = (req, res) => {
 exports.addOrderToUserHistory = (req, res, next) => {
     let history = []
 
-    console.log('REEQ', req)
+    console.log('BOROOOO', req.body.order)
 
     req.body.order.products.forEach(item => {
         history.push({
@@ -73,8 +73,8 @@ exports.addOrderToUserHistory = (req, res, next) => {
         })
     })
 
-    if (!!req.profile_id) {
-        User.findOneAndUpdate({_id: req.profile._id}, {$push: {history: history}}, {new: true}, (error, data) => {
+    if (!!req.body.order.user) {
+        User.findOneAndUpdate({_id: req.body.order.user}, {$push: {history: history}}, {new: true}, (error, data) => {
             if (error) {
                 return res.status(400).json({
                     error: 'Could not update User purchase history'

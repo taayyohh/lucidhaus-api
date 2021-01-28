@@ -33,7 +33,7 @@ exports.artistBySlug = (req, res, next, slug) => {
 }
 
 exports.getArtistsCatalogue = (req, res, next, slug) => {
-    console.log('reeeeq', req)
+
     // Album.find({primaryArtist: })
 }
 
@@ -65,7 +65,6 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    console.log('ree11eeq', req)
     return res.json(req.artist)
 }
 
