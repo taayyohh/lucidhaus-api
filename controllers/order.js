@@ -29,6 +29,8 @@ exports.create = (req, res) => {
             })
         }
 
+        console.log('order', order)
+
         const emailData = {
             to: 'team@lucidha.us',
             from: 'no-reply@lucid.haus',
@@ -44,11 +46,19 @@ exports.create = (req, res) => {
         const customerReceipt = {
             to: req.body.order.email,
             from: 'no-reply@lucid.haus',
-            subject: `Thanks for your purchase!`,
+            subject: `Thanks for your purchase! - LucidHaus Order #${order.transactionId}`,
             html: `
-            <p>Total products: ${order.products.length}</p>
-            <p>Total cost: ${order.amount}</p>
-            <p>You can check on the status of your order here</p>`
+            <img src="https://lucid.haus/static/media/logo.ee6bf75f.svg" width="100" height="100" />
+            <p>We will send you an email when your order has shipped! Below are the details of the order:</p>
+            <br />
+            <p><strong>Order #:</strong> ${order.transactionId}</p>
+            <p><strong>Order Total:</strong> $${order.amount}</p>
+            <p><strong>Delivery Address:</strong> ${order.address} ${order.address2} ${order.city} ${order.zip} ${order.country}</p>
+             <br />
+             <p>Questions? Email <a href="mailto:team@lucidha.us">team@lucidha.us</a></p>
+             <br />
+             <strong><3 <3 <3</strong>
+           `
         }
         sgMail.send(customerReceipt)
 
