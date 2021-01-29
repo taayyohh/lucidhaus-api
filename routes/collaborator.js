@@ -17,7 +17,6 @@ const {
 
 
 // router.get('/admin/:collaboratorId', read)
-router.get('/collaborator/:slug', getCollaboratorsCatalogue, read)
 router.post(
     '/collaborator/create/:userId',
     requireSignIn,

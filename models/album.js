@@ -29,6 +29,11 @@ const albumSchema = new mongoose.Schema({
         ref: 'Artist',
         required: true
     },
+    collaborators: {
+        type: ObjectId,
+        ref: 'Collaborator',
+        required: true
+    },
     description: {
         type: String,
         trim: true,

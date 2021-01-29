@@ -29,12 +29,6 @@ exports.collaboratorBySlug = (req, res, next, slug) => {
         })
 }
 
-exports.getCollaboratorsCatalogue = (req, res, next, slug) => {
-
-    // Album.find({primaryCollaborator: })
-}
-
-
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -121,6 +115,3 @@ exports.list = (req, res) => {
             res.send(collaborators)
         })
 }
-
-
-
