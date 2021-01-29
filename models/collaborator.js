@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater');
+const {ObjectId} = mongoose.Schema
+
 
 mongoose.plugin(slug);
 

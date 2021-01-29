@@ -31,8 +31,7 @@ const albumSchema = new mongoose.Schema({
     },
     collaborators: {
         type: ObjectId,
-        ref: 'Collaborator',
-        required: true
+        ref: 'Collaborator'
     },
     description: {
         type: String,
