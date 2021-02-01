@@ -28,6 +28,10 @@ const postSchema = new mongoose.Schema({
         slug: "name",
         unique: true
     },
+    primaryArtist: {
+        type: ObjectId,
+        ref: 'Artist'
+    },
     isPublished: Boolean
 }, { id: false })
 
