@@ -16,7 +16,7 @@ const {
 } = require('../controllers/collaborator')
 
 
-// router.get('/admin/:collaboratorId', read)
+router.get('/collaborator/:slug', read)
 router.post(
     '/collaborator/create/:userId',
     requireSignIn,

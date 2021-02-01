@@ -48,7 +48,7 @@ exports.create = (req, res) => {
             from: 'no-reply@lucid.haus',
             subject: `Thanks for your purchase! - LucidHaus Order #${order.transactionId}`,
             html: `
-            <img src="https://lucid.haus/static/media/logo.ee6bf75f.svg" width="100" height="100" />
+            <img src="https://d1ogvuec9tg4jo.cloudfront.net/config/android-chrome-512x512.png" width="100" height="100" />
             <p>We will send you an email when your order has shipped! Below are the details of the order:</p>
             <br />
             <p><strong>Order #:</strong> ${order.transactionId}</p>
