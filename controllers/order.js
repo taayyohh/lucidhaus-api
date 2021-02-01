@@ -34,12 +34,12 @@ exports.create = (req, res) => {
         const emailData = {
             to: 'team@lucidha.us',
             from: 'no-reply@lucid.haus',
-            subject: `A new order is received`,
+            subject: `Yay! New Purchase: #${order.transactionId}`,
             html: `
             <p>Customer email: ${req.body.order.email}</p>
             <p>Total products: ${order.products.length}</p>
             <p>Total cost: $ ${order.amount}</p>
-            <p>Login to dashboard to the order in detail.</p>`
+            <p>Login to <a href="https://lucid.haus/admin">dashboard</a> to see the order in detail.</p>`
         }
         sgMail.send(emailData)
 
