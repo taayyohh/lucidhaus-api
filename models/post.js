@@ -18,6 +18,10 @@ const postSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
+    video: {
+        type: String,
+        trim: true,
+    },
     photo: {
         type: String,
         trim: true,
