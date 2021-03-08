@@ -5,12 +5,18 @@ const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug);
 
-const collaboratorSchema = new mongoose.Schema({
+
+const placeSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
         required: true,
         unique: true
+    },
+    description: {
+        type: String,
+        trim: true,
+        required: true,
     },
     photo: {
         type: String,
@@ -26,12 +32,12 @@ const collaboratorSchema = new mongoose.Schema({
 }, { id: false })
 
 //objectID necessary for algolia search
-collaboratorSchema.virtual('objectID').get(function(){
+placeSchema.virtual('objectID').get(function(){
     return this._id.toHexString();
 })
 
-collaboratorSchema.set('toJSON', {
+placeSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('Collaborator', collaboratorSchema)
+module.exports = mongoose.model('Place', placeSchema)

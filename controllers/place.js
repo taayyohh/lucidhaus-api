@@ -1,32 +1,32 @@
-const Album = require('../models/album')
+const Place = require('../models/place')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
 
-exports.albumById = (req, res, next, id) => {
-    Album.findById(id)
-        .exec((err, album) => {
-            if (err || !album) {
+exports.placeById = (req, res, next, id) => {
+    Place.findById(id)
+        .exec((err, place) => {
+            if (err || !place) {
                 return res.status(400).json({
-                    error: 'albums not found'
+                    error: 'marketplace not found'
                 })
             }
-            req.album = album
+            req.place = place
             next()
         })
 }
 
-exports.albumBySlug = (req, res, next, slug) => {
-    Album.findOne({slug: slug})
-        .exec((err, album) => {
-            if (err || !album) {
+exports.placeBySlug = (req, res, next, slug) => {
+    Place.findOne({slug: slug})
+        .exec((err, place) => {
+            if (err || !place) {
                 return res.status(400).json({
-                    error: 'albums not found'
+                    error: 'marketplace not found'
                 })
             }
-            req.album = album
+            req.place = place
             next()
         })
 }
@@ -38,13 +38,14 @@ exports.create = (req, res) => {
         form.parse(req, (err, fields, files) => {
             if (err) {
                 return res.status(400).json({
-                    error: 'Album could not be uploaded'
+                    error: 'Image could not be uploaded'
                 })
             }
 
-            let album = new Album(fields)
+            let place = new Place(fields)
 
-            album.save((err, result) => {
+
+            place.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -58,28 +59,19 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    return res.json(req.album)
+    return res.json(req.place)
 }
 
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let album = req.album
+            let _id = req.place._id
+            let place = req.place
+            place = _.extend(place, fields)
 
-            if (!fields.hasOwnProperty('audio')) {
-                album = _.extend(album, fields)
-            } else if (fields.remove) {
-                album.songs.id(fields._id).remove()
-            } else {
-                if (!!album.songs.id(fields._id)) {
-                    album.songs.id(fields._id).set(fields)
-                } else {
-                    album.songs.push(fields)
-                }
-            }
 
-            album.save((err, result) => {
+            place.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -90,11 +82,12 @@ exports.update = (req, res) => {
             })
 
         })
+
 }
 
 exports.remove = (req, res) => {
-    let album = req.album
-    album.remove((err) => {
+    let place = req.place
+    place.remove((err) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -102,7 +95,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'Album deleted successfully'
+            message: 'Place deleted successfully'
         })
     })
 }
@@ -112,17 +105,17 @@ exports.list = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    Album.find()
+    Place.find()
         .sort([[sortBy, order]])
         .limit(limit)
-        .exec((err, albums) => {
+        .exec((err, places) => {
             if (err) {
                 return res.status(400).json({
                     message: 'admin not found'
                 })
             }
 
-            res.send(albums)
+            res.send(places)
         })
 }
 

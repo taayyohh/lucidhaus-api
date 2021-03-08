@@ -12,15 +12,12 @@ require('dotenv').config()
 //import routes
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
-const postRoutes = require('./routes/post')
-const collaboratorRoutes = require('./routes/collaborator')
 const braintreeRoutes = require('./routes/braintree')
 const s3Routes = require('./routes/s3')
 const productRoutes = require('./routes/product')
 const productCategoryRoutes = require('./routes/productCategory')
 const orderRoutes = require('./routes/order')
-const artistRoutes = require('./routes/artist')
-const albumRoutes = require('./routes/album')
+const placeRoutes = require('./routes/place')
 
 
 const app = express()
@@ -44,15 +41,12 @@ app.use(prerender.set('prerenderToken', process.env.PRERENDER_IO))
 //routes
 app.use('/api', authRoutes)
 app.use('/api', userRoutes)
-app.use('/api', postRoutes)
-app.use('/api', collaboratorRoutes)
 app.use('/api', braintreeRoutes)
 app.use('/api', s3Routes)
 app.use('/api', productRoutes)
 app.use('/api', productCategoryRoutes)
 app.use('/api', orderRoutes)
-app.use('/api', artistRoutes)
-app.use('/api', albumRoutes)
+app.use('/api', placeRoutes)
 
 const port = process.env.port || 9000
 
