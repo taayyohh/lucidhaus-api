@@ -29,8 +29,6 @@ exports.create = (req, res) => {
             })
         }
 
-        console.log('order', order)
-
         const emailData = {
             to: 'team@lucidha.us',
             from: 'no-reply@lucid.haus',

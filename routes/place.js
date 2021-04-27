@@ -7,22 +7,28 @@ const {
     placeById,
     placeBySlug,
     create,
+    createFromBoone,
     read,
     remove,
     update,
-    getPlacesCatalogue,
     list,
-    photo
 } = require('../controllers/place')
 
 
 // router.get('/admin/:placeId', read)
-router.get('/place/:slug', read)
+router.get('/places', list)
+router.get('/place/:placeId', read)
 router.post(
     '/place/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
+    create
+)
+router.post(
+    '/place/create-from-boone/:userId',
+    requireSignIn,
+    isAuth,
     create
 )
 router.delete('/place/:slug/:userId',
@@ -38,7 +44,9 @@ router.put('/place/:slug/:userId',
     update
 )
 
-router.get('/places', list)
+
+
+
 
 router.param('userId', userById)
 router.param('placeId', placeById)

@@ -6,11 +6,15 @@ const {errorHandler} = require('../helpers/dbErrorHandler')
 
 
 exports.placeById = (req, res, next, id) => {
+    const placeId = id.substr(id.lastIndexOf('-') + 1)
+    console.log('placeById', placeId)
+
     Place.findById(id)
         .exec((err, place) => {
             if (err || !place) {
                 return res.status(400).json({
-                    error: 'marketplace not found'
+                    status: 410,
+                    error: 'place not found'
                 })
             }
             req.place = place
@@ -23,7 +27,20 @@ exports.placeBySlug = (req, res, next, slug) => {
         .exec((err, place) => {
             if (err || !place) {
                 return res.status(400).json({
-                    error: 'marketplace not found'
+                    error: 'place not found'
+                })
+            }
+            req.place = place
+            next()
+        })
+}
+
+exports.placeByBooneId = (req, res, next, booneId) => {
+    Place.findOne({booneId: booneId})
+        .exec((err, place) => {
+            if (err || !place) {
+                return res.status(400).json({
+                    error: 'boone place not found'
                 })
             }
             req.place = place
@@ -32,18 +49,12 @@ exports.placeBySlug = (req, res, next, slug) => {
 }
 
 
+
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-            if (err) {
-                return res.status(400).json({
-                    error: 'Image could not be uploaded'
-                })
-            }
-
             let place = new Place(fields)
-
 
             place.save((err, result) => {
                 if (err) {
@@ -55,13 +66,31 @@ exports.create = (req, res) => {
                 res.json(result)
             })
         })
-
 }
+//
+// exports.createFromBoone = (req, res) => {
+//     let form = new formidable.IncomingForm()
+//     form.keepExtensions = true,
+//         form.parse(req, (err, fields, files) => {
+//             let place = new Place(fields)
+//
+//             place.save((err, result) => {
+//                 if (err) {
+//                     return res.status(400).json({
+//                         error: errorHandler(err)
+//                     })
+//                 }
+//
+//                 res.json(result)
+//             })
+//         })
+// }
 
 exports.read = (req, res) => {
     return res.json(req.place)
 }
-
+//     res.json(result)
+// })
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,

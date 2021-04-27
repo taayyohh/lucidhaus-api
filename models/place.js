@@ -7,33 +7,32 @@ mongoose.plugin(slug);
 
 
 const placeSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true
-    },
+    _id: { type: Number },
+    booneId: {},
+    boonePlace: {},
     description: {
         type: String,
         trim: true,
-        required: true,
+    },
+    isPublished: Boolean,
+    name: {
+        type: String,
+        trim: true
     },
     photo: {
         type: String,
-        trim: true,
-        required: true,
+        trim: true
     },
     slug: {
         type: String,
         slug: "name",
-        unique: true
     },
-    isPublished: Boolean
+
 }, { id: false })
 
 //objectID necessary for algolia search
 placeSchema.virtual('objectID').get(function(){
-    return this._id.toHexString();
+    return this._id;
 })
 
 placeSchema.set('toJSON', {
