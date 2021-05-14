@@ -21,11 +21,11 @@ exports.signup = (req, res) => {
 }
 
 exports.signin = (req, res) => {
-    const {email, password} = req.body
-    User.findOne({email}, (error, user) => {
+    const {tel, email, password} = req.body
+    User.findOne({tel}, (error, user) => {
         if (error || !user) {
             return res.status(400).json({
-                error: "This email isn't associated with an account"
+                error: "There's no account associated with this phone."
             })
         }
 
@@ -44,8 +44,8 @@ exports.signin = (req, res) => {
         res.cookie('t', token, {expire: new Date() + 9999})
 
         //return res to front end
-        const {_id, name, email, role} = user
-        return res.json({token, user: {_id, email, name, role}})
+        const {_id, name, email, tel, role} = user
+        return res.json({token, user: {_id, email, tel, name, role}})
 
     })
 }

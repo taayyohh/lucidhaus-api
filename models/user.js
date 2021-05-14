@@ -25,11 +25,12 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         trim: true,
-        required: true,
-        unique: 32
+        //required: true,
+        unique: true
     },
-    phone: {
-        type: Number
+    tel: {
+        type: String,
+        unique: true
     },
     hashed_password: {
         type: String,
@@ -43,10 +44,6 @@ const userSchema = new mongoose.Schema({
     role: {
         type: Number,
         default: 0
-    },
-    status: {
-        type: String,
-        default: "pending",
     },
     history: {
         type: Array,
