@@ -1,5 +1,5 @@
 const formidable = require('formidable')
-const ProductCategory = require('../models/productCategory')
+const ProductCategory = require('../models/product/category')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 const _ = require('lodash')
 

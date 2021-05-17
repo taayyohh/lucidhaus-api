@@ -2,54 +2,52 @@ const mongoose = require('mongoose')
 const crypto = require('crypto')
 const uuidv1 = require('uuid/v1')
 const slug = require('mongoose-slug-updater');
+const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug);
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        trim: true,
-        required: true,
-        maxLength: 32
-    },
-    firstName: {
-        type: String,
-        trim: true,
-        maxLength: 32
-    },
-    lastName: {
-        type: String,
-        trim: true,
-        maxLength: 32
-    },
+    avatar: String,
     email: {
         type: String,
         trim: true,
-        //required: true,
         unique: true
+    },
+    handle: String,
+    hashed_password: {
+        type: String,
+        required: true,
+    },
+    identity: {
+        type: ObjectId,
+        ref: 'Identity',
+    },
+    nameFirst: {
+        type: String,
+        trim: true,
+    },
+    nameMiddle: {
+        type: String,
+        trim: true,
+    },
+    nameLast: {
+        type: String,
+        trim: true,
+    },
+    role: {
+        type: Number,
+        default: 0
     },
     tel: {
         type: String,
         unique: true
     },
-    hashed_password: {
-        type: String,
-        required: true,
-    },
-    about: {
-        type: String,
-        trim: true,
-    },
     salt: String,
-    role: {
-        type: Number,
-        default: 0
-    },
-    history: {
-        type: Array,
-        default: []
-    },
-    slug: { type: String, slug: "name", unique: true },
+    slug: {
+        type: String,
+        slug: "name",
+        unique: true
+    }
 }, {timestamps: true})
 
 /// virtual field

@@ -1,11 +1,13 @@
+const phoneRegExp = require('../helpers')
+
 exports.userSignupValidator = (req, res, next) => {
     req.check('name', 'Name is required').notEmpty()
-    req.check('email', 'Email must be between 3 to 32 characters')
-        .matches(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-        .withMessage('Email must contain @')
+    req.check('tel')
+        .matches(phoneRegExp)
+        .withMessage('Phone Number is Not Valid')
         .isLength({
-            min: 3,
-            max: 32
+            min: 10,
+            max: 10
         })
 
     req.check('password', 'Password is required').notEmpty()
@@ -18,4 +20,4 @@ exports.userSignupValidator = (req, res, next) => {
         return res.status(400).json({error: firstError})
     }
     next()
-}   
+}

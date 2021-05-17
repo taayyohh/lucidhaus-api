@@ -99,3 +99,20 @@ exports.purchaseHistory = (req, res) => {
             res.json(orders)
         })
 }
+
+exports.list = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 50
+
+    User.find()
+        .limit(limit)
+        .exec((err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    message: 'users not found'
+                })
+            }
+
+            res.send(users)
+        })
+}
+

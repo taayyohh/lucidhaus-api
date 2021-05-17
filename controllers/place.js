@@ -7,7 +7,6 @@ const {errorHandler} = require('../helpers/dbErrorHandler')
 
 exports.placeById = (req, res, next, id) => {
     const placeId = id.substr(id.lastIndexOf('-') + 1)
-    console.log('placeById', placeId)
 
     Place.findById(id)
         .exec((err, place) => {
@@ -67,30 +66,11 @@ exports.create = (req, res) => {
             })
         })
 }
-//
-// exports.createFromBoone = (req, res) => {
-//     let form = new formidable.IncomingForm()
-//     form.keepExtensions = true,
-//         form.parse(req, (err, fields, files) => {
-//             let place = new Place(fields)
-//
-//             place.save((err, result) => {
-//                 if (err) {
-//                     return res.status(400).json({
-//                         error: errorHandler(err)
-//                     })
-//                 }
-//
-//                 res.json(result)
-//             })
-//         })
-// }
 
 exports.read = (req, res) => {
     return res.json(req.place)
 }
-//     res.json(result)
-// })
+
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
