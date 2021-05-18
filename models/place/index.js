@@ -10,6 +10,10 @@ const placeSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'PlaceAccessibility'
     }],
+    bathrooms: [{
+        type: ObjectId,
+        ref: 'Bathroom'
+    }],
     brickAndMortar: Boolean,
     category: [{
         type: ObjectId,
@@ -29,6 +33,10 @@ const placeSchema = new mongoose.Schema({
     }],
     isPublished: Boolean,
     isRestaurant: Boolean,
+    languages: [{
+        type: ObjectId,
+        ref: 'Language'
+    }],
     name: {
         type: String,
         trim: true
@@ -47,7 +55,6 @@ const placeSchema = new mongoose.Schema({
         slug: "name",
     },
     website: String,
-
 }, {id: false})
 
 //objectID necessary for algolia search

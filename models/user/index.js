@@ -10,8 +10,9 @@ const userSchema = new mongoose.Schema({
     avatar: String,
     email: {
         type: String,
-        trim: true,
-        unique: true
+        unique: true,
+        sparse:true,
+        trim: true
     },
     handle: String,
     hashed_password: {
@@ -46,7 +47,8 @@ const userSchema = new mongoose.Schema({
     slug: {
         type: String,
         slug: "name",
-        unique: true
+        unique: true,
+        sparse:true,
     }
 }, {timestamps: true})
 

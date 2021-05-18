@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
 
 const bathroomSchema = new mongoose.Schema({
-    name: {
+    description: String,
+    gender: {
         type: String,
         trim: true,
         required: true,
         unique: true,
     },
-    description: String,
+    multiStall: Boolean,
+    toilets: Boolean,
+    urinals: Boolean,
 })
 
-module.exports = mongoose.model('Bothroom', bathroomSchema)
+module.exports = mongoose.model('Bathroom', bathroomSchema)

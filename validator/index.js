@@ -3,7 +3,7 @@ const phoneRegExp = require('../helpers')
 exports.userSignupValidator = (req, res, next) => {
     req.check('name', 'Name is required').notEmpty()
     req.check('tel')
-        .matches(phoneRegExp)
+        .matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/)
         .withMessage('Phone Number is Not Valid')
         .isLength({
             min: 10,

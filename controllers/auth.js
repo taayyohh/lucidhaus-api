@@ -5,6 +5,7 @@ const expressJwt = require('express-jwt') // for auth
 
 
 exports.signup = (req, res) => {
+    console.log('reeeeeq', req.body)
     const user = new User(req.body)
     user.save((error, user) => {
         if (error) {

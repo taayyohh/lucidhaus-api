@@ -5,22 +5,20 @@ mongoose.plugin(slug)
 
 
 const accessibilitySchema = new mongoose.Schema({
-    largeAdaptiveEquipment: Boolean,
-    wheelchairRamps: Boolean,
-    onlyAccessibleByStairs: Boolean,
-    
-    name: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true,
-    },
+    accessibleDoorway: String,
+    audioAvailable: Boolean,
+    braille: Boolean,
     description: String,
-    slug: {
-        type: String,
-        slug: 'name',
-        unique: true
-    }
+    largeAdaptiveEquipment: Boolean,
+    name: String,
+    onlyAccessibleByStairs: Boolean,
+    signLanguageAccessible: Boolean,
+    wheelchairElevator: Boolean,
+    wheelchairParking: Boolean,
+    wheelchairRamps: Boolean,
+    wheelchairRestroom: Boolean,
+
+
 })
 
 accessibilitySchema.virtual('objectID').get(function () {

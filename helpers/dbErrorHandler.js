@@ -4,9 +4,10 @@
  * Get unique error field name
  */
 const uniqueMessage = error => {
+    console.log('error', error)
     let output
     try {
-        let fieldName = error.keyValue.email
+        let fieldName = error.keyValue.tel
         output = `Looks like there's an account already associated with ${fieldName}`
     } catch (ex) {
         output = 'Unique field already exists'
