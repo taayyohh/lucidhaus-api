@@ -5,7 +5,6 @@ const expressJwt = require('express-jwt') // for auth
 
 
 exports.signup = (req, res) => {
-    console.log('reeeeeq', req.body)
     const user = new User(req.body)
     user.save((error, user) => {
         if (error) {
@@ -13,6 +12,7 @@ exports.signup = (req, res) => {
                 error: errorHandler(error)
             })
         }
+
         user.salt = undefined
         user.hashed_password = undefined
         res.json({

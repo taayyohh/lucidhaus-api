@@ -47,8 +47,6 @@ exports.placeByBooneId = (req, res, next, booneId) => {
         })
 }
 
-
-
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -91,7 +89,6 @@ exports.update = (req, res) => {
             })
 
         })
-
 }
 
 exports.remove = (req, res) => {

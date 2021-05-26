@@ -17,8 +17,6 @@ const accessibilitySchema = new mongoose.Schema({
     wheelchairParking: Boolean,
     wheelchairRamps: Boolean,
     wheelchairRestroom: Boolean,
-
-
 })
 
 accessibilitySchema.virtual('objectID').get(function () {

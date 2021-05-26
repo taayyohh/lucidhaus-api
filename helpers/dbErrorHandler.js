@@ -4,7 +4,6 @@
  * Get unique error field name
  */
 const uniqueMessage = error => {
-    console.log('error', error)
     let output
     try {
         let fieldName = error.keyValue.tel

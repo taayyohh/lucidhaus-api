@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        sparse:true,
+        sparse: true,
         trim: true
     },
     handle: String,
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: Number,
-        default: 0
+        default: 2
     },
     tel: {
         type: String,
@@ -46,9 +46,8 @@ const userSchema = new mongoose.Schema({
     salt: String,
     slug: {
         type: String,
-        slug: "name",
-        unique: true,
-        sparse:true,
+        slug: ["nameFirst"],
+        unique: true
     }
 }, {timestamps: true})
 
@@ -62,6 +61,15 @@ userSchema.virtual('password')
     .get(function () {
         return this._password
     })
+
+//objectID necessary for algolia search
+userSchema.virtual('objectID').get(function () {
+    return this._id;
+})
+
+userSchema.set('toJSON', {
+    virtuals: true
+})
 
 userSchema.methods = {
     authenticate: function (plainText) {
