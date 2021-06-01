@@ -2,29 +2,29 @@ const express = require('express')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 const {userById} = require('../controllers/user')
-const {create, categoryById, read, update, remove, list} = require('../controllers/productCategory')
-const {productCategoryBySlug} = require('../controllers/productCategory')
+const {create, categoryById, read, update, remove, list} = require('../controllers/product/category')
+const {productCategoryBySlug} = require('../controllers/product/category')
 
 router.get(
-    '/product-category/:slug',
+    '/product-categories/:slug',
     read
 )
 router.post(
-    '/product-category/create/:userId',
+    '/product-categories/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
 router.put(
-    '/product-category/:categoryId/:userId',
+    '/product-categories/:categoryId/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 router.delete(
-    '/product-category/:slug/:userId',
+    '/product-categories/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,

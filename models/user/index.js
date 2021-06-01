@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
         sparse: true,
         trim: true
     },
+    ethnicHispanicOrigin: Boolean,
     handle: String,
     hashed_password: {
         type: String,

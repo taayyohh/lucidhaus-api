@@ -43,7 +43,7 @@ const IdentitySchema = new mongoose.Schema({
     }],
     race: [{
         type: ObjectId,
-        ref: 'Race'
+        ref: 'race'
     }],
     serviceAnimal: [{
         type: ObjectId,

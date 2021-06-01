@@ -13,9 +13,6 @@ const raceSchema = new mongoose.Schema({
     description: {
         type: String
     },
-}, {
-    timestamps: true,
-    id: false
 })
 
 raceSchema.virtual('objectID').get(function () {
@@ -26,4 +23,4 @@ raceSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('Race', raceSchema)
+module.exports = mongoose.model('race', raceSchema)

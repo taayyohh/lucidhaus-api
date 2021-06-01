@@ -6,6 +6,9 @@ const languageSchema = new mongoose.Schema({
         required: true,
         unique: true,
         maxLength: 32
+    },
+    description: {
+        type: String
     }
 })
 

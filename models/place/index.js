@@ -6,30 +6,39 @@ mongoose.plugin(slug);
 
 const placeSchema = new mongoose.Schema({
     _id: Number,
-    accessibility: [{
-        type: ObjectId,
-        ref: 'PlaceAccessibility'
-    }],
+    accessibility: {
+        accessibleDoorway: String,
+        audioAvailable: Boolean,
+        braille: Boolean,
+        description: String,
+        largeAdaptiveEquipment: Boolean,
+        onlyAccessibleByStairs: Boolean,
+        signLanguageAccessible: Boolean,
+        wheelchairElevator: Boolean,
+        wheelchairParking: Boolean,
+        wheelchairRamps: Boolean,
+        wheelchairRestroom: Boolean
+    },
     bathrooms: [{
         type: ObjectId,
         ref: 'Bathroom'
     }],
     brickAndMortar: Boolean,
-    category: [{
+    categories: [{
         type: ObjectId,
         ref: 'PlaceCategory'
     }],
     communitiesServed: [{
-       name: String,
-       description: String
+        type: ObjectId,
+        ref: 'CommunitiesServed'
     }],
     description: {
         type: String,
         trim: true,
     },
     foodOptions: [{
-        name:  String,
-        description: String
+        type: ObjectId,
+        ref: 'FoodOptions'
     }],
     isPublished: Boolean,
     isRestaurant: Boolean,
