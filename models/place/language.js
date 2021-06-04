@@ -25,4 +25,4 @@ languageSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('Language', languageSchema)
+module.exports = mongoose.model('LanguagesSpoken', languageSchema)
