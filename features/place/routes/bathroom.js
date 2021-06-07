@@ -3,32 +3,32 @@ const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 const {userById} = require('../../user/controllers')
 const {
-    languageById,
-    languageBySlug,
+    bathroomById,
+    bathroomBySlug,
     create,
     read,
     remove,
     update,
     list,
-} = require('../controllers/language')
+} = require('../controllers/bathroom')
 
 
-router.get('/language', list)
-router.get('/language/:slug', read)
+router.get('/bathroom', list)
+router.get('/bathroom/:slug', read)
 router.post(
-    '/language/create/:userId',
+    '/bathroom/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/language/:slug/:userId',
+router.delete('/bathroom/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/language/:slug/:userId',
+router.put('/bathroom/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
@@ -36,7 +36,7 @@ router.put('/language/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('languageId', languageById)
-router.param('slug', languageBySlug)
+router.param('bathroomId', bathroomById)
+router.param('slug', bathroomBySlug)
 
 module.exports = router

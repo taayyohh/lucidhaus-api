@@ -175,7 +175,7 @@ exports.listProductsByCategory = (req, res) => {
 /**
  * list products by search
  * we will implement product search in react frontend
- * we will show categories in checkbox and price range in radio buttons
+ * we will show placeCategory in checkbox and price range in radio buttons
  * as the User clicks on those checkbox and radio buttons
  * we will make api request and show the products to users based on what he wants
  */
@@ -235,7 +235,7 @@ exports.listSearch = (req, res) => {
     //assign search value to query.namee
     if (req.query.search) {
         query.name = {$regex: req.query.search, $options: 'i'}
-        //assign categories value to query.productCategory
+        //assign placeCategory value to query.productCategory
         if (req.query.productCategory && req.query.productCategory !== 'All') {
             query.productCategory = req.query.productCategory
         }

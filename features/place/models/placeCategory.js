@@ -14,6 +14,10 @@ const placeCategorySchema = new mongoose.Schema({
         type: String,
         slug: 'name',
         unique: true
+    },
+    type: {
+        type: String,
+        default: 'place-category'
     }
 })
 

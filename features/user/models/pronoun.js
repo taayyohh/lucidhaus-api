@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater')
-const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug)
 
 const pronounSchema = new mongoose.Schema({
+    name: String,
+    description: String,
     subjectiveSingular: {
         type: String,
         trim: true
@@ -17,6 +18,15 @@ const pronounSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    slug: {
+        type: String,
+        slug: ['name'],
+        unique: true
+    },
+    type: {
+        type: String,
+        default: 'pronoun'
+    }
 })
 
 pronounSchema.virtual('objectID').get(function () {

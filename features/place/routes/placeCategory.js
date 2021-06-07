@@ -3,32 +3,32 @@ const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 const {userById} = require('../../user/controllers')
 const {
-    languageById,
-    languageBySlug,
+    placeCategoryById,
+    placeCategoryBySlug,
     create,
     read,
     remove,
     update,
     list,
-} = require('../controllers/language')
+} = require('../controllers/placeCategory')
 
 
-router.get('/language', list)
-router.get('/language/:slug', read)
+router.get('/place-category', list)
+router.get('/place-category/:slug', read)
 router.post(
-    '/language/create/:userId',
+    '/place-category/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/language/:slug/:userId',
+router.delete('/place-category/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/language/:slug/:userId',
+router.put('/place-category/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
@@ -36,7 +36,7 @@ router.put('/language/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('languageId', languageById)
-router.param('slug', languageBySlug)
+router.param('placeCategoryId', placeCategoryById)
+router.param('slug', placeCategoryBySlug)
 
 module.exports = router

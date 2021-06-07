@@ -3,32 +3,32 @@ const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 const {userById} = require('../../user/controllers')
 const {
-    languageById,
-    languageBySlug,
+    bodyModificationById,
+    bodyModificationBySlug,
     create,
     read,
     remove,
     update,
     list,
-} = require('../controllers/language')
+} = require('../controllers/bodyModification')
 
 
-router.get('/language', list)
-router.get('/language/:slug', read)
+router.get('/body-modification', list)
+router.get('/body-modification/:slug', read)
 router.post(
-    '/language/create/:userId',
+    '/body-modification/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/language/:slug/:userId',
+router.delete('/body-modification/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/language/:slug/:userId',
+router.put('/body-modification/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
@@ -36,7 +36,7 @@ router.put('/language/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('languageId', languageById)
-router.param('slug', languageBySlug)
+router.param('bodyModificationId', bodyModificationById)
+router.param('slug', bodyModificationBySlug)
 
 module.exports = router

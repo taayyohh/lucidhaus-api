@@ -7,7 +7,7 @@ exports.categoryById = (req, res, next, id) => {
     Category.findById(id).exec((err, category) => {
         if (err || !category) {
             return res.status(400).json({
-                error: 'product categories does not exist'
+                error: 'product placeCategory does not exist'
             })
         }
         req.category = category
@@ -20,7 +20,7 @@ exports.productCategoryBySlug = (req, res, next, slug) => {
         .exec((err, category) => {
             if (err || !category) {
                 return res.status(400).json({
-                    error: 'product categories not found'
+                    error: 'product placeCategory not found'
                 })
             }
             req.category = category

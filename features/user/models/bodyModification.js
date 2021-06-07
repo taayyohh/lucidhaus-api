@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const slug = require('mongoose-slug-updater');
+
+mongoose.plugin(slug);
 
 const bodyModificationSchema = new mongoose.Schema({
     name: {
@@ -9,6 +12,15 @@ const bodyModificationSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    slug: {
+        type: String,
+        slug: 'name',
+        unique: true
+    },
+    type: {
+        type: String,
+        default: 'body-modification'
     }
 })
 
@@ -20,4 +32,4 @@ bodyModificationSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('BodyModifications', bodyModificationSchema)
+module.exports = mongoose.model('BodyModification', bodyModificationSchema)

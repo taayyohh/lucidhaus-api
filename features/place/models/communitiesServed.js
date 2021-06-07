@@ -14,6 +14,10 @@ const communitiesServedSchema = new mongoose.Schema({
         type: String,
         slug: 'name',
         unique: true
+    },
+    type: {
+        type: String,
+        default: 'communities-served'
     }
 })
 

@@ -46,8 +46,11 @@ const productSchema = new mongoose.Schema({
         slug: "name",
         unique: true
     },
-    isPublished: Boolean
-
+    isPublished: Boolean,
+    type: {
+        type: String,
+        default: 'product'
+    }
 }, {timestamps: true, id: false})
 
 //objectID necessary for algolia search

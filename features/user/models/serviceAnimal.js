@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const slug = require('mongoose-slug-updater');
+
+mongoose.plugin(slug);
 
 const tasks = new mongoose.Schema({
     name: String,
@@ -6,7 +9,18 @@ const tasks = new mongoose.Schema({
 })
 
 const serviceAnimalSchema = new mongoose.Schema({
+    name: String,
+    description: String,
     tasks: [tasks],
+    slug: {
+        type: String,
+        slug: 'name',
+        unique: true
+    },
+    type: {
+        type: String,
+        default: 'service-animal'
+    }
 })
 
 serviceAnimalSchema.virtual('objectID').get(function () {

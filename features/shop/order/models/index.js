@@ -37,6 +37,10 @@ const OrderSchema = new mongoose.Schema(
         user: {
             type: ObjectId,
             ref: 'User'
+        },
+        type: {
+            type: String,
+            default: 'shop-order'
         }
     },
     {timestamps: true, id: false}

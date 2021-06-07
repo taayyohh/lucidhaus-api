@@ -19,6 +19,27 @@ const s3Routes = require('./features/site/routes/s3')
 const twilioRoutes = require('./features/site/routes/twilio')
 const userRoutes = require('./features/user/routes')
 
+/*user taxonomy*/
+const adaptiveEquipmentRoutes = require('./features/user/routes/adaptiveEquipment')
+const bodyModificationRoutes = require('./features/user/routes/bodyModification')
+const genderRoutes = require('./features/user/routes/gender')
+const languageRoutes = require('./features/user/routes/language')
+const methodOfCommunicationRoutes = require('./features/user/routes/methodOfCommunication')
+const physicalAppearanceRoutes = require('./features/user/routes/physicalAppearance')
+const pronounRoutes = require('./features/user/routes/pronoun')
+const raceRoutes = require('./features/user/routes/race')
+const serviceAnimalRoutes = require('./features/user/routes/serviceAnimal')
+const sexualOrientationRoutes = require('./features/user/routes/sexualOrientation')
+
+/*place taxonomy */
+const bathroomRoutes = require('./features/place/routes/bathroom')
+const businessOwnerRoutes = require('./features/place/routes/businessOwner')
+const communitiesServedRoutes = require('./features/place/routes/communitiesServed')
+const foodOptionsRoutes = require('./features/place/routes/foodOptions')
+const languageSpokenRoutes = require('./features/place/routes/languageSpoken')
+const placeCategoryRoutes = require('./features/place/routes/placeCategory')
+
+
 const app = express()
 
 //database
@@ -45,6 +66,24 @@ app.use('/api', productCategoryRoutes)
 app.use('/api', s3Routes)
 app.use('/api', twilioRoutes)
 app.use('/api', userRoutes)
+/* user taxonomy */
+app.use('/api', adaptiveEquipmentRoutes)
+app.use('/api', bodyModificationRoutes)
+app.use('/api', genderRoutes)
+app.use('/api', languageRoutes)
+app.use('/api', methodOfCommunicationRoutes)
+app.use('/api', physicalAppearanceRoutes)
+app.use('/api', pronounRoutes)
+app.use('/api', raceRoutes)
+app.use('/api', serviceAnimalRoutes)
+app.use('/api', sexualOrientationRoutes)
+/* place taxonomy */
+app.use('/api', bathroomRoutes)
+app.use('/api', businessOwnerRoutes)
+app.use('/api', communitiesServedRoutes)
+app.use('/api', foodOptionsRoutes)
+app.use('/api', languageSpokenRoutes)
+app.use('/api', placeCategoryRoutes)
 
 const port = process.env.port || 9000
 

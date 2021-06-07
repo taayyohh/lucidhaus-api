@@ -9,9 +9,9 @@ const IdentitySchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'AdaptiveEquipment'
     }],
-    bodyModifications: [{
+    bodyModification: [{
         type: ObjectId,
-        ref: 'BodyModifications'
+        ref: 'BodyModification'
     }],
     blind: Boolean,
     deaf: Boolean,
@@ -29,9 +29,9 @@ const IdentitySchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Language'
     }],
-    methodsOfCommunication: [{
+    methodOfCommunication: [{
         type: ObjectId,
-        ref: 'MethodsOfCommunication'
+        ref: 'MethodOfCommunication'
     }],
     physicalAppearance: [{
         type: ObjectId,

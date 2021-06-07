@@ -64,6 +64,10 @@ const placeSchema = new mongoose.Schema({
         slug: "name",
     },
     website: String,
+    type: {
+        type: String,
+        default: 'place'
+    }
 }, {id: false})
 
 //objectID necessary for algolia search

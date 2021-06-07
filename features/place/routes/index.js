@@ -44,10 +44,6 @@ router.put('/place/:slug/:userId',
     update
 )
 
-
-
-
-
 router.param('userId', userById)
 router.param('placeId', placeById)
 router.param('slug', placeBySlug)

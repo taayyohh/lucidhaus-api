@@ -14,7 +14,11 @@ const foodOptionsSchema = new mongoose.Schema({
         type: String,
         slug: 'name',
         unique: true
-    }
+    },
+    type: {
+        type: String,
+        default: 'food-options'
+    },
 })
 
 foodOptionsSchema.virtual('objectID').get(function () {

@@ -13,6 +13,15 @@ const sexualOrientationSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    slug: {
+        type: String,
+        slug: 'name',
+        unique: true
+    },
+    type: {
+        type: String,
+        default: 'sexual-orientation'
+    }
 })
 
 sexualOrientationSchema.virtual('objectID').get(function () {

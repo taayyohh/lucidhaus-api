@@ -1,35 +1,35 @@
-const AdaptiveEquipment = require('../models/adaptiveEquipment')
+const BodyModification = require('../models/bodyModification')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
 
-exports.adaptiveEquipmentById = (req, res, next, id) => {
-    const adaptiveEquipmentId = id.substr(id.lastIndexOf('-') + 1)
+exports.bodyModificationById = (req, res, next, id) => {
+    const bodyModificationId = id.substr(id.lastIndexOf('-') + 1)
 
-    AdaptiveEquipment.findById(id)
-        .exec((err, adaptiveEquipment) => {
-            if (err || !adaptiveEquipment) {
+    BodyModification.findById(id)
+        .exec((err, bodyModification) => {
+            if (err || !bodyModification) {
                 return res.status(400).json({
                     status: 410,
-                    error: 'adaptiveEquipment not found'
+                    error: 'bodyModification not found'
                 })
             }
-            req.adaptiveEquipment = adaptiveEquipment
+            req.bodyModification = bodyModification
             next()
         })
 }
 
-exports.adaptiveEquipmentBySlug = (req, res, next, slug) => {
-    AdaptiveEquipment.findOne({slug: slug})
-        .exec((err, adaptiveEquipment) => {
-            if (err || !adaptiveEquipment) {
+exports.bodyModificationBySlug = (req, res, next, slug) => {
+    BodyModification.findOne({slug: slug})
+        .exec((err, bodyModification) => {
+            if (err || !bodyModification) {
                 return res.status(400).json({
-                    error: 'adaptiveEquipment not found'
+                    error: 'bodyModification not found'
                 })
             }
-            req.adaptiveEquipment = adaptiveEquipment
+            req.bodyModification = bodyModification
             next()
         })
 }
@@ -38,9 +38,9 @@ exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-            let adaptiveEquipment = new AdaptiveEquipment(fields)
+            let bodyModification = new BodyModification(fields)
 
-            adaptiveEquipment.save((err, result) => {
+            bodyModification.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -53,19 +53,19 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    return res.json(req.adaptiveEquipment)
+    return res.json(req.bodyModification)
 }
 
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.adaptiveEquipment._id
-            let adaptiveEquipment = req.adaptiveEquipment
-            adaptiveEquipment = _.extend(adaptiveEquipment, fields)
+            let _id = req.bodyModification._id
+            let bodyModification = req.bodyModification
+            bodyModification = _.extend(bodyModification, fields)
 
 
-            adaptiveEquipment.save((err, result) => {
+            bodyModification.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -79,8 +79,8 @@ exports.update = (req, res) => {
 }
 
 exports.remove = (req, res) => {
-    let adaptiveEquipment = req.adaptiveEquipment
-    adaptiveEquipment.remove((err) => {
+    let bodyModification = req.bodyModification
+    bodyModification.remove((err) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -88,7 +88,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'AdaptiveEquipment deleted successfully'
+            message: 'BodyModification deleted successfully'
         })
     })
 }
@@ -97,17 +97,17 @@ exports.list = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    AdaptiveEquipment.find()
+    BodyModification.find()
         .sort([[sortBy]])
         .limit(limit)
-        .exec((err, adaptiveEquipments) => {
+        .exec((err, bodyModification) => {
             if (err) {
                 return res.status(400).json({
-                    message: 'adaptiveEquipment not found'
+                    message: 'bodyModification not found'
                 })
             }
 
-            res.send(adaptiveEquipments)
+            res.send(bodyModification)
         })
 }
 

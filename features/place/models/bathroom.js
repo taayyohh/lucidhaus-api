@@ -3,16 +3,18 @@ const slug = require('mongoose-slug-updater');
 
 mongoose.plugin(slug);
 
-const languageSchema = new mongoose.Schema({
-    name: {
+const bathroomSchema = new mongoose.Schema({
+    name: String,
+    description: String,
+    gender: {
         type: String,
+        trim: true,
         required: true,
         unique: true,
-        maxLength: 32
     },
-    description: {
-        type: String
-    },
+    multiStall: Boolean,
+    toilets: Boolean,
+    urinals: Boolean,
     slug: {
         type: String,
         slug: 'name',
@@ -20,16 +22,16 @@ const languageSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'language'
+        default: 'bathroom'
     }
 })
 
-languageSchema.virtual('objectID').get(function () {
+bathroomSchema.virtual('objectID').get(function () {
     return this._id.toHexString()
 })
 
-languageSchema.set('toJSON', {
+bathroomSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('Language', languageSchema)
+module.exports = mongoose.model('Bathroom', bathroomSchema)

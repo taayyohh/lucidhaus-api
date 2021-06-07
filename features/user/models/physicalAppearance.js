@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const slug = require('mongoose-slug-updater');
+
+mongoose.plugin(slug);
 
 const physicalAppearanceSchema = new mongoose.Schema({
     name: {
@@ -9,6 +12,15 @@ const physicalAppearanceSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    slug: {
+        type: String,
+        slug: 'name',
+        unique: true
+    },
+    type: {
+        type: String,
+        default: 'physical-appearance'
     }
 })
 

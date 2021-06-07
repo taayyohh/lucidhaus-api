@@ -12,10 +12,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
         sparse: true,
-        trim: true
+        trim: true,
+        default: ''
     },
-    ethnicHispanicOrigin: Boolean,
-    handle: String,
+    ethnicHispanicOrigin: {
+        type: Boolean,
+        default: false
+    },
+    handle: {
+        type: String,
+        default: ''
+    },
     hashed_password: {
         type: String,
         required: true,
@@ -27,14 +34,17 @@ const userSchema = new mongoose.Schema({
     nameFirst: {
         type: String,
         trim: true,
+        default: ''
     },
     nameMiddle: {
         type: String,
         trim: true,
+        default: ''
     },
     nameLast: {
         type: String,
         trim: true,
+        default: ''
     },
     role: {
         type: Number,
@@ -42,13 +52,18 @@ const userSchema = new mongoose.Schema({
     },
     tel: {
         type: String,
-        unique: true
+        unique: true,
+        default: ''
     },
     salt: String,
     slug: {
         type: String,
         slug: ["nameFirst"],
         unique: true
+    },
+    type: {
+        type: String,
+        default: 'user'
     }
 }, {timestamps: true})
 

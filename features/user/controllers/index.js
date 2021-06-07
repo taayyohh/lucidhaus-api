@@ -1,4 +1,5 @@
 const User = require('../models')
+const formidable = require('formidable')
 const {Order} = require('../../shop/order/models')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
@@ -36,23 +37,54 @@ exports.read = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    console.log('REQ', req)
-    // User.findOneAndUpdate(
-    //     {_id: req.profile._id},
-    //     {$set: req.body},
-    //     {new: true},
-    //     (err, user) => {
-    //         if (err) {
-    //             return res.status(400).json({
-    //                 error: 'You are not authorized to perform this action'
-    //             })
-    //         }
-    //
-    //         user.hashed_password = undefined
-    //         user.salt = undefined
-    //         res.json(user)
-    //     }
-    // )
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields) => {
+            let _id = req.user._id
+            let user = req.user
+            user = _.extend(user, fields)
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                res.json(result)
+            })
+        })
+}
+
+exports.remove = (req, res) => {
+    let user = req.user
+    user.remove((err) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json({
+            message: 'Language deleted successfully'
+        })
+    })
+}
+
+exports.list = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 50
+
+    User.find()
+        .limit(limit)
+        .exec((err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    message: 'users not found'
+                })
+            }
+
+            res.send(users)
+        })
 }
 
 exports.addOrderToUserHistory = (req, res, next) => {
@@ -101,19 +133,4 @@ exports.purchaseHistory = (req, res) => {
         })
 }
 
-exports.list = (req, res) => {
-    let limit = req.query.limit ? parseInt(req.query.limit) : 50
-
-    User.find()
-        .limit(limit)
-        .exec((err, users) => {
-            if (err) {
-                return res.status(400).json({
-                    message: 'users not found'
-                })
-            }
-
-            res.send(users)
-        })
-}
 

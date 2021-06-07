@@ -14,6 +14,10 @@ const languageSchema = new mongoose.Schema({
         type: String,
         slug: 'name',
         unique: true
+    },
+    type: {
+        type: String,
+        default: 'language-spoken'
     }
 })
 
@@ -25,4 +29,4 @@ languageSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('LanguagesSpoken', languageSchema)
+module.exports = mongoose.model('LanguageSpoken', languageSchema)

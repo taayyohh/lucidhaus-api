@@ -13,6 +13,10 @@ const raceSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    type: {
+        type: String,
+        default: 'race'
+    }
 })
 
 raceSchema.virtual('objectID').get(function () {

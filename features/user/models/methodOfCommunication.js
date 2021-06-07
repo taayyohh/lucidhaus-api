@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
-const slug = require('mongoose-slug-updater')
+const slug = require('mongoose-slug-updater');
 
-mongoose.plugin(slug)
+mongoose.plugin(slug);
 
-const genderSchema = new mongoose.Schema({
+const methodOfCommunicationSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -20,16 +20,16 @@ const genderSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'gender'
+        default: 'method-of-communication'
     }
 })
 
-genderSchema.virtual('objectID').get(function () {
+methodOfCommunicationSchema.virtual('objectID').get(function () {
     return this._id.toHexString()
 })
 
-genderSchema.set('toJSON', {
+methodOfCommunicationSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('Gender', genderSchema)
+module.exports = mongoose.model('MethodOfCommunication', methodOfCommunicationSchema)
