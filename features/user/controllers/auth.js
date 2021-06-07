@@ -45,8 +45,39 @@ exports.signin = (req, res) => {
         res.cookie('t', token, {expire: new Date() + 9999})
 
         //return res to front end
-        const {_id, nameFirst, email, tel, role} = user
-        return res.json({token, user: {_id, email, tel, nameFirst, role}})
+        const {
+            _id,
+            avatar,
+            description,
+            email,
+            ethnicHispanicOrigin,
+            handle,
+            nameMiddle,
+            nameFirst,
+            nameLast,
+            tel,
+            role,
+            slug,
+            type
+        } = user
+        return res.json({
+            token,
+            user: {
+                _id,
+                avatar,
+                description,
+                email,
+                ethnicHispanicOrigin,
+                handle,
+                nameMiddle,
+                nameFirst,
+                nameLast,
+                tel,
+                role,
+                slug,
+                type
+            }
+        })
 
     })
 }

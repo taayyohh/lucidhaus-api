@@ -7,7 +7,10 @@ const {ObjectId} = mongoose.Schema
 mongoose.plugin(slug);
 
 const userSchema = new mongoose.Schema({
-    avatar: String,
+    avatar: {
+        type: String,
+        default: ''
+    },
     email: {
         type: String,
         unique: true,

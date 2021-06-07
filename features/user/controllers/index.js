@@ -1,5 +1,7 @@
 const User = require('../models')
 const formidable = require('formidable')
+const _ = require('lodash')
+const fs = require('fs')
 const {Order} = require('../../shop/order/models')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
@@ -25,7 +27,7 @@ exports.userBySlug = (req, res, next, slug) => {
                 })
             }
 
-            req.profile = user
+            req.user = user
             next()
         })
 }
@@ -33,24 +35,26 @@ exports.userBySlug = (req, res, next, slug) => {
 exports.read = (req, res) => {
     req.profile.hashed_password = undefined
     req.profile.salt = undefined
-    return res.json(req.profile)
+    return res.json(req.user)
 }
 
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.user._id
             let user = req.user
             user = _.extend(user, fields)
 
             user.save((err, result) => {
                 if (err) {
+                    console.log('ERR',err)
                     return res.status(400).json({
                         error: errorHandler(err)
                     })
                 }
 
+                user.hashed_password = undefined
+                user.salt = undefined
                 res.json(result)
             })
         })

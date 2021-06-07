@@ -16,7 +16,12 @@ const raceSchema = new mongoose.Schema({
     type: {
         type: String,
         default: 'race'
-    }
+    },
+    slug: {
+        type: String,
+        slug: 'name',
+        unique: true
+    },
 })
 
 raceSchema.virtual('objectID').get(function () {
