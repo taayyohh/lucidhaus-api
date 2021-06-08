@@ -32,4 +32,4 @@ raceSchema.set('toJSON', {
     virtuals: true
 })
 
-module.exports = mongoose.model('race', raceSchema)
+module.exports = mongoose.model('Race', raceSchema)

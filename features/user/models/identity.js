@@ -37,13 +37,13 @@ const IdentitySchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'PhysicalAppearance'
     }],
-    pronouns: [{
+    pronoun: [{
         type: ObjectId,
         ref: 'Pronoun'
     }],
     race: [{
         type: ObjectId,
-        ref: 'race'
+        ref: 'Race'
     }],
     serviceAnimal: [{
         type: ObjectId,
