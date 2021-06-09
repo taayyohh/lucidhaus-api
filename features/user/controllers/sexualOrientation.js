@@ -39,6 +39,7 @@ exports.create = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
             let sexualOrientation = new SexualOrientation(fields)
+            console.log('FIELDS', fields)
 
             sexualOrientation.save((err, result) => {
                 if (err) {

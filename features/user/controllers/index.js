@@ -44,10 +44,10 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
             let user = req.user
             user = _.extend(user, fields)
+            console.log('REQ', req)
 
             user.save((err, result) => {
                 if (err) {
-                    console.log('ERR',err)
                     return res.status(400).json({
                         error: errorHandler(err)
                     })
