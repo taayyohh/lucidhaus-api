@@ -6,19 +6,17 @@ mongoose.plugin(slug);
 
 const placeSchema = new mongoose.Schema({
     _id: Number,
-    accessibility: {
-        accessibleDoorway: String,
-        audioAvailable: Boolean,
-        braille: Boolean,
-        description: String,
-        largeAdaptiveEquipment: Boolean,
-        onlyAccessibleByStairs: Boolean,
-        signLanguageAccessible: Boolean,
-        wheelchairElevator: Boolean,
-        wheelchairParking: Boolean,
-        wheelchairRamps: Boolean,
-        wheelchairRestroom: Boolean
-    },
+    accessibleDoorway: String,
+    audioAvailable: Boolean,
+    braille: Boolean,
+    description: String,
+    largeAdaptiveEquipment: Boolean,
+    onlyAccessibleByStairs: Boolean,
+    signLanguageAccessible: Boolean,
+    wheelchairElevator: Boolean,
+    wheelchairParking: Boolean,
+    wheelchairRamps: Boolean,
+    wheelchairRestroom: Boolean,
     bathrooms: [{
         type: ObjectId,
         ref: 'Bathroom'
