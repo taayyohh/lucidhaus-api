@@ -7,21 +7,22 @@ mongoose.plugin(slug);
 const placeSchema = new mongoose.Schema({
     _id: Number,
     accessibleDoorway: String,
-    audioAvailable: Boolean,
-    braille: Boolean,
-    description: String,
-    largeAdaptiveEquipment: Boolean,
-    onlyAccessibleByStairs: Boolean,
-    signLanguageAccessible: Boolean,
-    wheelchairElevator: Boolean,
-    wheelchairParking: Boolean,
-    wheelchairRamps: Boolean,
-    wheelchairRestroom: Boolean,
+    audioAvailable: {
+        type: Boolean,
+        default: false
+    },
     bathrooms: [{
         type: ObjectId,
         ref: 'Bathroom'
     }],
-    brickAndMortar: Boolean,
+    braille: {
+        type: Boolean,
+        default: false
+    },
+    brickAndMortar: {
+        type: Boolean,
+        default: false
+    },
     categories: [{
         type: ObjectId,
         ref: 'PlaceCategory'
@@ -30,25 +31,36 @@ const placeSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'CommunitiesServed'
     }],
-    description: {
-        type: String,
-        trim: true,
-    },
+    description: String,
     foodOptions: [{
         type: ObjectId,
         ref: 'FoodOptions'
     }],
-    isPublished: Boolean,
-    isRestaurant: Boolean,
+    isPublished: {
+        type: Boolean,
+        default: false
+    },
+    isRestaurant: {
+        type: Boolean,
+        default: false
+    },
     languages: [{
         type: ObjectId,
         ref: 'Language'
     }],
+    largeAdaptiveEquipment: {
+        type: Boolean,
+        default: false
+    },
     name: {
         type: String,
         trim: true
     },
-    owners: [{
+    onlyAccessibleByStairs: {
+        type: Boolean,
+        default: false
+    },
+    businessOwner: [{
         type: ObjectId,
         ref: 'BusinessOwner'
     }],
@@ -56,16 +68,39 @@ const placeSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    publicTransportation: Boolean,
+    publicTransportation: {
+        type: Boolean,
+        default: false
+    },
+    signLanguageAccessible: {
+        type: Boolean,
+        default: false
+    },
     slug: {
         type: String,
         slug: "name",
     },
-    website: String,
     type: {
         type: String,
         default: 'place'
-    }
+    },
+    website: String,
+    wheelchairElevator: {
+        type: Boolean,
+        default: false
+    },
+    wheelchairParking: {
+        type: Boolean,
+        default: false
+    },
+    wheelchairRamps: {
+        type: Boolean,
+        default: false
+    },
+    wheelchairRestroom: {
+        type: Boolean,
+        default: false
+    },
 }, {id: false})
 
 //objectID necessary for algolia search
