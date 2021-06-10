@@ -1,3 +1,4 @@
+const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
@@ -43,8 +44,32 @@ exports.update = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
             let user = req.user
-            user = _.extend(user, fields)
-            console.log('REQ', req)
+
+            //find a better way to distinguish that this is the identity form
+            if (fields.hasOwnProperty('gender')) {
+                for (let i = 0; i < Object.values(fields).length; i++) {
+                    const field = Object.keys(fields)[i]
+                    const value = Object.values(fields)[i]
+
+                    if (!!Object.values(fields)[i]) {
+                        if (value.includes(",") &&  ObjectId.isValid(value.split(",")[0])) {
+                            user.identity[field] = []
+                            for (const v of value.split(",")) {
+                                user.identity[field].push(v)
+                            }
+                        } else if (ObjectId.isValid(value)) {
+                            user.identity[field] = []
+                            user.identity[field].push(value)
+                        } else {
+                            user.identity[field] = value
+                        }
+                    }
+                }
+
+
+            } else {
+                user = _.extend(user, fields)
+            }
 
             user.save((err, result) => {
                 if (err) {
