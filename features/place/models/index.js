@@ -5,7 +5,6 @@ const {ObjectId} = mongoose.Schema
 mongoose.plugin(slug);
 
 const placeSchema = new mongoose.Schema({
-    _id: Number,
     accessibleDoorway: String,
     audioAvailable: {
         type: Boolean,
@@ -15,6 +14,9 @@ const placeSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Bathroom'
     }],
+    booneId: {
+      type: 'Number',
+    },
     braille: {
         type: Boolean,
         default: false
@@ -25,16 +27,17 @@ const placeSchema = new mongoose.Schema({
     },
     categories: [{
         type: ObjectId,
-        ref: 'PlaceCategory'
+        ref: 'PlaceCategory',
     }],
     communitiesServed: [{
         type: ObjectId,
-        ref: 'CommunitiesServed'
+        ref: 'CommunitiesServed',
+
     }],
     description: String,
     foodOptions: [{
         type: ObjectId,
-        ref: 'FoodOptions'
+        ref: 'FoodOptions',
     }],
     isPublished: {
         type: Boolean,
@@ -44,9 +47,9 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    languages: [{
+    languageSpoken: [{
         type: ObjectId,
-        ref: 'Language'
+        ref: 'Language',
     }],
     largeAdaptiveEquipment: {
         type: Boolean,
@@ -62,7 +65,7 @@ const placeSchema = new mongoose.Schema({
     },
     businessOwner: [{
         type: ObjectId,
-        ref: 'BusinessOwner'
+        ref: 'BusinessOwner',
     }],
     photo: {
         type: String,

@@ -17,7 +17,7 @@ const {
 
 // router.get('/admin/:placeId', read)
 router.get('/places', list)
-router.get('/place/:placeId', read)
+router.get('/place/:slug', read)
 router.post(
     '/place/create/:userId',
     requireSignIn,
