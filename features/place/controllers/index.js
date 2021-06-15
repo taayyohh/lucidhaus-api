@@ -54,15 +54,9 @@ exports.create = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let place = new Place(fields)
 
-            console.log('place object', place)
-
             for (let i = 0; i < Object.values(fields).length; i++) {
                 const field = Object.keys(fields)[i]
                 const value = Object.values(fields)[i]
-
-                console.log('FIELD NAME', field)
-                console.log('VALUE', typeof value)
-                console.log('------')
 
                 if (!!value) {
                     if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
@@ -73,10 +67,10 @@ exports.create = (req, res) => {
                     } else if (ObjectId.isValid(value)) {
                         place[field] = []
                         place[field].push(value)
+
                     } else {
-                        console.log('else field', field)
-                        console.log('else value', value)
                         place[field] = value
+
                     }
                 }
             }
@@ -107,8 +101,8 @@ exports.update = (req, res) => {
                 const field = Object.keys(fields)[i]
                 const value = Object.values(fields)[i]
 
-                if (!!Object.values(fields)[i]) {
-                    if (value.includes(",") &&  ObjectId.isValid(value.split(",")[0])) {
+                if (!!value) {
+                    if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
                         place[field] = []
                         for (const v of value.split(",")) {
                             place[field].push(v)
@@ -121,7 +115,6 @@ exports.update = (req, res) => {
                     }
                 }
             }
-
 
             place.save((err, result) => {
                 if (err) {

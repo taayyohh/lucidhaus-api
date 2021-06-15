@@ -51,7 +51,7 @@ exports.update = (req, res) => {
                     const field = Object.keys(fields)[i]
                     const value = Object.values(fields)[i]
 
-                    if (!!Object.values(fields)[i]) {
+                    if (!!value) {
                         if (value.includes(",") &&  ObjectId.isValid(value.split(",")[0])) {
                             user.identity[field] = []
                             for (const v of value.split(",")) {
@@ -65,7 +65,6 @@ exports.update = (req, res) => {
                         }
                     }
                 }
-
 
             } else {
                 user = _.extend(user, fields)
@@ -95,7 +94,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'Language deleted successfully'
+            message: 'User deleted successfully'
         })
     })
 }

@@ -1,25 +1,16 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater')
-const {ObjectId} = mongoose.Schema
+const {ObjectId, Types} = mongoose.Schema
 
 mongoose.plugin(slug)
 
 const IdentitySchema = new mongoose.Schema({
-    adaptiveEquipment: [{
-        type: ObjectId,
-        ref: 'AdaptiveEquipment'
-    }],
-    bodyModification: [{
-        type: ObjectId,
-        ref: 'BodyModification'
-    }],
+    adaptiveEquipment: [  Types.Mixed  ],
+    bodyModification: [  Types.Mixed  ],
     blind: Boolean,
     deaf: Boolean,
     dateOfBirth: String,
-    gender: [{
-        type: ObjectId,
-        ref: 'Gender'
-    }],
+    gender: [  Types.Mixed  ],
     guideAnimal: Boolean,
     languagePrimary: [{
         type: ObjectId,
@@ -29,30 +20,15 @@ const IdentitySchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Language'
     }],
-    methodOfCommunication: [{
-        type: ObjectId,
-        ref: 'MethodOfCommunication'
-    }],
-    physicalAppearance: [{
-        type: ObjectId,
-        ref: 'PhysicalAppearance'
-    }],
+    methodOfCommunication: [  Types.Mixed  ],
+    physicalAppearance: [  Types.Mixed  ],
     pronoun: [{
         type: ObjectId,
         ref: 'Pronoun'
     }],
-    race: [{
-        type: ObjectId,
-        ref: 'Race'
-    }],
-    serviceAnimal: [{
-        type: ObjectId,
-        ref: 'ServiceAnimal'
-    }],
-    sexualOrientation: [{
-        type: ObjectId,
-        ref: 'SexualOrientation'
-    }],
+    race: [  Types.Mixed  ],
+    serviceAnimal: [  Types.Mixed  ],
+    sexualOrientation: [  Types.Mixed  ],
     transgender: Boolean
 })
 
