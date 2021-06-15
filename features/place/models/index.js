@@ -10,10 +10,10 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    bathrooms: {
+    bathrooms: [{
         type: ObjectId,
         ref: 'Bathroom'
-    },
+    }],
     booneId: {
       type: 'Number',
     },
