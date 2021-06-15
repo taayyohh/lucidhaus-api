@@ -9,6 +9,18 @@ const ReviewSchema = new mongoose.Schema({
         type: String,
         default: false
     },
+    safe: {
+        type: Boolean,
+        default: null
+    },
+    celebrated: {
+        type: Boolean,
+        default: null
+    },
+    welcome: {
+        type: Boolean,
+        default: null
+    },
     photo: {
         type: String,
         trim: true
@@ -17,6 +29,10 @@ const ReviewSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     }],
+    updated: {
+        type: Date,
+        default: Date.now
+    },
 })
 
 const placeSchema = new mongoose.Schema({
