@@ -40,7 +40,6 @@ router.delete('/place/:slug/:userId',
 router.put('/place/:slug/:userId',
     requireSignIn,
     isAuth,
-    isAdmin,
     update
 )
 

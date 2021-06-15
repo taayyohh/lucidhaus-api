@@ -4,6 +4,21 @@ const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug);
 
+const ReviewSchema = new mongoose.Schema({
+    review: {
+        type: String,
+        default: false
+    },
+    photo: {
+        type: String,
+        trim: true
+    },
+    user: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
+})
+
 const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
     audioAvailable: {
@@ -74,6 +89,7 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    reviews: [ReviewSchema],
     signLanguageAccessible: {
         type: Boolean,
         default: false

@@ -98,27 +98,34 @@ exports.update = (req, res) => {
             let place = req.place
 
             console.log('place', place)
+            console.log('fields', fields)
+
+            if (fields.hasOwnProperty('review')) {
+                place.reviews.push(fields)
+            } else {
+                for (let i = 0; i < Object.values(fields).length; i++) {
+                    const field = Object.keys(fields)[i]
+                    const value = Object.values(fields)[i]
 
 
-            for (let i = 0; i < Object.values(fields).length; i++) {
-                const field = Object.keys(fields)[i]
-                const value = Object.values(fields)[i]
-
-
-                if (!!value) {
-                    if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
-                        place[field] = []
-                        for (const v of value.split(",")) {
-                            place[field].push(v)
+                    if (!!value) {
+                        if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
+                            place[field] = []
+                            for (const v of value.split(",")) {
+                                place[field].push(v)
+                            }
+                        } else if (ObjectId.isValid(value)) {
+                            place[field] = []
+                            place[field].push(value)
+                        } else {
+                            place[field] = value
                         }
-                    } else if (ObjectId.isValid(value)) {
-                        place[field] = []
-                        place[field].push(value)
-                    } else {
-                        place[field] = value
                     }
                 }
             }
+
+
+
 
             place.save((err, result) => {
                 if (err) {
