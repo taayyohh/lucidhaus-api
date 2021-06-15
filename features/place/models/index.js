@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater');
-const {ObjectId, Types} = mongoose.Schema
+const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug);
 
@@ -10,11 +10,10 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    bathrooms: [{
+    bathrooms: {
         type: ObjectId,
-        ref: 'Bathroom',
-        default: null
-    }],
+        ref: 'Bathroom'
+    },
     booneId: {
       type: 'Number',
     },
@@ -26,10 +25,19 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    categories: [  Types.Mixed  ],
-    communitiesServed: [  Types.Mixed  ],
+    categories: [{
+        type: ObjectId,
+        ref: 'PlaceCategory',
+    }],
+    communitiesServed: [{
+        type: ObjectId,
+        ref: 'CommunitiesServed',
+    }],
     description: String,
-    foodOptions: [  Types.Mixed  ],
+    foodOptions: [{
+        type: ObjectId,
+        ref: 'FoodOptions',
+    }],
     isPublished: {
         type: Boolean,
         default: false
@@ -38,7 +46,10 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    languageSpoken:[  Types.Mixed  ],
+    languageSpoken: [{
+        type: ObjectId,
+        ref: 'Language',
+    }],
     largeAdaptiveEquipment: {
         type: Boolean,
         default: false
@@ -54,7 +65,6 @@ const placeSchema = new mongoose.Schema({
     businessOwner: [{
         type: ObjectId,
         ref: 'BusinessOwner',
-        default: null
     }],
     photo: {
         type: String,

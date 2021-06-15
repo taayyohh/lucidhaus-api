@@ -97,9 +97,13 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
             let place = req.place
 
+            console.log('place', place)
+
+
             for (let i = 0; i < Object.values(fields).length; i++) {
                 const field = Object.keys(fields)[i]
                 const value = Object.values(fields)[i]
+
 
                 if (!!value) {
                     if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {

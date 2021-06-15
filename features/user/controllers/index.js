@@ -45,11 +45,15 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
             let user = req.user
 
+            console.log('user identity', user.identity)
+
+
             //find a better way to distinguish that this is the identity form
             if (fields.hasOwnProperty('gender')) {
                 for (let i = 0; i < Object.values(fields).length; i++) {
                     const field = Object.keys(fields)[i]
                     const value = Object.values(fields)[i]
+
 
                     if (!!value) {
                         if (value.includes(",") &&  ObjectId.isValid(value.split(",")[0])) {
