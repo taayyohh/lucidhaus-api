@@ -27,6 +27,7 @@ exports.placeBySlug = (req, res, next, slug) => {
         .exec((err, place) => {
             if (err || !place) {
                 return res.status(400).json({
+                    status: 410,
                     error: 'place not found'
                 })
             }
@@ -53,36 +54,45 @@ exports.create = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
             let place = new Place(fields)
+            const BOONE_ID = 'booneId'
 
-            for (let i = 0; i < Object.values(fields).length; i++) {
-                const field = Object.keys(fields)[i]
-                const value = Object.values(fields)[i]
+            Place.findOne({ booneId: parseInt(fields.booneId) }).exec((err, existingPlace) => {
+                if (!existingPlace) {
+                    for (let i = 0; i < Object.values(fields).length; i++) {
+                        const field = Object.keys(fields)[i]
+                        const value = Object.values(fields)[i]
+                        const isBooneField = field === BOONE_ID
 
-                if (!!value) {
-                    if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
-                        place[field] = []
-                        for (const v of value.split(",")) {
-                            place[field].push(v)
+                        if (!!value) {
+                            if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
+                                place[field] = []
+                                for (const v of value.split(",")) {
+                                    place[field].push(v)
+                                }
+                            } else if (ObjectId.isValid(value) && !isBooneField) {
+                                place[field] = []
+                                place[field].push(value)
+                            } else {
+                               place[field] = isBooneField ? parseInt(value) : value
+                            }
                         }
-                    } else if (ObjectId.isValid(value)) {
-                        place[field] = []
-                        place[field].push(value)
-
-                    } else {
-                        place[field] = value
-
                     }
-                }
-            }
 
-            place.save((err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: errorHandler(err)
+                    place.save((err, result) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: errorHandler(err)
+                            })
+                        }
+
+                        res.json(result)
+                    })
+
+                } else {
+                    return res.status(409).json({
+                        error: 'already exists'
                     })
                 }
-
-                res.json(result)
             })
         })
 }

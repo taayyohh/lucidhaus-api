@@ -4,6 +4,17 @@ const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug);
 
+const LocationSchema = new mongoose.Schema({
+    address1: String,
+    address2: String,
+    city: String,
+    zip: String,
+    country: String,
+    state: String,
+    latitude: Number,
+    longitude: Number,
+})
+
 const ReviewSchema = new mongoose.Schema({
     review: {
         type: String,
@@ -46,7 +57,8 @@ const placeSchema = new mongoose.Schema({
         ref: 'Bathroom'
     }],
     booneId: {
-      type: 'Number',
+        type: 'Number',
+        unique: true
     },
     braille: {
         type: Boolean,
@@ -85,6 +97,7 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    location: [LocationSchema],
     name: {
         type: String,
         trim: true
@@ -113,6 +126,7 @@ const placeSchema = new mongoose.Schema({
     slug: {
         type: String,
         slug: "name",
+        unique: true
     },
     type: {
         type: String,
