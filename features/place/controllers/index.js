@@ -55,7 +55,6 @@ exports.create = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let place = new Place(fields)
             const BOONE_ID = 'booneId'
-            console.log('fields', fields)
 
             Place.findOne({ booneId: parseInt(fields.booneId) }).exec((err, existingPlace) => {
                 if (!existingPlace) {
@@ -107,9 +106,6 @@ exports.update = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
             let place = req.place
-
-            console.log('place', place)
-            console.log('fields', fields)
 
             if (fields.hasOwnProperty('review')) {
                 place.reviews.push(fields)
