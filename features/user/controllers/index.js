@@ -2,7 +2,6 @@ const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {Order} = require('../../shop/order/models')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 

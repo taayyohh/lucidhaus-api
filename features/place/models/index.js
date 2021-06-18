@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater');
-const {ObjectId} = mongoose.Schema
+const {ObjectId, Types} = mongoose.Schema
 
 mongoose.plugin(slug);
 
@@ -13,18 +13,9 @@ const ReviewSchema = new mongoose.Schema({
         type: String,
         default: false
     },
-    safe: {
-        type: Boolean,
-        default: null
-    },
-    celebrated: {
-        type: Boolean,
-        default: null
-    },
-    welcome: {
-        type: Boolean,
-        default: null
-    },
+    safe: [Types.Mixed],
+    celebrated: [Types.Mixed],
+    welcome: [Types.Mixed],
     photo: {
         type: String,
         trim: true
