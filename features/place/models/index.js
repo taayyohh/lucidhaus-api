@@ -5,14 +5,7 @@ const {ObjectId} = mongoose.Schema
 mongoose.plugin(slug);
 
 const LocationSchema = new mongoose.Schema({
-    address1: String,
-    address2: String,
-    city: String,
-    zip: String,
-    country: String,
-    state: String,
-    latitude: Number,
-    longitude: Number,
+
 })
 
 const ReviewSchema = new mongoose.Schema({
@@ -50,6 +43,20 @@ const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
     audioAvailable: {
         type: Boolean,
+        default: null
+    },
+    address1: String,
+    address2: String,
+    city: String,
+    zip: String,
+    country: String,
+    state: String,
+    latitude: {
+        type: 'Number',
+        default: null
+    },
+    longitude: {
+        type: 'Number',
         default: null
     },
     bathrooms: [{

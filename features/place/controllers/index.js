@@ -55,6 +55,7 @@ exports.create = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let place = new Place(fields)
             const BOONE_ID = 'booneId'
+            console.log('fields', fields)
 
             Place.findOne({ booneId: parseInt(fields.booneId) }).exec((err, existingPlace) => {
                 if (!existingPlace) {
