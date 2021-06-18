@@ -43,7 +43,7 @@ const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
     audioAvailable: {
         type: Boolean,
-        default: null
+        default: false
     },
     address1: String,
     address2: String,
@@ -69,11 +69,11 @@ const placeSchema = new mongoose.Schema({
     },
     braille: {
         type: Boolean,
-        default: null
+        default: false
     },
     brickAndMortar: {
         type: Boolean,
-        default: null
+        default: false
     },
     categories: [{
         type: ObjectId,
@@ -94,7 +94,7 @@ const placeSchema = new mongoose.Schema({
     },
     isRestaurant: {
         type: Boolean,
-        default: null
+        default: false
     },
     languageSpoken: [{
         type: ObjectId,
@@ -102,7 +102,7 @@ const placeSchema = new mongoose.Schema({
     }],
     largeAdaptiveEquipment: {
         type: Boolean,
-        default: null
+        default: false
     },
     location: [LocationSchema],
     name: {
@@ -111,7 +111,7 @@ const placeSchema = new mongoose.Schema({
     },
     onlyAccessibleByStairs: {
         type: Boolean,
-        default: null
+        default: false
     },
     businessOwner: [{
         type: ObjectId,
@@ -123,12 +123,12 @@ const placeSchema = new mongoose.Schema({
     },
     publicTransportation: {
         type: Boolean,
-        default: null
+        default: false
     },
     reviews: [ReviewSchema],
     signLanguageAccessible: {
         type: Boolean,
-        default: null
+        default: false
     },
     slug: {
         type: String,
@@ -142,19 +142,19 @@ const placeSchema = new mongoose.Schema({
     website: String,
     wheelchairElevator: {
         type: Boolean,
-        default: null
+        default: false
     },
     wheelchairParking: {
         type: Boolean,
-        default: null
+        default: false
     },
     wheelchairRamps: {
         type: Boolean,
-        default: null
+        default: false
     },
     wheelchairRestroom: {
         type: Boolean,
-        default: null
+        default: false
     },
 }, {id: false})
 
