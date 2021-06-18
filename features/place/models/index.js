@@ -50,7 +50,7 @@ const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
     audioAvailable: {
         type: Boolean,
-        default: false
+        default: null
     },
     bathrooms: [{
         type: ObjectId,
@@ -62,11 +62,11 @@ const placeSchema = new mongoose.Schema({
     },
     braille: {
         type: Boolean,
-        default: false
+        default: null
     },
     brickAndMortar: {
         type: Boolean,
-        default: false
+        default: null
     },
     categories: [{
         type: ObjectId,
@@ -83,11 +83,11 @@ const placeSchema = new mongoose.Schema({
     }],
     isPublished: {
         type: Boolean,
-        default: false
+        default: true
     },
     isRestaurant: {
         type: Boolean,
-        default: false
+        default: null
     },
     languageSpoken: [{
         type: ObjectId,
@@ -95,7 +95,7 @@ const placeSchema = new mongoose.Schema({
     }],
     largeAdaptiveEquipment: {
         type: Boolean,
-        default: false
+        default: null
     },
     location: [LocationSchema],
     name: {
@@ -104,7 +104,7 @@ const placeSchema = new mongoose.Schema({
     },
     onlyAccessibleByStairs: {
         type: Boolean,
-        default: false
+        default: null
     },
     businessOwner: [{
         type: ObjectId,
@@ -116,12 +116,12 @@ const placeSchema = new mongoose.Schema({
     },
     publicTransportation: {
         type: Boolean,
-        default: false
+        default: null
     },
     reviews: [ReviewSchema],
     signLanguageAccessible: {
         type: Boolean,
-        default: false
+        default: null
     },
     slug: {
         type: String,
@@ -135,19 +135,19 @@ const placeSchema = new mongoose.Schema({
     website: String,
     wheelchairElevator: {
         type: Boolean,
-        default: false
+        default: null
     },
     wheelchairParking: {
         type: Boolean,
-        default: false
+        default: null
     },
     wheelchairRamps: {
         type: Boolean,
-        default: false
+        default: null
     },
     wheelchairRestroom: {
         type: Boolean,
-        default: false
+        default: null
     },
 }, {id: false})
 
