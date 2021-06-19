@@ -69,7 +69,8 @@ exports.create = (req, res) => {
                                 for (const v of value.split(",")) {
                                     place[field].push(v)
                                 }
-                            } else if (ObjectId.isValid(value) && !isBooneField) {
+                            } else if (ObjectId.isValid(value) && !isBooneField && field !== 'longitude' && field !== 'latitude') {
+                                console.log('field', field)
                                 place[field] = []
                                 place[field].push(value)
                             } else {
