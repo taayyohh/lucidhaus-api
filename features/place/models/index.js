@@ -11,11 +11,21 @@ const LocationSchema = new mongoose.Schema({
 const ReviewSchema = new mongoose.Schema({
     review: {
         type: String,
-        default: false
+        default: false,
+        maxLength: 280
     },
-    safe: [Types.Mixed],
-    celebrated: [Types.Mixed],
-    welcome: [Types.Mixed],
+    safe: {
+        type: String,
+        trim: true
+    },
+    celebrated: {
+        type: String,
+        trim: true
+    },
+    welcome: {
+        type: String,
+        trim: true
+    },
     photo: {
         type: String,
         trim: true

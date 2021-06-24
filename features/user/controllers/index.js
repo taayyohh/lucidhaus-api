@@ -1,5 +1,6 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
+const VerificationToken = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
 const {Order} = require('../../shop/order/models')
@@ -159,5 +160,4 @@ exports.purchaseHistory = (req, res) => {
             res.json(orders)
         })
 }
-
 

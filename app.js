@@ -18,6 +18,8 @@ const productCategoryRoutes = require('./features/shop/product/routes/category')
 const s3Routes = require('./features/site/routes/s3')
 const twilioRoutes = require('./features/site/routes/twilio')
 const userRoutes = require('./features/user/routes')
+const verificationTokenRoutes = require('./features/user/routes/verificationToken')
+
 
 /*user taxonomy*/
 const adaptiveEquipmentRoutes = require('./features/user/routes/adaptiveEquipment')
@@ -66,6 +68,7 @@ app.use('/api', productCategoryRoutes)
 app.use('/api', s3Routes)
 app.use('/api', twilioRoutes)
 app.use('/api', userRoutes)
+app.use('/api', verificationTokenRoutes)
 /* user taxonomy */
 app.use('/api', adaptiveEquipmentRoutes)
 app.use('/api', bodyModificationRoutes)

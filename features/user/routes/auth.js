@@ -6,12 +6,14 @@ const {
     signin,
     signout,
 } = require('../controllers/auth')
-const {userSignupValidator} = require('../../../utils/validator')
+
 
 //
 router.post('/signup', signup)
 router.post('/signin', signin)
 router.get('/signout', signout)
+
+
 
 
 module.exports = router

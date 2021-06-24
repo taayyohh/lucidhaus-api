@@ -82,6 +82,10 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: ''
     },
+    emailVerified: {
+        type: Boolean,
+        default: false
+    },
     ethnicHispanicOrigin: {
         type: Boolean,
         default: false
@@ -131,7 +135,15 @@ const userSchema = new mongoose.Schema({
     type: {
         type: String,
         default: 'user'
-    }
+    },
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+    resetPasswordExpires: {
+        type: Date,
+        required: false
+    },
 }, {timestamps: true})
 
 /// virtual field
@@ -167,7 +179,14 @@ userSchema.methods = {
         } catch (err) {
             return ''
         }
+    },
+
+    generatePasswordReset: function () {
+        this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+        this.resetPasswordExpires = Date.now() + 3600000; //expires in an hour
     }
 }
 
+//maybe problematic
+mongoose.set('useFindAndModify', false);
 module.exports = mongoose.model('User', userSchema)
