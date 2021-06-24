@@ -18,12 +18,7 @@ const verificationTokenSchema = new mongoose.Schema({
     type: {
         type: String,
         default: 'verification-token'
-    },
-    slug: {
-        type: String,
-        slug: 'token',
-        unique: true
-    },
+    }
 })
 
 verificationTokenSchema.set('toJSON', {

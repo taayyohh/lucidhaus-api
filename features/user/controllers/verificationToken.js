@@ -3,6 +3,8 @@ const VerificationToken = require('../models/verificationToken')
 const formidable = require('formidable')
 const _ = require('lodash')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
@@ -16,6 +18,14 @@ exports.create = (req, res) => {
                         error: errorHandler(err)
                     })
                 }
+
+                const verificationEmail = {
+                    to: req.profile.email,
+                    from: 'no-reply@inclusiveguide.com',
+                    subject: `Inclusive Guide: Verify your email!`,
+                    html: `https://beta.inclusiveguide.com/verify/${fields.verificationToken}`
+                }
+                sgMail.send(verificationEmail)
 
                 res.json(result)
             })
