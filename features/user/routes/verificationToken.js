@@ -7,6 +7,7 @@ const {
     verificationTokenByHex,
     create,
     remove,
+    verify,
 } = require('../controllers/verificationToken')
 
 
@@ -16,6 +17,14 @@ router.post(
     isAuth,
     create
 )
+
+router.get(
+    '/verification-token/verify/:token',
+    requireSignIn,
+    // isAuth,
+    verify
+)
+
 router.delete('/verification-token/:token/:userId',
     requireSignIn,
     isAuth,

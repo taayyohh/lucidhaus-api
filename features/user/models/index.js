@@ -11,6 +11,10 @@ const IdentitySchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'AdaptiveEquipment'
     }],
+    bookmarks: [{
+        type: ObjectId,
+        ref: 'Place'
+    }],
     bodyModification: [{
         type: ObjectId,
         ref: 'BodyModification'

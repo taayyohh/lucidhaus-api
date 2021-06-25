@@ -1,5 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const VerificationToken = require('../models/verificationToken')
+const User = require('../models')
+
 const formidable = require('formidable')
 const _ = require('lodash')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
@@ -28,6 +30,45 @@ exports.create = (req, res) => {
                 sgMail.send(verificationEmail)
 
                 res.json(result)
+            })
+        })
+}
+
+exports.verify = (req, res) => {
+    VerificationToken.findOne({verificationToken: req.params.token})
+        .exec((err, verificationToken) => {
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                })
+            }
+            User.findById(verificationToken.user).exec((err, user) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.emailVerified = true
+                user.save((err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: errorHandler(err)
+                        })
+                    }
+
+                    verificationToken.remove((err) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: errorHandler(err)
+                            })
+                        }
+                    })
+
+                    user.hashed_password = undefined
+                    user.salt = undefined
+                    res.json(result)
+                })
             })
         })
 }
