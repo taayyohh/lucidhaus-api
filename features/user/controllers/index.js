@@ -90,7 +90,6 @@ exports.addBookmark = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-            console.log('FIELDS', fields)
             let user = req.profile
 
             if(user.bookmarks.includes(fields.placeId)) {

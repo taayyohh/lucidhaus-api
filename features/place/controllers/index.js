@@ -61,7 +61,7 @@ exports.create = (req, res) => {
                     for (let i = 0; i < Object.values(fields).length; i++) {
                         const field = Object.keys(fields)[i]
                         const value = Object.values(fields)[i]
-                        const isBooneField = field === BOONE_ID
+                        const isBooneId = field === BOONE_ID
 
                         if (!!value) {
                             if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
@@ -69,12 +69,12 @@ exports.create = (req, res) => {
                                 for (const v of value.split(",")) {
                                     place[field].push(v)
                                 }
-                            } else if (ObjectId.isValid(value) && !isBooneField && field !== 'longitude' && field !== 'latitude') {
+                            } else if (ObjectId.isValid(value) && !isBooneId && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
                                 console.log('field', field)
                                 place[field] = []
                                 place[field].push(value)
                             } else {
-                               place[field] = isBooneField ? parseInt(value) : value
+                               place[field] = isBooneId ? parseInt(value) : value
                             }
                         }
                     }
