@@ -21,7 +21,6 @@ exports.getSignedRequest = (req, res) => {
 
     s3.getSignedUrl('putObject', s3Params, (error, data) => {
         if(error){
-            console.log(error);
             return res.end();
         }
         const returnData = {

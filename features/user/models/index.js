@@ -11,10 +11,6 @@ const IdentitySchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'AdaptiveEquipment'
     }],
-    bookmarks: [{
-        type: ObjectId,
-        ref: 'Place'
-    }],
     bodyModification: [{
         type: ObjectId,
         ref: 'BodyModification'
@@ -79,6 +75,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    bookmarks: [{
+        type: ObjectId,
+        ref: 'Place'
+    }],
     email: {
         type: String,
         unique: true,

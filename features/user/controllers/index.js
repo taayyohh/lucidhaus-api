@@ -28,7 +28,9 @@ exports.userBySlug = (req, res, next, slug) => {
                 })
             }
 
+            req.profile = user
             req.user = user
+            //TODO: evaluate if we can remove req.user
             next()
         })
 }
@@ -52,7 +54,7 @@ exports.update = (req, res) => {
                     const value = Object.values(fields)[i]
 
                     if (!!value) {
-                        if (value.includes(",") &&  ObjectId.isValid(value.split(",")[0])) {
+                        if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
                             user.identity[field] = []
                             for (const v of value.split(",")) {
                                 user.identity[field].push(v)
@@ -68,6 +70,33 @@ exports.update = (req, res) => {
 
             } else {
                 user = _.extend(user, fields)
+            }
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.hashed_password = undefined
+                user.salt = undefined
+                res.json(result)
+            })
+        })
+}
+
+exports.addBookmark = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            console.log('FIELDS', fields)
+            let user = req.profile
+
+            if(user.bookmarks.includes(fields.placeId)) {
+                user.bookmarks.pull(fields.placeId)
+            } else {
+                user.bookmarks.push(fields.placeId)
             }
 
             user.save((err, result) => {
