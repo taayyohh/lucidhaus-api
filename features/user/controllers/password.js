@@ -87,7 +87,7 @@ exports.resetPassword = (req, res) => {
                             to: user.email,
                             from: process.env.FROM_EMAIL,
                             subject: "Your password has been changed",
-                            text: `Hi ${user.username} \n 
+                            text: `Hi ${user.nameFirst} \n 
                     This is a confirmation that the password for your account ${user.email} has just been changed.\n`
                         }
 
