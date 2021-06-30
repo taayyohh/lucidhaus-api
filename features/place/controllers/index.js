@@ -1,5 +1,6 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const Place = require('../models')
+const Review = require('../models/review')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
@@ -18,6 +19,20 @@ exports.placeById = (req, res, next, id) => {
                 })
             }
             req.place = place
+            next()
+        })
+}
+
+exports.reviewById = (req, res, next, id) => {
+    Review.findById(id)
+        .exec((err, review) => {
+            if (err || !review) {
+                return res.status(400).json({
+                    status: 410,
+                    error: 'review not found'
+                })
+            }
+            req.review = review
             next()
         })
 }
@@ -102,6 +117,10 @@ exports.read = (req, res) => {
     return res.json(req.place)
 }
 
+exports.readReview = (req, res) => {
+    return res.json(req.review)
+}
+
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -109,7 +128,12 @@ exports.update = (req, res) => {
             let place = req.place
 
             if (fields.hasOwnProperty('review')) {
-                place.reviews.push(fields)
+                Review.create(fields, function (err, review) {
+                    if (err) return errorHandler(err)
+                    place.reviews.push(review._id)
+                    place.save()
+                })
+
             } else {
                 for (let i = 0; i < Object.values(fields).length; i++) {
                     const field = Object.keys(fields)[i]
@@ -131,9 +155,6 @@ exports.update = (req, res) => {
                     }
                 }
             }
-
-
-
 
             place.save((err, result) => {
                 if (err) {

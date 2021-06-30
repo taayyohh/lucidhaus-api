@@ -2,8 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 
-
-const {userById, userBySlug, read, remove, update, purchaseHistory, list, addBookmark} = require('../controllers')
+const {userById, userBySlug, read, remove, update, purchaseHistory, list, addBookmark, reviewHistory} = require('../controllers')
 
 
 router.get('/secret/:userId', requireSignIn, isAuth, isAdmin, (req, res) => {
@@ -18,6 +17,7 @@ router.delete('/user/:slug/:userId', requireSignIn, isAuth, isAdmin, remove)
 router.put('/user/:slug/:userId', requireSignIn, isAuth, update)
 router.put('/bookmark/place/:userId', requireSignIn, isAuth, addBookmark)
 router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory)
+router.get('/reviews/by/user/:userId', requireSignIn, isAuth, reviewHistory)
 
 
 router.param('userId', userById)

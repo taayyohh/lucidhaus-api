@@ -1,5 +1,6 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
+const Review = require('../../place/models/review')
 const VerificationToken = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
@@ -186,6 +187,20 @@ exports.purchaseHistory = (req, res) => {
                 })
             }
             res.json(orders)
+        })
+}
+
+exports.reviewHistory = (req, res) => {
+    Review.find({user: req.profile._id})
+        .populate('user', '_id name')
+        .sort('-updated')
+        .exec((err, reviews) => {
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                })
+            }
+            res.json(reviews)
         })
 }
 

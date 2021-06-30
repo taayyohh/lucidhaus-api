@@ -4,10 +4,6 @@ const {ObjectId, Types} = mongoose.Schema
 
 mongoose.plugin(slug);
 
-const LocationSchema = new mongoose.Schema({
-
-})
-
 const ReviewSchema = new mongoose.Schema({
     review: {
         type: String,
@@ -105,7 +101,6 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    location: [LocationSchema],
     name: {
         type: String,
         trim: true
@@ -126,7 +121,10 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    reviews: [ReviewSchema],
+    reviews: [{
+        type: ObjectId,
+        ref: 'Review'
+    }],
     signLanguageAccessible: {
         type: Boolean,
         default: false

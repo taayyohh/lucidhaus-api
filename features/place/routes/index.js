@@ -6,9 +6,11 @@ const {userById} = require('../../user/controllers')
 const {
     placeById,
     placeBySlug,
+    reviewById,
     create,
     createFromBoone,
     read,
+    readReview,
     remove,
     update,
     list,
@@ -19,6 +21,8 @@ const {
 router.get('/places', list)
 router.get('/place/:slug', read)
 router.get('/place/id/:placeId', read)
+router.get('/review/id/:reviewId', readReview)
+
 router.post(
     '/place/create/:userId',
     requireSignIn,
@@ -46,6 +50,7 @@ router.put('/place/:slug/:userId',
 
 router.param('userId', userById)
 router.param('placeId', placeById)
+router.param('reviewId', reviewById)
 router.param('slug', placeBySlug)
 
 module.exports = router
