@@ -34,6 +34,14 @@ const ReviewSchema = new mongoose.Schema({
       type: ObjectId,
       ref: 'Place'
     },
+    placeName: {
+        type: String,
+        trim: true
+    },
+    placeSlug: {
+        type: String,
+        trim: true
+    },
     updated: {
         type: Date,
         default: Date.now
