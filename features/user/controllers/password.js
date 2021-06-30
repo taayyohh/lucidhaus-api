@@ -1,6 +1,7 @@
-const User = require('../models');
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const User = require('../models')
+const formidable = require('formidable')
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 
 // ===PASSWORD RECOVER AND RESET
@@ -9,37 +10,44 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // @desc Recover Password - Generates token and Sends password reset email
 // @access Public
 exports.recover = (req, res) => {
-    User.findOne({email: req.body.tel})
-        .then(user => {
-            if (!user) return res.status(401).json({message: 'The email address ' + req.body.tel + ' is not associated with any account. Double-check your phone number and try again.'});
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
 
-            //Generate and set password reset token
-            user.generatePasswordReset();
-
-            // Save the updated user object
-            user.save()
+            User.findOne({email: fields.email})
                 .then(user => {
-                    // send email
-                    let link = "http://" + req.headers.host + "/api/auth/reset/" + user.resetPasswordToken;
-                    const mailOptions = {
-                        to: user.email,
-                        from: process.env.FROM_EMAIL,
-                        subject: "Password change request",
-                        text: `Hi ${user.username} \n 
+                    if (!user) return res.status(401).json({message: 'The email address ' + fields.email + ' is not associated with any account. Double-check your phone number and try again.'})
+
+                    //Generate and set password reset token
+                    user.generatePasswordReset()
+
+                    // Save the updated user object
+                    user.save()
+                        .then(user => {
+                            // send email
+                            let link = "https://" + 'beta.inclusiveguide.com' + "/reset/" + user.resetPasswordToken
+                            const mailOptions = {
+                                to: user.email,
+                                from: process.env.FROM_EMAIL,
+                                subject: "Password change request",
+                                text: `Hi ${user.nameFirst} \n 
                     Please click on the following link ${link} to reset your password. \n\n 
                     If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-                    };
+                            }
 
-                    sgMail.send(mailOptions, (error, result) => {
-                        if (error) return res.status(500).json({message: error.message});
+                            sgMail.send(mailOptions, (error, result) => {
+                                if (error) return res.status(500).json({message: error.message})
 
-                        res.status(200).json({message: 'A reset email has been sent to ' + user.email + '.'});
-                    });
+                                res.status(200).json({message: 'A reset email has been sent to ' + user.email + '.'})
+                            })
+                        })
+                        .catch(err => res.status(500).json({message: err.message}))
                 })
-                .catch(err => res.status(500).json({message: err.message}));
+                .catch(err => res.status(500).json({message: err.message}))
         })
-        .catch(err => res.status(500).json({message: err.message}));
-};
+
+
+}
 
 // @route POST api/auth/reset
 // @desc Reset Password - Validate password reset token and shows the password reset view
@@ -47,46 +55,50 @@ exports.recover = (req, res) => {
 exports.reset = (req, res) => {
     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
         .then((user) => {
-            if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
-
-            //Redirect user to form with the email address
-            res.render('reset', {user});
+            if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'})
+            //TODO: set up error if invalid link on front end
         })
-        .catch(err => res.status(500).json({message: err.message}));
-};
+        .catch(err => res.status(500).json({message: err.message}))
+}
 
 
 // @route POST api/auth/reset
 // @desc Reset Password
 // @access Public
 exports.resetPassword = (req, res) => {
-    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
-        .then((user) => {
-            if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
+                .then((user) => {
+                    if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'})
 
-            //Set the new password
-            user.password = req.body.password;
-            user.resetPasswordToken = undefined;
-            user.resetPasswordExpires = undefined;
+                    //Set the new password
+                    user.password = fields.password
+                    user.resetPasswordToken = undefined
+                    user.resetPasswordExpires = undefined
 
-            // Save
-            user.save((err) => {
-                if (err) return res.status(500).json({message: err.message});
+                    // Save
+                    user.save((err) => {
+                        if (err) return res.status(500).json({message: err.message})
 
-                // send email
-                const mailOptions = {
-                    to: user.email,
-                    from: process.env.FROM_EMAIL,
-                    subject: "Your password has been changed",
-                    text: `Hi ${user.username} \n 
+                        // send email
+                        const mailOptions = {
+                            to: user.email,
+                            from: process.env.FROM_EMAIL,
+                            subject: "Your password has been changed",
+                            text: `Hi ${user.username} \n 
                     This is a confirmation that the password for your account ${user.email} has just been changed.\n`
-                };
+                        }
 
-                sgMail.send(mailOptions, (error, result) => {
-                    if (error) return res.status(500).json({message: error.message});
+                        sgMail.send(mailOptions, (error, result) => {
+                            if (error) return res.status(500).json({message: error.message})
 
-                    res.status(200).json({message: 'Your password has been updated.'});
-                });
-            });
-        });
-};
+                            res.status(200).json({message: 'Your password has been updated.'})
+                        })
+                    })
+                })
+        })
+
+
+}
