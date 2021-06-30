@@ -8,7 +8,6 @@ const {
     placeBySlug,
     reviewById,
     create,
-    createFromBoone,
     read,
     readReview,
     remove,

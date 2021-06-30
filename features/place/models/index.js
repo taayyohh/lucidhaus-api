@@ -4,38 +4,6 @@ const {ObjectId, Types} = mongoose.Schema
 
 mongoose.plugin(slug);
 
-const ReviewSchema = new mongoose.Schema({
-    review: {
-        type: String,
-        default: false,
-        maxLength: 280
-    },
-    safe: {
-        type: String,
-        trim: true
-    },
-    celebrated: {
-        type: String,
-        trim: true
-    },
-    welcome: {
-        type: String,
-        trim: true
-    },
-    photo: {
-        type: String,
-        trim: true
-    },
-    user: [{
-        type: ObjectId,
-        ref: 'User'
-    }],
-    updated: {
-        type: Date,
-        default: Date.now
-    },
-})
-
 const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
     audioAvailable: {

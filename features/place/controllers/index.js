@@ -37,6 +37,20 @@ exports.reviewById = (req, res, next, id) => {
         })
 }
 
+exports.verificationCodeById = (req, res, next, id) => {
+    Review.findById(id)
+        .exec((err, review) => {
+            if (err || !review) {
+                return res.status(400).json({
+                    status: 410,
+                    error: 'review not found'
+                })
+            }
+            req.review = review
+            next()
+        })
+}
+
 exports.placeBySlug = (req, res, next, slug) => {
     Place.findOne({slug: slug})
         .exec((err, place) => {

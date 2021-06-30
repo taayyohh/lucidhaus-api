@@ -21,6 +21,17 @@ exports.create = (req, res) => {
                     })
                 }
 
+                User.findById(verificationToken.user).exec((err, user) => {
+                    user.verificationToken = fields.verificationToken
+                    user.save((err, result) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: errorHandler(err)
+                            })
+                        }
+                    })
+                })
+
                 const verificationEmail = {
                     to: req.profile.email,
                     from: 'no-reply@inclusiveguide.com',
@@ -101,5 +112,16 @@ exports.verificationTokenByHex = (req, res, next, verificationToken) => {
             req.verificationToken = verificationToken
             next()
         })
+}
+
+exports.resend = (req, res) => {
+    const verificationEmail = {
+        to: req.profile.email,
+        from: 'no-reply@inclusiveguide.com',
+        subject: `Inclusive Guide: Verify your email!`,
+        html: `https://beta.inclusiveguide.com/verify/${req.profile.verificationToken}`
+    }
+    sgMail.send(verificationEmail)
+    res.json({success: 'success'})
 }
 

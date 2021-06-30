@@ -148,6 +148,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
+    verificationToken: {
+        type: String,
+        default: ''
+    },
 }, {timestamps: true})
 
 /// virtual field

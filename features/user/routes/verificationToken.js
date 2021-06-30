@@ -8,6 +8,8 @@ const {
     create,
     remove,
     verify,
+    resend,
+    read
 } = require('../controllers/verificationToken')
 
 
@@ -17,6 +19,15 @@ router.post(
     isAuth,
     create
 )
+router.put(
+    '/resend-verification-token/:userId',
+    requireSignIn,
+    isAuth,
+    resend
+)
+
+// router.get('/verification-token/by/id/:token', read)
+
 
 router.get(
     '/verification-token/verify/:token',
