@@ -21,7 +21,7 @@ const {
 router.get('/places', list)
 router.get('/place/:slug', read)
 router.get('/place/by/id/:placeId', read)
-router.get('/review/id/:reviewId', readReview)
+router.get('/review/by/id/:reviewId', readReview)
 
 router.post(
     '/place/create/:userId',
