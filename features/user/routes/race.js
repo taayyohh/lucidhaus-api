@@ -15,6 +15,8 @@ const {
 
 router.get('/race', list)
 router.get('/race/:slug', read)
+router.get('/race/by/id/:id', read)
+
 router.post(
     '/race/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/race/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('raceId', raceById)
+router.param('id', raceById)
 router.param('slug', raceBySlug)
 
 module.exports = router

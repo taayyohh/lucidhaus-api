@@ -15,6 +15,8 @@ const {
 
 router.get('/service-animal', list)
 router.get('/service-animal/:slug', read)
+router.get('/service-animal/by/id/:id', read)
+
 router.post(
     '/service-animal/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/service-animal/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('serviceAnimalId', serviceAnimalById)
+router.param('id', serviceAnimalById)
 router.param('slug', serviceAnimalBySlug)
 
 module.exports = router

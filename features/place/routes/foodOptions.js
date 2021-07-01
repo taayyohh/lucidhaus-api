@@ -15,6 +15,8 @@ const {
 
 router.get('/food-options', list)
 router.get('/food-options/:slug', read)
+router.get('/food-options/by/id/:id', read)
+
 router.post(
     '/food-options/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/food-options/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('foodOptionsId', foodOptionsById)
+router.param('id', foodOptionsById)
 router.param('slug', foodOptionsBySlug)
 
 module.exports = router

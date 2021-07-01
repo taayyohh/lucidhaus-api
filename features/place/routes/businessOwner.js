@@ -15,6 +15,8 @@ const {
 
 router.get('/business-owner', list)
 router.get('/business-owner/:slug', read)
+router.get('/business-owner/by/id/:id', read)
+
 router.post(
     '/business-owner/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/business-owner/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('businessOwnerId', businessOwnerById)
+router.param('id', businessOwnerById)
 router.param('slug', businessOwnerBySlug)
 
 module.exports = router

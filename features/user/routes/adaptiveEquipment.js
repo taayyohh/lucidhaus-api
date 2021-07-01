@@ -15,6 +15,8 @@ const {
 
 router.get('/adaptive-equipment', list)
 router.get('/adaptive-equipment/:slug', read)
+router.get('/adaptive-equipment/by/id/:id', read)
+
 router.post(
     '/adaptive-equipment/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/adaptive-equipment/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('adaptiveEquipmentId', adaptiveEquipmentById)
+router.param('id', adaptiveEquipmentById)
 router.param('slug', adaptiveEquipmentBySlug)
 
 module.exports = router

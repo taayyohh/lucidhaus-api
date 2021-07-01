@@ -15,6 +15,8 @@ const {
 
 router.get('/physical-appearance', list)
 router.get('/physical-appearance/:slug', read)
+router.get('/physical-appearance/by/id/:id', read)
+
 router.post(
     '/physical-appearance/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/physical-appearance/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('physicalAppearanceId', physicalAppearanceById)
+router.param('id', physicalAppearanceById)
 router.param('slug', physicalAppearanceBySlug)
 
 module.exports = router

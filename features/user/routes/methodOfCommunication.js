@@ -15,6 +15,8 @@ const {
 
 router.get('/method-of-communication', list)
 router.get('/method-of-communication/:slug', read)
+router.get('/method-of-communication/by/id/:id', read)
+
 router.post(
     '/method-of-communication/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/method-of-communication/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('methodOfCommunicationId', methodOfCommunicationById)
+router.param('id', methodOfCommunicationById)
 router.param('slug', methodOfCommunicationBySlug)
 
 module.exports = router

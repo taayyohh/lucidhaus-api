@@ -15,6 +15,8 @@ const {
 
 router.get('/gender', list)
 router.get('/gender/:slug', read)
+router.get('/gender/by/id/:id', read)
+
 router.post(
     '/gender/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/gender/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('genderId', genderById)
+router.param('id', genderById)
 router.param('slug', genderBySlug)
 
 module.exports = router

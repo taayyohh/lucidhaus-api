@@ -15,6 +15,8 @@ const {
 
 router.get('/language-spoken', list)
 router.get('/language-spoken/:slug', read)
+router.get('/language-spoken/by/id/:id', read)
+
 router.post(
     '/language-spoken/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/language-spoken/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('languageSpokenId', languageSpokenById)
+router.param('id', languageSpokenById)
 router.param('slug', languageSpokenBySlug)
 
 module.exports = router

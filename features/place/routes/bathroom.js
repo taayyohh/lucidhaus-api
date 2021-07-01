@@ -15,6 +15,7 @@ const {
 
 router.get('/bathroom', list)
 router.get('/bathroom/:slug', read)
+router.get('/bathroom/by/id/:id', read)
 router.post(
     '/bathroom/create/:userId',
     requireSignIn,
@@ -36,7 +37,7 @@ router.put('/bathroom/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('bathroomId', bathroomById)
+router.param('id', bathroomById)
 router.param('slug', bathroomBySlug)
 
 module.exports = router

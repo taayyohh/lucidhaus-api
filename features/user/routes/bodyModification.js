@@ -15,6 +15,8 @@ const {
 
 router.get('/body-modification', list)
 router.get('/body-modification/:slug', read)
+router.get('/body-modification/by/id/:id', read)
+
 router.post(
     '/body-modification/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/body-modification/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('bodyModificationId', bodyModificationById)
+router.param('id', bodyModificationById)
 router.param('slug', bodyModificationBySlug)
 
 module.exports = router

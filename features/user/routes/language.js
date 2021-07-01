@@ -15,6 +15,8 @@ const {
 
 router.get('/language', list)
 router.get('/language/:slug', read)
+router.get('/language/by/id/:id', read)
+
 router.post(
     '/language/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/language/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('languageId', languageById)
+router.param('id', languageById)
 router.param('slug', languageBySlug)
 
 module.exports = router

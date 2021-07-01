@@ -15,6 +15,8 @@ const {
 
 router.get('/place-category', list)
 router.get('/place-category/:slug', read)
+router.get('/place-category/by/id/:id', read)
+
 router.post(
     '/place-category/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/place-category/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('placeCategoryId', placeCategoryById)
+router.param('id', placeCategoryById)
 router.param('slug', placeCategoryBySlug)
 
 module.exports = router

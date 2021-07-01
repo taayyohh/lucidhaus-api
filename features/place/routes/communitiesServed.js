@@ -15,6 +15,8 @@ const {
 
 router.get('/communities-served', list)
 router.get('/communities-served/:slug', read)
+router.get('/communities-served/by/id/:id', read)
+
 router.post(
     '/communities-served/create/:userId',
     requireSignIn,
@@ -36,7 +38,7 @@ router.put('/communities-served/:slug/:userId',
 )
 
 router.param('userId', userById)
-router.param('communitiesServedId', communitiesServedById)
+router.param('id', communitiesServedById)
 router.param('slug', communitiesServedBySlug)
 
 module.exports = router
