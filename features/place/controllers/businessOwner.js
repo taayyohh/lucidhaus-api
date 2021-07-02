@@ -7,7 +7,6 @@ const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
 exports.businessOwnerById = (req, res, next, id) => {
     const businessOwnerId = id.substr(id.lastIndexOf('-') + 1)
-
     BusinessOwner.findById(id)
         .exec((err, businessOwner) => {
             if (err || !businessOwner) {
