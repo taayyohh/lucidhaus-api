@@ -1,12 +1,9 @@
 const cron = require('node-cron')
-const moment = require('moment')
 const User = require('../models')
 const formidable = require('formidable')
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-
-// ===PASSWORD RECOVER AND RESET
 
 // @route POST api/auth/recover
 // @desc Recover Password - Generates token and Sends password reset email
