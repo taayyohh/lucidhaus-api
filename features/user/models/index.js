@@ -79,6 +79,14 @@ const userSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Place'
     }],
+    confirmVerificationDate: {
+        type: Date,
+        default: () => new Date(+new Date() + 12096e5)
+    },
+    confirmationAttempt: {
+        type: Number,
+        default: 0
+    },
     email: {
         type: String,
         unique: true,

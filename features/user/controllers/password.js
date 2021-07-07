@@ -1,3 +1,5 @@
+const cron = require('node-cron')
+const moment = require('moment')
 const User = require('../models')
 const formidable = require('formidable')
 const sgMail = require('@sendgrid/mail')
@@ -99,6 +101,41 @@ exports.resetPassword = (req, res) => {
                     })
                 })
         })
+}
 
+exports.checkForVerification = () => {
+    cron.schedule('0 0 0 * * *', function () {
+        User.find({}, (err, users) => {
+            if (err) return false
 
+            users.map(user => {
+                if (!user.emailVerified && !!user.verificationToken) {
+                    if (new Date(user.confirmVerificationDate) < new Date(Date.now())) {
+                        if (user.confirmationAttempt < 2) {
+                            const verificationEmail = {
+                                to: user.email,
+                                from: 'no-reply@inclusiveguide.com',
+                                subject: `Inclusive Guide: Verify your email!`,
+                                html: `https://beta.inclusiveguide.com/verify/${user.verificationToken}`
+                            }
+                            sgMail.send(verificationEmail)
+                            user.confirmationAttempt = user.confirmationAttempt + 1
+                            user.confirmVerificationDate = new Date(+new Date() + 12096e5)
+                            user.save((err, result) => {
+                                if (err) {
+                                    console.log('err', err)
+                                }
+                            })
+                        } else {
+                            user.remove((err) => {
+                                if (err) {
+                                    console.log('err', err)
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+        })
+    })
 }

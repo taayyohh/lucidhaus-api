@@ -40,6 +40,7 @@ const communitiesServedRoutes = require('./features/place/routes/communitiesServ
 const foodOptionsRoutes = require('./features/place/routes/foodOptions')
 const languageSpokenRoutes = require('./features/place/routes/languageSpoken')
 const placeCategoryRoutes = require('./features/place/routes/placeCategory')
+const {checkForVerification} = require('./features/user/controllers/password')
 
 
 const app = express()
@@ -89,6 +90,8 @@ app.use('/api', languageSpokenRoutes)
 app.use('/api', placeCategoryRoutes)
 
 const port = process.env.port || 9000
+
+checkForVerification()
 
 app.listen(port, () => {
     console.log(`Server is running on ${port}`)
