@@ -8,7 +8,7 @@ const ReviewSchema = new mongoose.Schema({
     review: {
         type: String,
         default: false,
-        maxLength: 280
+        maxLength: 5000
     },
     safe: {
         type: String,
