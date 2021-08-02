@@ -13,7 +13,7 @@ exports.recover = (req, res) => {
 
     User.findOne({email: email})
         .then(user => {
-            if (!user) return res.status(401).json({message: 'The email address ' + email + ' is not associated with any account. Double-check your phone number and try again.'})
+            if (!user) return res.status(401).json({error: 'The email address ' + email + ' is not associated with any account. Double-check your phone number and try again.'})
 
             //Generate and set password reset token
             user.generatePasswordReset()
