@@ -49,10 +49,11 @@ exports.recover = (req, res) => {
 // @desc Reset Password - Validate password reset token and shows the password reset view
 // @access Public
 exports.reset = (req, res) => {
-    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
+    User.findOne({resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()}})
         .then((user) => {
-            if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'})
+            if (!user) return res.status(401).json({error: 'Password reset token is invalid or has expired.'})
             //TODO: set up error if invalid link on front end
+            return res.status(200).json({message: 'Valid link'})
         })
         .catch(err => res.status(500).json({message: err.message}))
 }

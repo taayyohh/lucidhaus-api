@@ -33,7 +33,7 @@ router.get('/reviews/by/user/:userId', requireSignIn, isAuth, reviewHistory)
 
 //Password RESET
 router.post('/auth/recover', recover);
-router.get('/auth/reset/:token', reset);
+router.post('/auth/reset/verify/:token', reset);
 router.post('/auth/reset/:token', resetPassword);
 
 
