@@ -9,41 +9,38 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 // @desc Recover Password - Generates token and Sends password reset email
 // @access Public
 exports.recover = (req, res) => {
-    let form = new formidable.IncomingForm()
-    form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
+    const {tel, email, password} = req.body
 
-            User.findOne({email: fields.email})
+    User.findOne({email: email})
+        .then(user => {
+            if (!user) return res.status(401).json({error: 'The email address ' + email + ' is not associated with any account. Double-check your phone number and try again.'})
+
+            //Generate and set password reset token
+            user.generatePasswordReset()
+
+            // Save the updated user object
+            user.save()
                 .then(user => {
-                    if (!user) return res.status(401).json({message: 'The email address ' + fields.email + ' is not associated with any account. Double-check your phone number and try again.'})
-
-                    //Generate and set password reset token
-                    user.generatePasswordReset()
-
-                    // Save the updated user object
-                    user.save()
-                        .then(user => {
-                            // send email
-                            let link = "https://" + 'beta.inclusiveguide.com' + "/reset/" + user.resetPasswordToken
-                            const mailOptions = {
-                                to: user.email,
-                                from: process.env.FROM_EMAIL,
-                                subject: "Password change request",
-                                text: `Hi ${user.nameFirst} \n 
+                    // send email
+                    let link = "https://" + 'beta.inclusiveguide.com' + "/reset/" + user.resetPasswordToken
+                    const mailOptions = {
+                        to: user.email,
+                        from: process.env.FROM_EMAIL,
+                        subject: "Password change request",
+                        text: `Hi ${user.nameFirst} \n 
                     Please click on the following link ${link} to reset your password. \n\n 
                     If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-                            }
+                    }
 
-                            sgMail.send(mailOptions, (error, result) => {
-                                if (error) return res.status(500).json({message: error.message})
+                    sgMail.send(mailOptions, (error, result) => {
+                        if (error) return res.status(500).json({message: error.message})
 
-                                res.status(200).json({message: 'A reset email has been sent to ' + user.email + '.'})
-                            })
-                        })
-                        .catch(err => res.status(500).json({message: err.message}))
+                        res.status(200).json({message: 'A reset email has been sent to ' + user.email + '.'})
+                    })
                 })
                 .catch(err => res.status(500).json({message: err.message}))
         })
+        .catch(err => res.status(500).json({message: err.message}))
 
 
 }
@@ -52,10 +49,11 @@ exports.recover = (req, res) => {
 // @desc Reset Password - Validate password reset token and shows the password reset view
 // @access Public
 exports.reset = (req, res) => {
-    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
+    User.findOne({resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()}})
         .then((user) => {
-            if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'})
+            if (!user) return res.status(401).json({error: 'Password reset token is invalid or has expired.'})
             //TODO: set up error if invalid link on front end
+            return res.status(200).json({message: 'Valid link'})
         })
         .catch(err => res.status(500).json({message: err.message}))
 }
