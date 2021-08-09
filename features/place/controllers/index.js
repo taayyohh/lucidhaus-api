@@ -160,7 +160,9 @@ exports.update = (req, res) => {
                             for (const v of value.split(",")) {
                                 place[field].push(v)
                             }
-                        } else if (ObjectId.isValid(value)) {
+                        } else if (ObjectId.isValid(value) && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
+                            console.log('field', field)
+                            console.log('place', place)
                             place[field] = []
                             place[field].push(value)
                         } else {
