@@ -92,12 +92,6 @@ exports.create = (req, res) => {
                         const value = Object.values(fields)[i]
                         const isBooneId = field === BOONE_ID
 
-                        console.log('-------')
-                        console.log('field', field)
-                        console.log('type of', typeof field)
-                        console.log('place', place)
-                        console.log('-------')
-
                         if (!!value) {
 
                             if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
@@ -167,11 +161,6 @@ exports.update = (req, res) => {
                     const field = Object.keys(fields)[i]
                     const value = Object.values(fields)[i]
 
-                    console.log('-------')
-                    console.log('field', field)
-                    console.log('place', place)
-                    console.log('-------')
-
                     if (!!value) {
                         if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
                             place[field] = []
@@ -179,8 +168,6 @@ exports.update = (req, res) => {
                                 place[field].push(v)
                             }
                         } else if (ObjectId.isValid(value) && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
-                            console.log('field', field)
-                            console.log('place', place)
                             place[field] = []
                             place[field].push(value)
                         } else if (value === 'null') {
