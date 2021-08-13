@@ -21,7 +21,6 @@ router.post(
     '/place-category/create/:userId',
     requireSignIn,
     isAuth,
-    isAdmin,
     create
 )
 router.delete('/place-category/:slug/:userId',
