@@ -48,7 +48,7 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
             let user = req.user
 
-            //find a better way to distinguish that this is the identity form
+            //Identify Form
             if (fields.hasOwnProperty('gender')) {
                 for (let i = 0; i < Object.values(fields).length; i++) {
                     const field = Object.keys(fields)[i]
@@ -63,6 +63,9 @@ exports.update = (req, res) => {
                         } else if (ObjectId.isValid(value)) {
                             user.identity[field] = []
                             user.identity[field].push(value)
+                            //TODO: decide whether using formik is neccesary
+                        } else if (value === 'null') {
+                            user.identity[field] = null
                         } else {
                             user.identity[field] = value
                         }

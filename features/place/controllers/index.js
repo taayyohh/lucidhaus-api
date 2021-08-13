@@ -43,7 +43,7 @@ exports.verificationCodeById = (req, res, next, id) => {
             if (err || !review) {
                 return res.status(400).json({
                     status: 410,
-                    error: 'review not found'
+                    error: 'No Reviews'
                 })
             }
             req.review = review
@@ -92,17 +92,31 @@ exports.create = (req, res) => {
                         const value = Object.values(fields)[i]
                         const isBooneId = field === BOONE_ID
 
+                        console.log('-------')
+                        console.log('field', field)
+                        console.log('type of', typeof field)
+                        console.log('place', place)
+                        console.log('-------')
+
                         if (!!value) {
+
                             if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
                                 place[field] = []
                                 for (const v of value.split(",")) {
                                     place[field].push(v)
                                 }
-                            } else if (ObjectId.isValid(value) && !isBooneId && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
-                                console.log('field', field)
-                                place[field] = []
-                                place[field].push(value)
-                            } else {
+                            }
+                            // else if (ObjectId.isValid(value) && !isBooneId && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
+                            //     console.log('field', field)
+                            //     place[field] = []
+                            //     place[field].push(value)
+                            // }
+                            else if (value === 'null') {
+                                place[field] = null
+                            } else if (value === 'undefined') {
+                                place[field] = undefined
+                            }
+                            else {
                                place[field] = isBooneId ? parseInt(value) : value
                             }
                         }
@@ -153,6 +167,10 @@ exports.update = (req, res) => {
                     const field = Object.keys(fields)[i]
                     const value = Object.values(fields)[i]
 
+                    console.log('-------')
+                    console.log('field', field)
+                    console.log('place', place)
+                    console.log('-------')
 
                     if (!!value) {
                         if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
@@ -165,6 +183,8 @@ exports.update = (req, res) => {
                             console.log('place', place)
                             place[field] = []
                             place[field].push(value)
+                        } else if (value === 'null') {
+                            place[field] = null
                         } else {
                             place[field] = value
                         }
