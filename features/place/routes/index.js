@@ -12,6 +12,7 @@ const {
     readReview,
     remove,
     update,
+    updateReview,
     list,
 } = require('../controllers')
 
@@ -45,6 +46,11 @@ router.put('/place/:slug/:userId',
     requireSignIn,
     isAuth,
     update
+)
+router.put('/reviews/:reviewId/:userId',
+    requireSignIn,
+    isAuth,
+    updateReview
 )
 
 router.param('userId', userById)

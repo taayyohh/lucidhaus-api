@@ -6,6 +6,7 @@ const {
     userById,
     userBySlug,
     read,
+    readReview,
     remove,
     update,
     purchaseHistory,
@@ -30,6 +31,8 @@ router.put('/user/:slug/:userId', requireSignIn, isAuth, update)
 router.put('/bookmark/place/:userId', requireSignIn, isAuth, addBookmark)
 router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory)
 router.get('/reviews/by/user/:userId', requireSignIn, isAuth, reviewHistory)
+router.get('/review/:slug/:userId', requireSignIn, isAuth, readReview)
+
 
 //Password RESET
 router.post('/auth/recover', recover);

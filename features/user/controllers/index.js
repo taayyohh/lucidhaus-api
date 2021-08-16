@@ -42,6 +42,10 @@ exports.read = (req, res) => {
     return res.json(req.user)
 }
 
+exports.readReview = (req, res) => {
+
+}
+
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,

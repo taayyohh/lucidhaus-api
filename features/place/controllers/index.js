@@ -85,7 +85,7 @@ exports.create = (req, res) => {
             let place = new Place(fields)
             const BOONE_ID = 'booneId'
 
-            Place.findOne({ booneId: parseInt(fields.booneId) }).exec((err, existingPlace) => {
+            Place.findOne({booneId: parseInt(fields.booneId)}).exec((err, existingPlace) => {
                 if (!existingPlace) {
                     for (let i = 0; i < Object.values(fields).length; i++) {
                         const field = Object.keys(fields)[i]
@@ -100,18 +100,17 @@ exports.create = (req, res) => {
                                     place[field].push(v)
                                 }
                             }
-                            // else if (ObjectId.isValid(value) && !isBooneId && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
-                            //     console.log('field', field)
-                            //     place[field] = []
-                            //     place[field].push(value)
+                                // else if (ObjectId.isValid(value) && !isBooneId && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
+                                //     console.log('field', field)
+                                //     place[field] = []
+                                //     place[field].push(value)
                             // }
                             else if (value === 'null') {
                                 place[field] = null
                             } else if (value === 'undefined') {
                                 place[field] = undefined
-                            }
-                            else {
-                               place[field] = isBooneId ? parseInt(value) : value
+                            } else {
+                                place[field] = isBooneId ? parseInt(value) : value
                             }
                         }
                     }
@@ -189,6 +188,25 @@ exports.update = (req, res) => {
                 res.json(result)
             })
 
+        })
+}
+
+exports.updateReview = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let review = req.review
+            review = _.extend(review, fields)
+
+            review.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                res.json(result)
+            })
         })
 }
 
