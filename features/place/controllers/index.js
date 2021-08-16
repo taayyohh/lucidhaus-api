@@ -197,7 +197,6 @@ exports.updateReview = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let review = req.review
             review = _.extend(review, fields)
-            console.log('review', review)
 
             review.save((err, result) => {
                 if (err) {
