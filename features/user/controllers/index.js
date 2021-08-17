@@ -42,6 +42,10 @@ exports.read = (req, res) => {
     return res.json(req.user)
 }
 
+exports.readReview = (req, res) => {
+
+}
+
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -205,5 +209,20 @@ exports.reviewHistory = (req, res) => {
             }
             res.json(reviews)
         })
+}
+
+exports.removeReview = (req, res) => {
+    let review = req.review
+    review.remove((err) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json({
+            message: 'Review deleted successfully'
+        })
+    })
 }
 
