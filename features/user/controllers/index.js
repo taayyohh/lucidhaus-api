@@ -211,3 +211,18 @@ exports.reviewHistory = (req, res) => {
         })
 }
 
+exports.removeReview = (req, res) => {
+    let review = req.review
+    review.remove((err) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json({
+            message: 'Review deleted successfully'
+        })
+    })
+}
+

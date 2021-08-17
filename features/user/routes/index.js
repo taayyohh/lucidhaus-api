@@ -1,4 +1,5 @@
 const express = require('express')
+const {reviewById} = require('../../place/controllers')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 
@@ -6,8 +7,8 @@ const {
     userById,
     userBySlug,
     read,
-    readReview,
     remove,
+    removeReview,
     update,
     purchaseHistory,
     list,
@@ -31,7 +32,12 @@ router.put('/user/:slug/:userId', requireSignIn, isAuth, update)
 router.put('/bookmark/place/:userId', requireSignIn, isAuth, addBookmark)
 router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory)
 router.get('/reviews/by/user/:userId', requireSignIn, isAuth, reviewHistory)
-router.get('/review/:slug/:userId', requireSignIn, isAuth, readReview)
+router.delete('/reviews/:reviewId/:userId',
+    requireSignIn,
+    isAuth,
+    removeReview
+)
+
 
 
 //Password RESET
@@ -42,5 +48,7 @@ router.post('/auth/reset/:token', resetPassword);
 
 router.param('userId', userById)
 router.param('slug', userBySlug)
+router.param('reviewId', reviewById)
+
 
 module.exports = router
