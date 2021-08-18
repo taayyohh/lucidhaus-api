@@ -39,7 +39,7 @@ router.delete('/reviews/:reviewId/:userId',
     isAuth,
     removeReview
 )
-router.put('/user/add/place/submission/:userId', addPlaceSubmissionToUserHistory)
+router.put('/submission/place/:userId', requireSignIn, isAuth, addPlaceSubmissionToUserHistory)
 
 
 

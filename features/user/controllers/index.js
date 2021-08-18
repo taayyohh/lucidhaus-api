@@ -126,7 +126,7 @@ exports.addBookmark = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let user = req.profile
 
-            if(user.bookmarks.includes(fields.placeId)) {
+            if (user.bookmarks.includes(fields.placeId)) {
                 user.bookmarks.pull(fields.placeId)
             } else {
                 user.bookmarks.push(fields.placeId)
@@ -176,16 +176,25 @@ exports.removeReview = (req, res) => {
 }
 
 exports.addPlaceSubmissionToUserHistory = (req, res) => {
-    console.log('profile', req.body.profile)
-    // User.findOneAndUpdate({_id: req.body.profile}, {$push: {history: history}}, {new: true}, (error, data) => {
-    //     if (error) {
-    //         return res.status(400).json({
-    //             error: 'Could not update User Place Submission history'
-    //         })
-    //     }
-    //
-    //
-    // })
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let user = req.profile
+
+            user.pendingPlaceSubmissions.push(fields.submissionId)
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.hashed_password = undefined
+                user.salt = undefined
+                res.json(result)
+            })
+        })
 }
 
 exports.addOrderToUserHistory = (req, res, next) => {
