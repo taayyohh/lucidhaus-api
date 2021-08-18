@@ -4,16 +4,18 @@ const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 
 const {
-    userById,
-    userBySlug,
+    addPlaceSubmissionToUserHistory,
+    addBookmark,
+    list,
+    listReviewHistory,
+    purchaseHistory,
     read,
     remove,
     removeReview,
-    update,
-    purchaseHistory,
-    list,
-    addBookmark,
-    reviewHistory,
+    userById,
+    userBySlug,
+    update
+
 } = require('../controllers')
 
 const {recover, reset, resetPassword} = require('../controllers/password')
@@ -31,12 +33,13 @@ router.delete('/user/:slug/:userId', requireSignIn, isAuth, isAdmin, remove)
 router.put('/user/:slug/:userId', requireSignIn, isAuth, update)
 router.put('/bookmark/place/:userId', requireSignIn, isAuth, addBookmark)
 router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory)
-router.get('/reviews/by/user/:userId', requireSignIn, isAuth, reviewHistory)
+router.get('/reviews/by/user/:userId', requireSignIn, isAuth, listReviewHistory)
 router.delete('/reviews/:reviewId/:userId',
     requireSignIn,
     isAuth,
     removeReview
 )
+router.put('/submission/place/:userId', requireSignIn, isAuth, addPlaceSubmissionToUserHistory)
 
 
 

@@ -244,5 +244,21 @@ exports.list = (req, res) => {
         })
 }
 
+exports.listPending = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+
+    Place.find({isPendingSubmission: true})
+        .limit(limit)
+        .exec((err, places) => {
+            if (err) {
+                return res.status(400).json({
+                    message: 'admin not found'
+                })
+            }
+
+            console.log('PLACES', places)
+            res.send(places)
+        })
+}
 
 

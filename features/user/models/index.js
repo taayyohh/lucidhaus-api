@@ -133,25 +133,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: ''
     },
-    role: {
-        type: Number,
-        default: 2
-    },
-    tel: {
-        type: String,
-        unique: true,
-        default: ''
-    },
-    salt: String,
-    slug: {
-        type: String,
-        slug: ["nameFirst"],
-        unique: true
-    },
-    type: {
-        type: String,
-        default: 'user'
-    },
+    pendingPlaceSubmissions: [],
     resetPasswordToken: {
         type: String,
         required: false
@@ -159,6 +141,25 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpires: {
         type: Date,
         required: false
+    },
+    role: {
+        type: Number,
+        default: 2
+    },
+    salt: String,
+    slug: {
+        type: String,
+        slug: ["nameFirst"],
+        unique: true
+    },
+    tel: {
+        type: String,
+        unique: true,
+        default: ''
+    },
+    type: {
+        type: String,
+        default: 'user'
     },
     verificationToken: {
         type: String,

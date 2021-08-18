@@ -13,11 +13,14 @@ const {
     remove,
     update,
     list,
+    listPending
 } = require('../controllers')
 
 
 // router.get('/admin/:placeId', read)
 router.get('/places', list)
+router.get('/pending-places', listPending)
+
 router.get('/place/:slug', read)
 router.get('/place/by/id/:placeId', read)
 router.get('/review/by/id/:reviewId', readReview)
@@ -29,6 +32,14 @@ router.post(
     isAdmin,
     create
 )
+
+router.post(
+    '/place/submit/:userId',
+    requireSignIn,
+    isAuth,
+    create
+)
+
 router.post(
     '/place/create-from-boone/:userId',
     requireSignIn,

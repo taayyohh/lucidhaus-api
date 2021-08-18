@@ -57,6 +57,10 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    isPendingSubmission: {
+        type: Boolean,
+        default: false
+    },
     isRestaurant: {
         type: Boolean,
         default: false
