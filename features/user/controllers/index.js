@@ -47,6 +47,8 @@ exports.update = (req, res) => {
         form.parse(req, (err, fields) => {
             let user = req.user
 
+            console.log('fields', fields)
+
             //Identify Form
             if (fields.hasOwnProperty('gender')) {
                 for (let i = 0; i < Object.values(fields).length; i++) {

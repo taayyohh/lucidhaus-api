@@ -23,7 +23,6 @@ const IdentitySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    dateOfBirth: String,
     gender: [{
         type: ObjectId,
         ref: 'Gender'
