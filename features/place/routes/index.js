@@ -29,6 +29,14 @@ router.post(
     isAdmin,
     create
 )
+
+router.post(
+    '/place/submit/:userId',
+    requireSignIn,
+    isAuth,
+    create
+)
+
 router.post(
     '/place/create-from-boone/:userId',
     requireSignIn,
