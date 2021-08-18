@@ -1,7 +1,6 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
 const Review = require('../../place/models/review')
-const VerificationToken = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
 const {Order} = require('../../shop/order/models')
@@ -40,10 +39,6 @@ exports.read = (req, res) => {
     req.profile.hashed_password = undefined
     req.profile.salt = undefined
     return res.json(req.user)
-}
-
-exports.readReview = (req, res) => {
-
 }
 
 exports.update = (req, res) => {
@@ -94,32 +89,6 @@ exports.update = (req, res) => {
         })
 }
 
-exports.addBookmark = (req, res) => {
-    let form = new formidable.IncomingForm()
-    form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
-            let user = req.profile
-
-            if(user.bookmarks.includes(fields.placeId)) {
-                user.bookmarks.pull(fields.placeId)
-            } else {
-                user.bookmarks.push(fields.placeId)
-            }
-
-            user.save((err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: errorHandler(err)
-                    })
-                }
-
-                user.hashed_password = undefined
-                user.salt = undefined
-                res.json(result)
-            })
-        })
-}
-
 exports.remove = (req, res) => {
     let user = req.user
     user.remove((err) => {
@@ -149,6 +118,74 @@ exports.list = (req, res) => {
 
             res.send(users)
         })
+}
+
+exports.addBookmark = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let user = req.profile
+
+            if(user.bookmarks.includes(fields.placeId)) {
+                user.bookmarks.pull(fields.placeId)
+            } else {
+                user.bookmarks.push(fields.placeId)
+            }
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.hashed_password = undefined
+                user.salt = undefined
+                res.json(result)
+            })
+        })
+}
+
+exports.listReviewHistory = (req, res) => {
+    Review.find({user: req.profile._id})
+        .populate('user', '_id name')
+        .sort('-updated')
+        .exec((err, reviews) => {
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                })
+            }
+            res.json(reviews)
+        })
+}
+
+exports.removeReview = (req, res) => {
+    let review = req.review
+    review.remove((err) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json({
+            message: 'Review deleted successfully'
+        })
+    })
+}
+
+exports.addPlaceSubmissionToUserHistory = (req, res) => {
+    console.log('profile', req.body.profile)
+    // User.findOneAndUpdate({_id: req.body.profile}, {$push: {history: history}}, {new: true}, (error, data) => {
+    //     if (error) {
+    //         return res.status(400).json({
+    //             error: 'Could not update User Place Submission history'
+    //         })
+    //     }
+    //
+    //
+    // })
 }
 
 exports.addOrderToUserHistory = (req, res, next) => {
@@ -195,34 +232,5 @@ exports.purchaseHistory = (req, res) => {
             }
             res.json(orders)
         })
-}
-
-exports.reviewHistory = (req, res) => {
-    Review.find({user: req.profile._id})
-        .populate('user', '_id name')
-        .sort('-updated')
-        .exec((err, reviews) => {
-            if (err) {
-                return res.status(400).json({
-                    error: errorHandler(err)
-                })
-            }
-            res.json(reviews)
-        })
-}
-
-exports.removeReview = (req, res) => {
-    let review = req.review
-    review.remove((err) => {
-        if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            })
-        }
-
-        res.json({
-            message: 'Review deleted successfully'
-        })
-    })
 }
 
