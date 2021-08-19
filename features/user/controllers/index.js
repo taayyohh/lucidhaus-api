@@ -177,6 +177,27 @@ exports.removeReview = (req, res) => {
     })
 }
 
+exports.updateReview = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+
+            let review = req.review
+            review = _.extend(review, fields)
+
+
+            review.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                res.json(result)
+            })
+        })
+}
+
 exports.addPlaceSubmissionToUserHistory = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,

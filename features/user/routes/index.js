@@ -13,6 +13,7 @@ const {
     read,
     remove,
     removeReview,
+    updateReview,
     userById,
     userBySlug,
     update
@@ -39,6 +40,11 @@ router.delete('/reviews/:reviewId/:userId',
     requireSignIn,
     isAuth,
     removeReview
+)
+router.put('/reviews/:reviewId/:userId',
+    requireSignIn,
+    isAuth,
+    updateReview
 )
 router.put('/submission/place/:userId', requireSignIn, isAuth, addPlaceSubmissionToUserHistory)
 router.put('/user/flag/review/:userId', requireSignIn, isAuth, addFlaggedReview)
