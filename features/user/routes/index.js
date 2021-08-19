@@ -6,12 +6,14 @@ const {requireSignIn, isAuth, isAdmin} = require('../controllers/auth')
 const {
     addPlaceSubmissionToUserHistory,
     addBookmark,
+    addFlaggedReview,
     list,
     listReviewHistory,
     purchaseHistory,
     read,
     remove,
     removeReview,
+    updateReview,
     userById,
     userBySlug,
     update
@@ -39,7 +41,13 @@ router.delete('/reviews/:reviewId/:userId',
     isAuth,
     removeReview
 )
+router.put('/reviews/:reviewId/:userId',
+    requireSignIn,
+    isAuth,
+    updateReview
+)
 router.put('/submission/place/:userId', requireSignIn, isAuth, addPlaceSubmissionToUserHistory)
+router.put('/user/flag/review/:userId', requireSignIn, isAuth, addFlaggedReview)
 
 
 

@@ -177,6 +177,27 @@ exports.removeReview = (req, res) => {
     })
 }
 
+exports.updateReview = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+
+            let review = req.review
+            review = _.extend(review, fields)
+
+
+            review.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                res.json(result)
+            })
+        })
+}
+
 exports.addPlaceSubmissionToUserHistory = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -184,6 +205,28 @@ exports.addPlaceSubmissionToUserHistory = (req, res) => {
             let user = req.profile
 
             user.pendingPlaceSubmissions.push(fields.submissionId)
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.hashed_password = undefined
+                user.salt = undefined
+                res.json(result)
+            })
+        })
+}
+
+exports.addFlaggedReview = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let user = req.profile
+
+            user.flaggedReviews.push(fields.reviewId)
 
             user.save((err, result) => {
                 if (err) {
