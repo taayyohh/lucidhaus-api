@@ -199,6 +199,28 @@ exports.addPlaceSubmissionToUserHistory = (req, res) => {
         })
 }
 
+exports.addFlaggedReview = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let user = req.profile
+
+            user.flaggedReviews.push(fields.reviewId)
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.hashed_password = undefined
+                user.salt = undefined
+                res.json(result)
+            })
+        })
+}
+
 exports.addOrderToUserHistory = (req, res, next) => {
     let history = []
 
