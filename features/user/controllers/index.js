@@ -1,6 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
 const Review = require('../../place/models/review')
+const Place = require('../../place/models')
 const formidable = require('formidable')
 const _ = require('lodash')
 const {Order} = require('../../shop/order/models')
@@ -46,8 +47,6 @@ exports.update = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
             let user = req.user
-
-            console.log('fields', fields)
 
             //Identify Form
             if (fields.hasOwnProperty('gender')) {
@@ -221,25 +220,21 @@ exports.addPlaceSubmissionToUserHistory = (req, res) => {
 }
 
 exports.addFlaggedReview = (req, res) => {
-    let form = new formidable.IncomingForm()
-    form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
-            let user = req.profile
+    let user = req.profile
+    let review = req.review
 
-            user.flaggedReviews.push(fields.reviewId)
+    review.flaggedBy.push(user._id)
+    review.isFlagged = true
 
-            user.save((err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: errorHandler(err)
-                    })
-                }
-
-                user.hashed_password = undefined
-                user.salt = undefined
-                res.json(result)
+    review.save((err, result) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
             })
-        })
+        }
+
+        res.json(result)
+    })
 }
 
 exports.addOrderToUserHistory = (req, res, next) => {

@@ -13,17 +13,19 @@ const {
     remove,
     update,
     list,
-    listPending
+    listPendingPlaces,
+    listFlaggedReviews
 } = require('../controllers')
 
 
 // router.get('/admin/:placeId', read)
 router.get('/places', list)
-router.get('/pending-places', listPending)
+router.get('/pending-places', listPendingPlaces)
 
 router.get('/place/:slug', read)
 router.get('/place/by/id/:placeId', read)
 router.get('/review/by/id/:reviewId', readReview)
+router.get('/reviews/flagged', listFlaggedReviews)
 
 router.post(
     '/place/create/:userId',

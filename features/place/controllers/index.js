@@ -244,7 +244,7 @@ exports.list = (req, res) => {
         })
 }
 
-exports.listPending = (req, res) => {
+exports.listPendingPlaces = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
     Place.find({isPendingSubmission: true})
@@ -252,12 +252,28 @@ exports.listPending = (req, res) => {
         .exec((err, places) => {
             if (err) {
                 return res.status(400).json({
-                    message: 'admin not found'
+                    message: 'No Places are pending'
                 })
             }
 
-            console.log('PLACES', places)
             res.send(places)
+        })
+}
+
+exports.listFlaggedReviews = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+
+    Review.find({isFlagged: true})
+        .limit(limit)
+        .exec((err, reviews) => {
+            if (err) {
+                return res.status(400).json({
+                    message: 'No Reviews are flagged'
+                })
+            }
+
+            res.send(reviews)
+            console.log('reviews', reviews)
         })
 }
 
