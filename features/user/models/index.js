@@ -105,7 +105,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    flaggedReviews: [],
+    flaggedReviews: [{
+        type: ObjectId,
+        ref: 'Review'
+    }],
     handle: {
         type: String,
         default: ''

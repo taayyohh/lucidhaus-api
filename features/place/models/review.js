@@ -46,6 +46,14 @@ const ReviewSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    isFlagged: {
+        type: Boolean,
+        default: false
+    },
+    flaggedBy: [{
+        type: ObjectId,
+        ref: 'User'
+    }]
 })
 
 //objectID necessary for algolia search

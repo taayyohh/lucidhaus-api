@@ -47,7 +47,7 @@ router.put('/reviews/:reviewId/:userId',
     updateReview
 )
 router.put('/submission/place/:userId', requireSignIn, isAuth, addPlaceSubmissionToUserHistory)
-router.put('/user/flag/review/:userId', requireSignIn, isAuth, addFlaggedReview)
+router.put('/user/flag/:reviewId/:userId', requireSignIn, isAuth, addFlaggedReview)
 
 
 
