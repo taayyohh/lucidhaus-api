@@ -273,7 +273,6 @@ exports.listFlaggedReviews = (req, res) => {
             }
 
             res.send(reviews)
-            console.log('reviews', reviews)
         })
 }
 
