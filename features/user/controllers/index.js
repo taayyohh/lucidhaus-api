@@ -180,10 +180,11 @@ exports.updateReview = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-
             let review = req.review
             review = _.extend(review, fields)
-
+            if(fields.isFlagged === 'false') {
+                review.flaggedBy = []
+            }
 
             review.save((err, result) => {
                 if (err) {
@@ -227,6 +228,15 @@ exports.addFlaggedReview = (req, res) => {
     review.isFlagged = true
 
     review.save((err, result) => {
+        user.flaggedReviews.push(review.id)
+        user.save((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                })
+            }
+        })
+
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
