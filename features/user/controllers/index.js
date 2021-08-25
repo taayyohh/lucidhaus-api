@@ -1,7 +1,6 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
 const Review = require('../../place/models/review')
-const Place = require('../../place/models')
 const formidable = require('formidable')
 const _ = require('lodash')
 const {Order} = require('../../shop/order/models')
@@ -182,7 +181,7 @@ exports.updateReview = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let review = req.review
             review = _.extend(review, fields)
-            if(fields.isFlagged === 'false') {
+            if (fields.isFlagged === 'false') {
                 review.flaggedBy = []
             }
 
