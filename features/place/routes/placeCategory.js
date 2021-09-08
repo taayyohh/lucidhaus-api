@@ -10,12 +10,14 @@ const {
     remove,
     update,
     list,
+    placeCategoryByNameOrDescription
 } = require('../controllers/placeCategory')
 
 
 router.get('/place-category', list)
 router.get('/place-category/:slug', read)
 router.get('/place-category/by/id/:id', read)
+router.get('/place-category/by/name/or/description/:searchInput', read)
 
 router.post(
     '/place-category/create/:userId',
@@ -39,5 +41,6 @@ router.put('/place-category/:slug/:userId',
 router.param('userId', userById)
 router.param('id', placeCategoryById)
 router.param('slug', placeCategoryBySlug)
+router.param('searchInput', placeCategoryByNameOrDescription)
 
 module.exports = router

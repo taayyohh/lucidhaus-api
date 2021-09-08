@@ -6,8 +6,6 @@ const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
 
 exports.placeCategoryById = (req, res, next, id) => {
-    const placeCategoryId = id.substr(id.lastIndexOf('-') + 1)
-
     PlaceCategory.findById(id)
         .exec((err, placeCategory) => {
             if (err || !placeCategory) {
@@ -111,3 +109,19 @@ exports.list = (req, res) => {
         })
 }
 
+exports.placeCategoryByNameOrDescription = (req, res, next, searchInput) => {
+    console.log('INPUT', searchInput)
+
+
+    PlaceCategory.find({ name: new RegExp(searchInput, 'i')}, '_id').exec((err, placeCategory) => {
+        if(err || !placeCategory) {
+            return res.status(400).json({
+                error: 'no category found'
+            })
+        }
+
+        console.log('PLACE', placeCategory)
+        req.placeCategory = placeCategory
+        next()
+    })
+}
