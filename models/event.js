@@ -34,6 +34,10 @@ const eventSchema = new mongoose.Schema({
         slug: "name",
         unique: true
     },
+    dateOfEvent: {
+        type: Date,
+        trim: true,
+    },
     attendees: [Rsvp],
     isPublished: Boolean
 }, { id: false })
