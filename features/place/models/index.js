@@ -12,18 +12,6 @@ const placeSchema = new mongoose.Schema({
     },
     address1: String,
     address2: String,
-    city: String,
-    zip: String,
-    country: String,
-    state: String,
-    latitude: {
-        type: 'Number',
-        default: null
-    },
-    longitude: {
-        type: 'Number',
-        default: null
-    },
     bathrooms: [{
         type: ObjectId,
         ref: 'Bathroom'
@@ -40,26 +28,32 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    businessOwner: [{
+        type: ObjectId,
+        ref: 'BusinessOwner',
+    }],
     categories: [{
         type: ObjectId,
         ref: 'PlaceCategory',
     }],
+    city: String,
     communitiesServed: [{
         type: ObjectId,
         ref: 'CommunitiesServed',
     }],
+    country: String,
     description: String,
     foodOptions: [{
         type: ObjectId,
         ref: 'FoodOptions',
     }],
-    isPublished: {
-        type: Boolean,
-        default: true
-    },
     isPendingSubmission: {
         type: Boolean,
         default: false
+    },
+    isPublished: {
+        type: Boolean,
+        default: true
     },
     isRestaurant: {
         type: Boolean,
@@ -73,6 +67,14 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    latitude: {
+        type: 'Number',
+        default: null
+    },
+    longitude: {
+        type: 'Number',
+        default: null
+    },
     name: {
         type: String,
         trim: true
@@ -81,10 +83,6 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    businessOwner: [{
-        type: ObjectId,
-        ref: 'BusinessOwner',
-    }],
     photo: {
         type: String,
         trim: true
@@ -105,6 +103,11 @@ const placeSchema = new mongoose.Schema({
         type: String,
         slug: "name",
         unique: true
+    },
+    state: String,
+    submittedBy: {
+        type: ObjectId,
+        ref: 'User',
     },
     type: {
         type: String,
@@ -127,6 +130,7 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    zip: String
 }, {id: false})
 
 //objectID necessary for algolia search
