@@ -7,6 +7,7 @@ const {
     addPlaceSubmissionToUserHistory,
     addBookmark,
     addFlaggedReview,
+    getOneUser,
     list,
     listReviewHistory,
     purchaseHistory,
@@ -30,6 +31,8 @@ router.get('/secret/:userId', requireSignIn, isAuth, isAdmin, (req, res) => {
 })
 router.get('/users', list)
 router.get('/user/:slug/:userId', requireSignIn, isAuth, read)
+router.get('/user/by/id/:aUsersId/:userId', requireSignIn, isAuth, getOneUser)
+
 // router.get('/user/:userId', requireSignIn, isAuth, read)
 router.delete('/user/:slug/:userId', requireSignIn, isAuth, isAdmin, remove)
 router.put('/user/:slug/:userId', requireSignIn, isAuth, update)

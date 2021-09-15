@@ -6,6 +6,21 @@ const _ = require('lodash')
 const {Order} = require('../../shop/order/models')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
+
+/*  user + find  */
+
+exports.getOneUser = (req, res) => {
+    User.findById(req.params.aUsersId).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'User not found'
+            })
+        }
+
+        res.send(user)
+    })
+}
+
 exports.userById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
         if (err || !user) {
@@ -35,11 +50,15 @@ exports.userBySlug = (req, res, next, slug) => {
         })
 }
 
+
+/*  user + crud  */
+
 exports.read = (req, res) => {
     req.profile.hashed_password = undefined
     req.profile.salt = undefined
     return res.json(req.user)
 }
+
 
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
@@ -120,6 +139,10 @@ exports.list = (req, res) => {
         })
 }
 
+
+
+/*  user + place  */
+
 exports.addBookmark = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
@@ -145,6 +168,31 @@ exports.addBookmark = (req, res) => {
             })
         })
 }
+
+exports.addPlaceSubmissionToUserHistory = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let user = req.profile
+
+            user.pendingPlaceSubmissions.push(fields.submissionId)
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                user.hashed_password = undefined
+                user.salt = undefined
+                res.json(result)
+            })
+        })
+}
+
+
+/*  user + review  */
 
 exports.listReviewHistory = (req, res) => {
     Review.find({user: req.profile._id})
@@ -197,28 +245,6 @@ exports.updateReview = (req, res) => {
         })
 }
 
-exports.addPlaceSubmissionToUserHistory = (req, res) => {
-    let form = new formidable.IncomingForm()
-    form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
-            let user = req.profile
-
-            user.pendingPlaceSubmissions.push(fields.submissionId)
-
-            user.save((err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: errorHandler(err)
-                    })
-                }
-
-                user.hashed_password = undefined
-                user.salt = undefined
-                res.json(result)
-            })
-        })
-}
-
 exports.addFlaggedReview = (req, res) => {
     let user = req.profile
     let review = req.review
@@ -245,6 +271,9 @@ exports.addFlaggedReview = (req, res) => {
         res.json(result)
     })
 }
+
+
+/*  user + shop  */
 
 exports.addOrderToUserHistory = (req, res, next) => {
     let history = []
@@ -291,4 +320,3 @@ exports.purchaseHistory = (req, res) => {
             res.json(orders)
         })
 }
-
