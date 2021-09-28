@@ -71,6 +71,10 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    inclusiveScore: {
+        type: Number,
+        default: 0
+    },
     languageSpoken: [{
         type: ObjectId,
         ref: 'Language',

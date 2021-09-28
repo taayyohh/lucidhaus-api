@@ -160,7 +160,7 @@ exports.update = (req, res) => {
                 place.averageSafe = (((place.averageSafe > 0 ? place.averageSafe : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.safe[1]) / (place.reviews.length + 1)
                 place.averageCelebrated = (((place.averageCelebrated > 0 ? place.averageCelebrated : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.celebrated[1]) / (place.reviews.length + 1)
                 place.averageWelcome = (((place.averageWelcome > 0 ? place.averageWelcome : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.welcome[1]) / (place.reviews.length + 1)
-
+                place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
 
 
                 review.save((err, result) => {
