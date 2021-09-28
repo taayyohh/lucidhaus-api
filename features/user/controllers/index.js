@@ -1,5 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId
 const User = require('../models')
+const Place = require('../../place/models')
+
 const Review = require('../../place/models/review')
 const formidable = require('formidable')
 const _ = require('lodash')
@@ -140,7 +142,6 @@ exports.list = (req, res) => {
 }
 
 
-
 /*  user + place  */
 
 exports.addBookmark = (req, res) => {
@@ -210,12 +211,41 @@ exports.listReviewHistory = (req, res) => {
 
 exports.removeReview = (req, res) => {
     let review = req.review
+
+    Place.findById(review.place)
+        .exec((err, place) => {
+            if (err || !place) {
+                return res.status(400).json({
+                    status: 410,
+                    error: 'place not found'
+                })
+            }
+
+            const reviewCount = place.reviews.length
+            place.averageSafe = (((place.averageSafe * reviewCount) - review.safe[1]) / (reviewCount - 1 > 0 ? reviewCount -1 : 1)).toFixed(2)
+            place.averageWelcome = (((place.averageWelcome * reviewCount) - review.welcome[1]) / (reviewCount - 1 > 0 ? reviewCount -1 : 1)).toFixed(2)
+            place.averageCelebrated = (((place.averageCelebrated * reviewCount) - review.celebrated[1]) / (reviewCount - 1 > 0 ? reviewCount -1 : 1)).toFixed(2)
+            place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
+            place.reviews = place.reviews.pull(review._id)
+            place.save()
+        })
+
     review.remove((err) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             })
         }
+
+        Place.findById(review.place)
+            .exec((err, place) => {
+                if (err || !place) {
+                    return res.status(400).json({
+                        status: 410,
+                        error: 'place not found'
+                    })
+                }
+            })
 
         res.json({
             message: 'Review deleted successfully'
