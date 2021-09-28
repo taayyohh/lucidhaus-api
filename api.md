@@ -36,7 +36,7 @@ ___
 
 
 ## Structure (features)
-**place** - This directory contains the controllers, models, and routes specific to the Place model.
+**place** - This directory contains the controllers, models, and routes specific to the Index model.
 <br />
 ___
 **shop** - This directory contains the controllers, models, and routes specific to the Shop model.

@@ -233,6 +233,19 @@ exports.updateReview = (req, res) => {
                 review.flaggedBy = []
             }
 
+            for (let i = 0; i < Object.values(fields).length; i++) {
+                const field = Object.keys(fields)[i]
+                const value = Object.values(fields)[i]
+
+                if (field === 'celebrated' || field === 'safe' || field === 'welcome') {
+                    review[field] = []
+                    for (const v of value.split(",")) {
+                        review[field].push(v.match(/\d+/g) !== null ? parseInt(v) : v)
+                    }
+                }
+            }
+
+
             review.save((err, result) => {
                 if (err) {
                     return res.status(400).json({

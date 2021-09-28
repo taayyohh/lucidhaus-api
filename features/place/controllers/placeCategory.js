@@ -110,9 +110,6 @@ exports.list = (req, res) => {
 }
 
 exports.placeCategoryByNameOrDescription = (req, res, next, searchInput) => {
-    console.log('INPUT', searchInput)
-
-
     PlaceCategory.find({ name: new RegExp(searchInput, 'i')}, '_id').exec((err, placeCategory) => {
         if(err || !placeCategory) {
             return res.status(400).json({
@@ -120,7 +117,6 @@ exports.placeCategoryByNameOrDescription = (req, res, next, searchInput) => {
             })
         }
 
-        console.log('PLACE', placeCategory)
         req.placeCategory = placeCategory
         next()
     })

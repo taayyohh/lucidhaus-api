@@ -99,13 +99,7 @@ exports.create = (req, res) => {
                                 for (const v of value.split(",")) {
                                     place[field].push(v)
                                 }
-                            }
-                                // else if (ObjectId.isValid(value) && !isBooneId && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
-                                //     console.log('field', field)
-                                //     place[field] = []
-                                //     place[field].push(value)
-                            // }
-                            else if (value === 'null') {
+                            } else if (value === 'null') {
                                 place[field] = null
                             } else if (value === 'undefined') {
                                 place[field] = undefined
@@ -149,8 +143,27 @@ exports.update = (req, res) => {
             let place = req.place
 
             if (fields.hasOwnProperty('review')) {
-                Review.create(fields, function (err, review) {
-                    if (err) return errorHandler(err)
+                let review = new Review
+                review = _.extend(review, fields)
+                for (let i = 0; i < Object.values(fields).length; i++) {
+                    const field = Object.keys(fields)[i]
+                    const value = Object.values(fields)[i]
+
+                    if (field === 'celebrated' || field === 'safe' || field === 'welcome') {
+                        review[field] = []
+                        for (const v of value.split(",")) {
+                            review[field].push(v.match(/\d+/g) !== null ? parseInt(v) : v)
+                        }
+                    }
+                }
+
+                review.save((err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: errorHandler(err)
+                        })
+                    }
+
                     place.reviews.push(review._id)
                     place.save()
                 })

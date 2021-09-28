@@ -10,18 +10,14 @@ const ReviewSchema = new mongoose.Schema({
         default: false,
         maxLength: 5000
     },
-    safe: {
+    reviewerName: {
         type: String,
-        trim: true
+        default: false,
+        maxLength: 500
     },
-    celebrated: {
-        type: String,
-        trim: true
-    },
-    welcome: {
-        type: String,
-        trim: true
-    },
+    safe: [],
+    celebrated: [],
+    welcome: [],
     photo: {
         type: String,
         trim: true
