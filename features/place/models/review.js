@@ -10,6 +10,7 @@ const ReviewSchema = new mongoose.Schema({
         default: false,
         maxLength: 5000
     },
+    reviewerAvatar: String,
     reviewerName: {
         type: String,
         default: false,

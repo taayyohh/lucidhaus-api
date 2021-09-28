@@ -12,6 +12,18 @@ const placeSchema = new mongoose.Schema({
     },
     address1: String,
     address2: String,
+    averageSafe: {
+        type: 'Number',
+        default: 0
+    },
+    averageCelebrated: {
+        type: 'Number',
+        default: 0
+    },
+    averageWelcome: {
+        type: 'Number',
+        default: 0
+    },
     bathrooms: [{
         type: ObjectId,
         ref: 'Bathroom'
