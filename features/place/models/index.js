@@ -47,6 +47,7 @@ const placeSchema = new mongoose.Schema({
     categories: [{
         type: ObjectId,
         ref: 'PlaceCategory',
+        default: () => { return null }
     }],
     city: String,
     communitiesServed: [{

@@ -4,6 +4,8 @@ const Review = require('../models/review')
 const formidable = require('formidable')
 const _ = require('lodash')
 const fs = require('fs')
+const {isValidMongooseObjectId} = require('../../../utils/helpers/mongoose')
+const {isObjectIdValid} = require('../../../utils/helpers/mongoose')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
 
@@ -90,22 +92,17 @@ exports.create = (req, res) => {
                     for (let i = 0; i < Object.values(fields).length; i++) {
                         const field = Object.keys(fields)[i]
                         const value = Object.values(fields)[i]
-                        const isBooneId = field === BOONE_ID
 
-                        if (!!value) {
 
-                            if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
-                                place[field] = []
-                                for (const v of value.split(",")) {
-                                    place[field].push(v)
-                                }
-                            } else if (value === 'null') {
-                                place[field] = null
-                            } else if (value === 'undefined') {
-                                place[field] = undefined
-                            } else {
-                                place[field] = isBooneId ? parseInt(value) : value
+                        if (isValidMongooseObjectId(value.split(",")[0])) {
+                            place[field] = []
+                            for (const v of value.split(",")) {
+                                place[field].push(v)
                             }
+                        } else if(value === 'isEmptyArray') {
+                            place[field] = []
+                        } else {
+                            place[field] = value
                         }
                     }
 
@@ -177,24 +174,20 @@ exports.update = (req, res) => {
                 })
 
             } else {
+
                 for (let i = 0; i < Object.values(fields).length; i++) {
                     const field = Object.keys(fields)[i]
                     const value = Object.values(fields)[i]
 
-                    if (!!value) {
-                        if (value.includes(",") && ObjectId.isValid(value.split(",")[0])) {
-                            place[field] = []
-                            for (const v of value.split(",")) {
-                                place[field].push(v)
-                            }
-                        } else if (ObjectId.isValid(value) && field !== 'longitude' && field !== 'latitude' && field !== 'address1') {
-                            place[field] = []
-                            place[field].push(value)
-                        } else if (value === 'null') {
-                            place[field] = null
-                        } else {
-                            place[field] = value
+                    if (isValidMongooseObjectId(value.split(",")[0])) {
+                        place[field] = []
+                        for (const v of value.split(",")) {
+                            place[field].push(v)
                         }
+                    } else if(value === 'isEmptyArray') {
+                        place[field] = []
+                    } else {
+                        place[field] = value
                     }
                 }
 
@@ -208,8 +201,6 @@ exports.update = (req, res) => {
                     res.json(result)
                 })
             }
-
-
 
         })
 }
