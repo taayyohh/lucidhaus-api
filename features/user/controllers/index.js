@@ -222,9 +222,9 @@ exports.removeReview = (req, res) => {
             }
 
             const reviewCount = place.reviews.length
-            place.averageSafe = (((place.averageSafe * reviewCount) - review.safe[1]) / (reviewCount - 1 > 0 ? reviewCount -1 : 1)).toFixed(2)
-            place.averageWelcome = (((place.averageWelcome * reviewCount) - review.welcome[1]) / (reviewCount - 1 > 0 ? reviewCount -1 : 1)).toFixed(2)
-            place.averageCelebrated = (((place.averageCelebrated * reviewCount) - review.celebrated[1]) / (reviewCount - 1 > 0 ? reviewCount -1 : 1)).toFixed(2)
+            place.averageSafe = (((place.averageSafe * reviewCount) - review.safe[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+            place.averageWelcome = (((place.averageWelcome * reviewCount) - review.welcome[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+            place.averageCelebrated = (((place.averageCelebrated * reviewCount) - review.celebrated[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
             place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
             place.reviews = place.reviews.pull(review._id)
             place.save()
@@ -237,15 +237,6 @@ exports.removeReview = (req, res) => {
             })
         }
 
-        Place.findById(review.place)
-            .exec((err, place) => {
-                if (err || !place) {
-                    return res.status(400).json({
-                        status: 410,
-                        error: 'place not found'
-                    })
-                }
-            })
 
         res.json({
             message: 'Review deleted successfully'
@@ -274,7 +265,6 @@ exports.updateReview = (req, res) => {
                     }
                 }
             }
-
 
             review.save((err, result) => {
                 if (err) {
