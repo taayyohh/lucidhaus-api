@@ -1,13 +1,9 @@
 const CommunityServed = require('../models/communitiesServed')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
 exports.communitiesServedById = (req, res, next, id) => {
-    const communitiesServedId = id.substr(id.lastIndexOf('-') + 1)
-
     CommunityServed.findById(id)
         .exec((err, communitiesServed) => {
             if (err || !communitiesServed) {
@@ -60,10 +56,8 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.communitiesServed._id
             let communitiesServed = req.communitiesServed
             communitiesServed = _.extend(communitiesServed, fields)
-
 
             communitiesServed.save((err, result) => {
                 if (err) {
@@ -74,7 +68,6 @@ exports.update = (req, res) => {
 
                 res.json(result)
             })
-
         })
 }
 
@@ -88,7 +81,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'CommunityServed deleted successfully'
+            message: 'Community Served deleted successfully'
         })
     })
 }

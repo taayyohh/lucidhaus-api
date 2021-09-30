@@ -1,17 +1,12 @@
-const ObjectId = require('mongoose').Types.ObjectId
 const Place = require('../models')
 const Review = require('../models/review')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {isValidMongooseObjectId} = require('../../../utils/helpers/mongoose')
-const {isObjectIdValid} = require('../../../utils/helpers/mongoose')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
 
 exports.placeById = (req, res, next, id) => {
-    const placeId = id.substr(id.lastIndexOf('-') + 1)
-
     Place.findById(id)
         .exec((err, place) => {
             if (err || !place) {
@@ -99,7 +94,7 @@ exports.create = (req, res) => {
                             for (const v of value.split(",")) {
                                 place[field].push(v)
                             }
-                        } else if(value === 'isEmptyArray') {
+                        } else if (value === 'isEmptyArray') {
                             place[field] = []
                         } else {
                             place[field] = value
@@ -184,7 +179,7 @@ exports.update = (req, res) => {
                         for (const v of value.split(",")) {
                             place[field].push(v)
                         }
-                    } else if(value === 'isEmptyArray') {
+                    } else if (value === 'isEmptyArray') {
                         place[field] = []
                     } else {
                         place[field] = value

@@ -4,7 +4,6 @@ const _ = require('lodash')
 const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
 exports.placeCategoryById = (req, res, next, id) => {
     PlaceCategory.findById(id)
         .exec((err, placeCategory) => {
@@ -58,7 +57,6 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.placeCategory._id
             let placeCategory = req.placeCategory
             placeCategory = _.extend(placeCategory, fields)
 

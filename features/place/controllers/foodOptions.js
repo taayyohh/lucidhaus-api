@@ -1,13 +1,9 @@
 const FoodOptions = require('../models/foodOptions')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
 exports.foodOptionsById = (req, res, next, id) => {
-    const foodOptionsId = id.substr(id.lastIndexOf('-') + 1)
-
     FoodOptions.findById(id)
         .exec((err, foodOptions) => {
             if (err || !foodOptions) {
@@ -60,10 +56,8 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.foodOptions._id
             let foodOptions = req.foodOptions
             foodOptions = _.extend(foodOptions, fields)
-
 
             foodOptions.save((err, result) => {
                 if (err) {

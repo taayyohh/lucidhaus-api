@@ -1,13 +1,9 @@
 const Bathroom = require('../models/bathroom')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
 exports.bathroomById = (req, res, next, id) => {
-    const bathroomId = id.substr(id.lastIndexOf('-') + 1)
-
     Bathroom.findById(id)
         .exec((err, bathroom) => {
             if (err || !bathroom) {
@@ -60,10 +56,8 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.bathroom._id
             let bathroom = req.bathroom
             bathroom = _.extend(bathroom, fields)
-
 
             bathroom.save((err, result) => {
                 if (err) {
@@ -95,7 +89,7 @@ exports.remove = (req, res) => {
 
 exports.list = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
-    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100
 
     Bathroom.find()
         .sort([[sortBy]])

@@ -1,12 +1,9 @@
 const BusinessOwner = require('../models/businessOwner')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
 exports.businessOwnerById = (req, res, next, id) => {
-    const businessOwnerId = id.substr(id.lastIndexOf('-') + 1)
     BusinessOwner.findById(id)
         .exec((err, businessOwner) => {
             if (err || !businessOwner) {
@@ -59,10 +56,8 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.businessOwner._id
             let businessOwner = req.businessOwner
             businessOwner = _.extend(businessOwner, fields)
-
 
             businessOwner.save((err, result) => {
                 if (err) {
@@ -73,7 +68,6 @@ exports.update = (req, res) => {
 
                 res.json(result)
             })
-
         })
 }
 
@@ -87,7 +81,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'BusinessOwner deleted successfully'
+            message: 'Business Owner deleted successfully'
         })
     })
 }
@@ -102,7 +96,7 @@ exports.list = (req, res) => {
         .exec((err, businessOwner) => {
             if (err) {
                 return res.status(400).json({
-                    message: 'businessOwner not found'
+                    message: 'business Owner not found'
                 })
             }
 

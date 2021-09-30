@@ -4,10 +4,7 @@ const _ = require('lodash')
 const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
 exports.languageSpokenById = (req, res, next, id) => {
-    const languageSpokenId = id.substr(id.lastIndexOf('-') + 1)
-
     LanguageSpoken.findById(id)
         .exec((err, languageSpoken) => {
             if (err || !languageSpoken) {
@@ -60,7 +57,6 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.languageSpoken._id
             let languageSpoken = req.languageSpoken
             languageSpoken = _.extend(languageSpoken, fields)
 
