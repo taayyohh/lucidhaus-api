@@ -122,10 +122,10 @@ const placeSchema = new mongoose.Schema({
         unique: true
     },
     state: String,
-    submittedBy: {
+    submittedBy: [{
         type: ObjectId,
         ref: 'User',
-    },
+    }],
     type: {
         type: String,
         default: 'place'

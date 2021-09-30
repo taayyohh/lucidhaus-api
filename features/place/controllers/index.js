@@ -93,9 +93,9 @@ exports.create = (req, res) => {
                         const field = Object.keys(fields)[i]
                         const value = Object.values(fields)[i]
 
-
                         if (isValidMongooseObjectId(value.split(",")[0])) {
                             place[field] = []
+
                             for (const v of value.split(",")) {
                                 place[field].push(v)
                             }
