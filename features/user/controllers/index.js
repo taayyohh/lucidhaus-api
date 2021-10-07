@@ -282,27 +282,37 @@ exports.addFlaggedReview = (req, res) => {
     let user = req.profile
     let review = req.review
 
-    review.flaggedBy.push(user._id)
-    review.isFlagged = true
 
-    review.save((err, result) => {
-        user.flaggedReviews.push(review.id)
-        user.save((err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    error: errorHandler(err)
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            review.report.push({
+                flaggedBy: user._id,
+                reason: fields.reason
+            })
+
+
+            review.save((err, result) => {
+                user.flaggedReviews.push(review._id)
+                user.save((err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: errorHandler(err)
+                        })
+                    }
                 })
-            }
+
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+
+                res.json(result)
+            })
+
         })
 
-        if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            })
-        }
-
-        res.json(result)
-    })
 }
 
 

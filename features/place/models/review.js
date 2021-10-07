@@ -28,8 +28,8 @@ const ReviewSchema = new mongoose.Schema({
         ref: 'User'
     },
     place: {
-      type: ObjectId,
-      ref: 'Place'
+        type: ObjectId,
+        ref: 'Place'
     },
     placeName: {
         type: String,
@@ -39,6 +39,13 @@ const ReviewSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    report: [{
+        flaggedBy: {
+            type: ObjectId,
+            ref: 'User'
+        },
+        reason: String,
+    }],
     updated: {
         type: Date,
         default: Date.now
@@ -47,10 +54,12 @@ const ReviewSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    flaggedBy: [{
-        type: ObjectId,
-        ref: 'User'
-    }]
+    flaggedBy: [
+        {
+            type: ObjectId,
+            ref: 'User'
+        }
+    ]
 })
 
 //objectID necessary for algolia search
