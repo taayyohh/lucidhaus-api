@@ -154,7 +154,6 @@ exports.update = (req, res) => {
                 place.averageWelcome = ((((place.averageWelcome > 0 ? place.averageWelcome : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.welcome[1]) / (place.reviews.length + 1)).toFixed(2)
                 place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
 
-
                 review.save((err, result) => {
                     if (err) {
                         return res.status(400).json({
@@ -197,25 +196,6 @@ exports.update = (req, res) => {
                 })
             }
 
-        })
-}
-
-exports.updateReview = (req, res) => {
-    let form = new formidable.IncomingForm()
-    form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
-            let review = req.review
-            review = _.extend(review, fields)
-
-            review.save((err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: errorHandler(err)
-                    })
-                }
-
-                res.json(result)
-            })
         })
 }
 

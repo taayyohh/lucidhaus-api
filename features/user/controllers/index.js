@@ -246,35 +246,58 @@ exports.removeReview = (req, res) => {
 
 exports.updateReview = (req, res) => {
     let form = new formidable.IncomingForm()
-    form.keepExtensions = true,
-        form.parse(req, (err, fields, files) => {
-            let review = req.review
-            review = _.extend(review, fields)
-            if (fields.isFlagged === 'false') {
-                review.flaggedBy = []
+    let review = req.review
+
+    Place.findById(review.place)
+        .exec((err, place) => {
+            if (err || !place) {
+                return res.status(400).json({
+                    status: 410,
+                    error: 'place not found'
+                })
             }
 
-            for (let i = 0; i < Object.values(fields).length; i++) {
-                const field = Object.keys(fields)[i]
-                const value = Object.values(fields)[i]
+            const reviewCount = place.reviews.length
+            place.averageSafe = (((place.averageSafe * reviewCount) - review.safe[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+            place.averageWelcome = (((place.averageWelcome * reviewCount) - review.welcome[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+            place.averageCelebrated = (((place.averageCelebrated * reviewCount) - review.celebrated[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+            place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
 
-                if (field === 'celebrated' || field === 'safe' || field === 'welcome') {
-                    review[field] = []
-                    for (const v of value.split(",")) {
-                        review[field].push(v.match(/\d+/g) !== null ? parseInt(v) : v)
+
+            form.keepExtensions = true,
+                form.parse(req, (err, fields, files) => {
+
+                    review = _.extend(review, fields)
+                    for (let i = 0; i < Object.values(fields).length; i++) {
+                        const field = Object.keys(fields)[i]
+                        const value = Object.values(fields)[i]
+
+                        if (field === 'celebrated' || field === 'safe' || field === 'welcome') {
+                            review[field] = []
+                            for (const v of value.split(",")) {
+                                review[field].push(v.match(/\d+/g) !== null ? parseInt(v) : v)
+                            }
+                        }
                     }
-                }
-            }
 
-            review.save((err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: errorHandler(err)
+
+                    review.save((err, result) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: errorHandler(err)
+                            })
+                        }
+
+
+                        place.averageSafe = (((place.averageSafe * place.reviews.length) + review.safe[1]) / (place.reviews.length + 1)).toFixed(2)
+                        place.averageCelebrated = (((place.averageCelebrated * place.reviews.length) + review.celebrated[1]) / (place.reviews.length + 1)).toFixed(2)
+                        place.averageWelcome = (((place.averageWelcome * place.reviews.length) + review.welcome[1]) / (place.reviews.length + 1)).toFixed(2)
+                        place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
+                        place.save()
+
+                        res.json(result)
                     })
-                }
-
-                res.json(result)
-            })
+                })
         })
 }
 
