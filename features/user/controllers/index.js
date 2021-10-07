@@ -280,7 +280,6 @@ exports.updateReview = (req, res) => {
                         }
                     }
 
-
                     review.save((err, result) => {
                         if (err) {
                             return res.status(400).json({
@@ -289,12 +288,11 @@ exports.updateReview = (req, res) => {
                         }
 
 
-                        place.averageSafe = ((((place.averageSafe > 0 ? place.averageSafe : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.safe[1]) / (place.reviews.length + 1)).toFixed(2)
-                        place.averageCelebrated = ((((place.averageCelebrated > 0 ? place.averageCelebrated : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.celebrated[1]) / (place.reviews.length + 1)).toFixed(2)
-                        place.averageWelcome = ((((place.averageWelcome > 0 ? place.averageWelcome : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.welcome[1]) / (place.reviews.length + 1)).toFixed(2)
+                        place.averageSafe = ((((place.averageSafe > 0 ? place.averageSafe : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.safe[1]) / (place.reviews.length)).toFixed(2)
+                        place.averageCelebrated = ((((place.averageCelebrated > 0 ? place.averageCelebrated : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.celebrated[1]) / (place.reviews.length)).toFixed(2)
+                        place.averageWelcome = ((((place.averageWelcome > 0 ? place.averageWelcome : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.welcome[1]) / (place.reviews.length)).toFixed(2)
                         place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
                         place.save()
-
                         res.json(result)
                     })
                 })
