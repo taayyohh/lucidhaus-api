@@ -302,9 +302,8 @@ exports.updateReview = (req, res) => {
 exports.addFlaggedReview = (req, res) => {
     let user = req.profile
     let review = req.review
-
-
     let form = new formidable.IncomingForm()
+
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
             review.report.push({
@@ -333,7 +332,6 @@ exports.addFlaggedReview = (req, res) => {
             })
 
         })
-
 }
 
 
