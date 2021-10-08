@@ -277,7 +277,7 @@ exports.updateReview = (req, res) => {
                     place.averageSafe = (((place.averageSafe * reviewCount) - prevScores.safe_prev[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
                     place.averageWelcome = (((place.averageWelcome * reviewCount) - prevScores.welcome_prev[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
                     place.averageCelebrated = (((place.averageCelebrated * reviewCount) - prevScores.celebrated_prev[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
-                    place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
+                    place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
 
                     review = _.extend(review, fields)
                     for (let i = 0; i < Object.values(fields).length; i++) {
