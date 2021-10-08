@@ -257,15 +257,27 @@ exports.updateReview = (req, res) => {
                 })
             }
 
-            const reviewCount = place.reviews.length
-            place.averageSafe = (((place.averageSafe * reviewCount) - review.safe[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
-            place.averageWelcome = (((place.averageWelcome * reviewCount) - review.welcome[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
-            place.averageCelebrated = (((place.averageCelebrated * reviewCount) - review.celebrated[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
-            place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
-
-
             form.keepExtensions = true,
                 form.parse(req, (err, fields, files) => {
+                    const prevScores = {}
+
+                    for (let i = 0; i < Object.values(fields).length; i++) {
+                        const field = Object.keys(fields)[i]
+                        const value = Object.values(fields)[i]
+
+                        if (field === 'celebrated_prev' || field === 'safe_prev' || field === 'welcome_prev') {
+                            prevScores[field] = []
+                            for (const v of value.split(",")) {
+                                prevScores[field].push(v.match(/\d+/g) !== null ? parseInt(v) : v)
+                            }
+                        }
+                    }
+
+                    const reviewCount = place.reviews.length
+                    place.averageSafe = (((place.averageSafe * reviewCount) - prevScores.safe_prev[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+                    place.averageWelcome = (((place.averageWelcome * reviewCount) - prevScores.welcome_prev[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+                    place.averageCelebrated = (((place.averageCelebrated * reviewCount) - prevScores.celebrated_prev[1]) / (reviewCount - 1 > 0 ? reviewCount - 1 : 1)).toFixed(2)
+                    place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
 
                     review = _.extend(review, fields)
                     for (let i = 0; i < Object.values(fields).length; i++) {
@@ -280,6 +292,7 @@ exports.updateReview = (req, res) => {
                         }
                     }
 
+
                     review.save((err, result) => {
                         if (err) {
                             return res.status(400).json({
@@ -287,11 +300,11 @@ exports.updateReview = (req, res) => {
                             })
                         }
 
-
-                        place.averageSafe = ((((place.averageSafe > 0 ? place.averageSafe : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.safe[1]) / (place.reviews.length)).toFixed(2)
-                        place.averageCelebrated = ((((place.averageCelebrated > 0 ? place.averageCelebrated : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.celebrated[1]) / (place.reviews.length)).toFixed(2)
-                        place.averageWelcome = ((((place.averageWelcome > 0 ? place.averageWelcome : 0) * (place.reviews.length > 0 ? place.reviews.length : 0)) + review.welcome[1]) / (place.reviews.length)).toFixed(2)
+                        place.averageSafe = (((place.averageSafe * (place.reviews.length - 1)) + review.safe[1]) / (place.reviews.length)).toFixed(2)
+                        place.averageCelebrated = (((place.averageCelebrated * (place.reviews.length - 1)) + review.celebrated[1]) / (place.reviews.length)).toFixed(2)
+                        place.averageWelcome = (((place.averageWelcome * (place.reviews.length - 1)) + review.welcome[1]) / (place.reviews.length)).toFixed(2)
                         place.inclusiveScore = ((place.averageSafe + place.averageCelebrated + place.averageWelcome) / 3).toFixed(2)
+
                         place.save()
                         res.json(result)
                     })
