@@ -189,26 +189,26 @@ exports.update = (req, res) => {
 
             } else {
 
-                place.geojson = [
-                    {
-                        type: 'Feature',
-                        geometry: {
-                            type: 'Point',
-                            coordinates: [place.longitude, place.latitude],
-                        }
-                    }
-                ]
-                place.geojson[0].properties.phoneFormatted = place.tel
-                place.geojson[0].properties.phone = place.tel
-                place.geojson[0].properties.address = place.address1
-                place.geojson[0].properties.city = place.city
-                place.geojson[0].properties.country = place.country
-                place.geojson[0].properties.postalCode = place.zip
-                place.geojson[0].properties.state = place.state
-
                 for (let i = 0; i < Object.values(fields).length; i++) {
                     const field = Object.keys(fields)[i]
                     const value = Object.values(fields)[i]
+
+                    place.geojson = [
+                        {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [place.longitude, place.latitude],
+                            }
+                        }
+                    ]
+                    place.geojson[0].properties.phoneFormatted = place.tel
+                    place.geojson[0].properties.phone = place.tel
+                    place.geojson[0].properties.address = place.address1
+                    place.geojson[0].properties.city = place.city
+                    place.geojson[0].properties.country = place.country
+                    place.geojson[0].properties.postalCode = place.zip
+                    place.geojson[0].properties.state = place.state
 
                     if (isValidMongooseObjectId(value.split(",")[0])) {
                         place[field] = []
@@ -287,9 +287,9 @@ exports.listPendingPlaces = (req, res) => {
 }
 
 exports.listFlaggedReviews = (req, res) => {
-    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100
 
-    Review.find({isFlagged: true})
+    Review.find({ report: { $exists: true, $not: {$size: 0} } })
         .limit(limit)
         .exec((err, reviews) => {
             if (err) {
