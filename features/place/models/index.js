@@ -4,14 +4,24 @@ const {ObjectId, Types} = mongoose.Schema
 
 mongoose.plugin(slug);
 
+const geoJsonProperties = new mongoose.Schema({
+    phoneFormatted: String,
+    phone: String,
+    address: String,
+    address2: String,
+    city: String,
+    country: String,
+    crossStreet: String,
+    postalCode: String,
+    state: String
+});
+
 const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
     audioAvailable: {
         type: Boolean,
         default: false
     },
-    address1: String,
-    address2: String,
     averageSafe: {
         type: 'Number',
         default: 0
@@ -49,17 +59,34 @@ const placeSchema = new mongoose.Schema({
         ref: 'PlaceCategory',
         default: () => { return null }
     }],
-    city: String,
     communitiesServed: [{
         type: ObjectId,
         ref: 'CommunitiesServed',
     }],
-    country: String,
     description: String,
     foodOptions: [{
         type: ObjectId,
         ref: 'FoodOptions',
     }],
+    geojson: [
+        {
+            type: {
+                type: String,
+                default: 'Features'
+            },
+            geometry: {
+                type: {
+                    type: String,
+                    default: 'Point'
+                },
+                coordinates: []
+            },
+            properties: {
+                type: geoJsonProperties,
+                default: {}
+            }
+        }
+    ],
     isPendingSubmission: {
         type: Boolean,
         default: false
@@ -83,14 +110,6 @@ const placeSchema = new mongoose.Schema({
     largeAdaptiveEquipment: {
         type: Boolean,
         default: false
-    },
-    latitude: {
-        type: 'Number',
-        default: null
-    },
-    longitude: {
-        type: 'Number',
-        default: null
     },
     name: {
         type: String,
@@ -121,7 +140,6 @@ const placeSchema = new mongoose.Schema({
         slug: "name",
         unique: true
     },
-    state: String,
     submittedBy: [{
         type: ObjectId,
         ref: 'User',
@@ -146,9 +164,9 @@ const placeSchema = new mongoose.Schema({
     wheelchairRestroom: {
         type: Boolean,
         default: false
-    },
-    zip: String
+    }
 }, {id: false})
+
 
 //objectID necessary for algolia search
 placeSchema.virtual('objectID').get(function () {
