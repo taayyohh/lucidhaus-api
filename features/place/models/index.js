@@ -5,15 +5,17 @@ const {ObjectId, Types} = mongoose.Schema
 mongoose.plugin(slug);
 
 const geoJsonProperties = new mongoose.Schema({
-    phoneFormatted: String,
-    phone: String,
     address: String,
     address2: String,
     city: String,
     country: String,
     crossStreet: String,
+    phoneFormatted: String,
+    phone: String,
     postalCode: String,
-    state: String
+    state: String,
+    name: String,
+    description: String
 });
 
 const placeSchema = new mongoose.Schema({

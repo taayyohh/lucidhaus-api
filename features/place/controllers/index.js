@@ -106,6 +106,8 @@ exports.create = (req, res) => {
                         place.geojson[0].properties.country = place.country
                         place.geojson[0].properties.postalCode = place.zip
                         place.geojson[0].properties.state = place.state
+                        place.geojson[0].properties.name = place.name
+                        place.geojson[0].properties.description = place.description
 
 
                         if (isValidMongooseObjectId(value.split(",")[0])) {
@@ -209,6 +211,8 @@ exports.update = (req, res) => {
                     place.geojson[0].properties.country = place.country
                     place.geojson[0].properties.postalCode = place.zip
                     place.geojson[0].properties.state = place.state
+                    place.geojson[0].properties.name = place.name
+                    place.geojson[0].properties.description = place.description
 
                     if (isValidMongooseObjectId(value.split(",")[0])) {
                         place[field] = []
