@@ -8,7 +8,10 @@ const geoJsonProperties = new mongoose.Schema({
     address: String,
     address2: String,
     city: String,
-    country: String,
+    country: {
+        type: String,
+        default: 'United States'
+    },
     crossStreet: String,
     phoneFormatted: String,
     phone: String,

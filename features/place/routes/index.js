@@ -11,6 +11,7 @@ const {
     read,
     readReview,
     remove,
+    submit,
     update,
     list,
     listPendingPlaces,
@@ -39,7 +40,7 @@ router.post(
     '/place/submit/:userId',
     requireSignIn,
     isAuth,
-    create
+    submit
 )
 
 router.post(

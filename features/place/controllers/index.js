@@ -80,8 +80,6 @@ exports.create = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
             let place = new Place(fields)
-            const BOONE_ID = 'booneId'
-
 
             Place.findOne({booneId: parseInt(fields.booneId)}).exec((err, existingPlace) => {
                 if (!existingPlace) {
@@ -141,6 +139,82 @@ exports.create = (req, res) => {
             })
         })
 }
+
+
+exports.submit = (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true,
+        form.parse(req, (err, fields, files) => {
+            let place = new Place(fields)
+
+            Place.find({}, 'geojson').exec((err, existingPlace) => {
+                const placeExists = existingPlace
+                    .filter(item => item.geojson[0]?.properties?.state === fields.state)
+                    .filter(item => item.geojson[0]?.properties?.city === fields.city)
+                    .filter(item => item.geojson[0]?.properties?.address === fields.address1).length > 0
+
+                if (err) {
+                    return res.status(409).json({
+                        error: err
+                    })
+                }
+
+                if (placeExists) {
+                    return res.status(409).json({
+                        error: 'already exists'
+                    })
+                }
+
+
+                for (let i = 0; i < Object.values(fields).length; i++) {
+                    const field = Object.keys(fields)[i]
+                    const value = Object.values(fields)[i]
+
+                    place.geojson = [
+                        {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [place.longitude, place.latitude],
+                            }
+                        }
+                    ]
+                    place.geojson[0].properties.phoneFormatted = place.tel
+                    place.geojson[0].properties.address = place.address1
+                    place.geojson[0].properties.addres2 = place.address2
+                    place.geojson[0].properties.city = place.city
+                    place.geojson[0].properties.postalCode = place.zip
+                    place.geojson[0].properties.state = place.state
+                    place.geojson[0].properties.name = place.name
+                    place.geojson[0].properties.description = place.description
+
+
+                    if (isValidMongooseObjectId(value.split(",")[0])) {
+                        place[field] = []
+
+                        for (const v of value.split(",")) {
+                            place[field].push(v)
+                        }
+                    } else if (value === 'isEmptyArray') {
+                        place[field] = []
+                    } else {
+                        place[field] = value
+                    }
+                }
+
+                place.save((err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: errorHandler(err)
+                        })
+                    }
+
+                    res.json(result)
+                })
+            })
+        })
+}
+
 
 exports.read = (req, res) => {
     return res.json(req.place)
@@ -293,7 +367,7 @@ exports.listPendingPlaces = (req, res) => {
 exports.listFlaggedReviews = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 100
 
-    Review.find({ report: { $exists: true, $not: {$size: 0} } })
+    Review.find({report: {$exists: true, $not: {$size: 0}}})
         .limit(limit)
         .exec((err, reviews) => {
             if (err) {
