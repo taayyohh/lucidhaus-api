@@ -133,7 +133,7 @@ exports.create = (req, res) => {
 
                 } else {
                     return res.status(409).json({
-                        error: 'already exists'
+                        error: existingPlace.slug
                     })
                 }
             })

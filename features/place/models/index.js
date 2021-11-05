@@ -142,8 +142,9 @@ const placeSchema = new mongoose.Schema({
     },
     slug: {
         type: String,
-        slug: "name",
-        unique: true
+        slug: ["name", 'geojson.0.properties.address', 'geojson.0.properties.city', 'geojson.0.properties.state'],
+        unique: true,
+        permanent: true
     },
     submittedBy: [{
         type: ObjectId,
