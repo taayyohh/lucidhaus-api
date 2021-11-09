@@ -37,14 +37,23 @@ exports.create = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let placeCategory = new PlaceCategory(fields)
 
-            placeCategory.save((err, result) => {
-                if (err) {
+
+            PlaceCategory.findOne({name: fields.name}).exec((err, existingPlaceCategory) => {
+                if (!existingPlaceCategory) {
+                    placeCategory.save((err, result) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: errorHandler(err)
+                            })
+                        }
+
+                        res.json(result)
+                    })
+                } else {
                     return res.status(400).json({
-                        error: errorHandler(err)
+                        error: 'Already Exists'
                     })
                 }
-
-                res.json(result)
             })
         })
 }

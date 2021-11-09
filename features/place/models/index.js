@@ -45,7 +45,8 @@ const placeSchema = new mongoose.Schema({
     }],
     booneId: {
         type: 'Number',
-        unique: true
+        unique: true,
+        sparse: true
     },
     braille: {
         type: Boolean,
