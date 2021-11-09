@@ -97,10 +97,6 @@ const placeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isPublished: {
-        type: Boolean,
-        default: true
-    },
     isRestaurant: {
         type: Boolean,
         default: false
