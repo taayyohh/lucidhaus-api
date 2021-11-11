@@ -137,6 +137,12 @@ const userSchema = new mongoose.Schema({
         default: ''
     },
     pendingPlaceSubmissions: [],
+    recentlyViewed: [
+        {
+            type: ObjectId,
+            ref: 'Place'
+        }
+    ],
     resetPasswordToken: {
         type: String,
         required: false
@@ -152,7 +158,7 @@ const userSchema = new mongoose.Schema({
     salt: String,
     slug: {
         type: String,
-        slug: ["nameFirst"],
+        slug: ["nameFirst", "nameLast"],
         unique: true
     },
     tel: {

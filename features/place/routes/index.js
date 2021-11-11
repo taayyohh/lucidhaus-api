@@ -4,6 +4,7 @@ const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 
 const {userById} = require('../../user/controllers')
 const {
+    handlePageView,
     placeById,
     placeBySlug,
     reviewById,
@@ -49,6 +50,14 @@ router.post(
     isAuth,
     create
 )
+
+router.post(
+    '/place/:placeId/handle-page-view/:userId',
+    requireSignIn,
+    isAuth,
+    handlePageView
+)
+
 router.delete('/place/:slug/:userId',
     requireSignIn,
     isAuth,

@@ -1,4 +1,6 @@
 const Place = require('../models')
+const User = require('../../user/models')
+
 const Review = require('../models/review')
 const formidable = require('formidable')
 const _ = require('lodash')
@@ -110,12 +112,25 @@ exports.create = (req, res) => {
 
                         if (isValidMongooseObjectId(value.split(",")[0])) {
                             place[field] = []
-
                             for (const v of value.split(",")) {
                                 place[field].push(v)
                             }
                         } else if (value === 'isEmptyArray') {
                             place[field] = []
+                        } else if (field === 'hours') {
+                            let hoursArray = []
+                            let hoursObject = {}
+                            for (const v of value.split('&')) {
+                                if (v.length > 0) {
+                                    hoursArray.push(v.replace(',', '').split('/'))
+                                }
+                            }
+                            for (const day of hoursArray) {
+                                day[1] = day[1].split('-')
+                            }
+                            hoursObject = hoursArray.reduce((a, v) => ({...a, [v[0]]: v[1]}), {})
+                            place[field] = hoursObject
+                            place.geojson[0].properties.hours = hoursObject
                         } else {
                             place[field] = value
                         }
@@ -378,6 +393,41 @@ exports.listFlaggedReviews = (req, res) => {
 
             res.send(reviews)
         })
+}
+
+exports.handlePageView = (req, res) => {
+    let place = req.place
+    place.views.push(req.body)
+
+    User.findById(req.body.viewedBy).exec((err, user) => {
+        if(user.recentlyViewed.filter(item => item === place._id).length === 0) {
+            if(user.recentlyViewed.length > 5) {
+                user.recentlyViewed.pop()
+                user.recentlyViewed.push(place._id)
+            } else {
+                user.recentlyViewed.push(place._id)
+            }
+
+            user.save((err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: errorHandler(err)
+                    })
+                }
+            })
+        }
+    })
+
+
+    place.save((err, result) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json(result)
+    })
 }
 
 

@@ -13,12 +13,21 @@ const geoJsonProperties = new mongoose.Schema({
         default: 'United States'
     },
     crossStreet: String,
+    hours: {},
     phoneFormatted: String,
     phone: String,
     postalCode: String,
     state: String,
     name: String,
     description: String
+});
+
+const viewsSchema = new mongoose.Schema({
+    viewedBy: {
+        type: ObjectId,
+        ref: 'User'
+    },
+    viewedAt: Number
 });
 
 const placeSchema = new mongoose.Schema({
@@ -63,7 +72,9 @@ const placeSchema = new mongoose.Schema({
     categories: [{
         type: ObjectId,
         ref: 'PlaceCategory',
-        default: () => { return null }
+        default: () => {
+            return null
+        }
     }],
     communitiesServed: [{
         type: ObjectId,
@@ -74,6 +85,7 @@ const placeSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'FoodOptions',
     }],
+    hours: {},
     geojson: [
         {
             type: {
@@ -151,6 +163,13 @@ const placeSchema = new mongoose.Schema({
         type: String,
         default: 'place'
     },
+    views: [{
+        viewedBy: {
+            type: ObjectId,
+            ref: 'User'
+        },
+        viewedAt: Number
+    }],
     website: String,
     wheelchairElevator: {
         type: Boolean,
