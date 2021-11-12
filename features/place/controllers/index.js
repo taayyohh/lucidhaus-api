@@ -400,12 +400,12 @@ exports.handlePageView = (req, res) => {
     place.views.push(req.body)
 
     User.findById(req.body.viewedBy).exec((err, user) => {
-        if(user.recentlyViewed.filter(item => item === place._id).length === 0) {
-            if(user.recentlyViewed.length > 5) {
+        if(user?.recentlyViewed?.filter(item => item === place._id).length === 0) {
+            if(user.recentlyViewed.length === 6) {
                 user.recentlyViewed.pop()
-                user.recentlyViewed.push(place._id)
+                user.recentlyViewed.unshift(place._id)
             } else {
-                user.recentlyViewed.push(place._id)
+                user.recentlyViewed.unshift(place._id)
             }
 
             user.save((err, result) => {
@@ -414,20 +414,22 @@ exports.handlePageView = (req, res) => {
                         error: errorHandler(err)
                     })
                 }
+
+                place.save((err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: errorHandler(err)
+                        })
+                    }
+
+                    res.json(result)
+                })
             })
         }
     })
 
 
-    place.save((err, result) => {
-        if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            })
-        }
 
-        res.json(result)
-    })
 }
 
 
