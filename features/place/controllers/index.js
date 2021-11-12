@@ -400,7 +400,7 @@ exports.handlePageView = (req, res) => {
     place.views.push(req.body)
 
     User.findById(req.body.viewedBy).exec((err, user) => {
-        if(user?.recentlyViewed?.filter(item => item === place._id).length === 0) {
+        if(!user?.recentlyViewed.includes(place._id)) {
             if(user.recentlyViewed.length === 6) {
                 user.recentlyViewed.pop()
                 user.recentlyViewed.unshift(place._id)
