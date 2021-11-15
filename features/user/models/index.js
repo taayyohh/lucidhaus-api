@@ -159,7 +159,8 @@ const userSchema = new mongoose.Schema({
     slug: {
         type: String,
         slug: ["nameFirst", "nameLast"],
-        unique: true
+        unique: true,
+        permanent: true
     },
     tel: {
         type: String,
