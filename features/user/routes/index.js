@@ -34,7 +34,13 @@ router.get('/user/:slug/:userId', requireSignIn, isAuth, read)
 router.get('/user/by/id/:aUsersId/:userId', requireSignIn, isAuth, getOneUser)
 
 // router.get('/user/:userId', requireSignIn, isAuth, read)
-router.delete('/user/:slug/:userId', requireSignIn, isAuth, isAdmin, remove)
+router.delete(
+    '/user/:slug/:userId',
+    requireSignIn,
+    isAuth,
+    // isAdmin, TODO:: does removing this introduce security vulnerability
+    remove
+)
 router.put('/user/:slug/:userId', requireSignIn, isAuth, update)
 router.put('/bookmark/place/:userId', requireSignIn, isAuth, addBookmark)
 router.get('/orders/by/user/:userId', requireSignIn, isAuth, purchaseHistory)
@@ -51,7 +57,6 @@ router.put('/reviews/:reviewId/:userId',
 )
 router.put('/submission/place/:userId', requireSignIn, isAuth, addPlaceSubmissionToUserHistory)
 router.put('/user/flag/:reviewId/:userId', requireSignIn, isAuth, addFlaggedReview)
-
 
 
 //Password RESET
