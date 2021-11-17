@@ -11,6 +11,7 @@ exports.sendVerification = (req, res) => {
 }
 
 exports.confirmVerification = (req, res) => {
+    console.log('body', req.body)
     twilio.verify.services(process.env.VERIFICATION_SID)
         .verificationChecks
         .create({to: `+1${req.body.tel.replace(/-/g, "")}`, code: req.body.verificationCode})
