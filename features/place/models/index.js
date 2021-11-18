@@ -13,13 +13,13 @@ const geoJsonProperties = new mongoose.Schema({
         default: 'United States'
     },
     crossStreet: String,
+    description: String,
     hours: {},
     phoneFormatted: String,
     phone: String,
     postalCode: String,
     state: String,
     name: String,
-    description: String
 });
 
 const viewsSchema = new mongoose.Schema({
