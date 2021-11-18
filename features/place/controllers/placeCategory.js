@@ -37,7 +37,6 @@ exports.create = (req, res) => {
         form.parse(req, (err, fields, files) => {
             let placeCategory = new PlaceCategory(fields)
 
-
             PlaceCategory.findOne({name: fields.name}).exec((err, existingPlaceCategory) => {
                 if (!existingPlaceCategory) {
                     placeCategory.save((err, result) => {
