@@ -2,11 +2,12 @@ const express = require('express')
 const router = express.Router()
 
 const {userById} = require('../../user/controllers')
-const {sendVerification, confirmVerification} = require('../controllers/twilio')
+const {sendVerification, sendEmailVerification, confirmVerification} = require('../controllers/twilio')
 
 
 
 router.post('/twilio/sendVerification', sendVerification)
+router.post('/twilio/sendEmailVerification', sendEmailVerification)
 router.post('/twilio/confirmVerification', confirmVerification)
 
 

@@ -10,8 +10,20 @@ exports.sendVerification = (req, res) => {
         });
 }
 
+exports.sendEmailVerification = (req, res) => {
+    console.log('email', req.body.email)
+    console.log('req', req.body)
+    twilio.verify.services(process.env.VERIFICATION_SID)
+        .verifications
+        .create({to: req.body.email, channel: 'email'})
+        .then(verification => {
+            res.write(JSON.stringify(verification.status));
+            res.end();
+        });
+}
+
+
 exports.confirmVerification = (req, res) => {
-    console.log('body', req.body)
     twilio.verify.services(process.env.VERIFICATION_SID)
         .verificationChecks
         .create({to: `+1${req.body.tel.replace(/-/g, "")}`, code: req.body.verificationCode})

@@ -93,8 +93,6 @@ exports.update = (req, res) => {
                 }
 
             } else {
-                console.log('FIELDS', fields)
-                console.log('USER', user)
                 user = _.extend(user, fields)
             }
 
