@@ -10,6 +10,17 @@ exports.sendVerification = (req, res) => {
         });
 }
 
+
+exports.confirmVerification = (req, res) => {
+    twilio.verify.services(process.env.VERIFICATION_SID)
+        .verificationChecks
+        .create({to: `+1${req.body.tel.replace(/-/g, "")}`, code: req.body.verificationCode})
+        .then(verification_check => {
+            res.write(JSON.stringify(verification_check.status));
+            res.end();
+        });
+}
+
 exports.sendEmailVerification = (req, res) => {
     console.log('email', req.body.email)
     console.log('req', req.body)
@@ -22,11 +33,10 @@ exports.sendEmailVerification = (req, res) => {
         });
 }
 
-
-exports.confirmVerification = (req, res) => {
+exports.confirmEmailVerification = (req, res) => {
     twilio.verify.services(process.env.VERIFICATION_SID)
         .verificationChecks
-        .create({to: `+1${req.body.tel.replace(/-/g, "")}`, code: req.body.verificationCode})
+        .create({to: req.body.email, code: req.body.verificationCode})
         .then(verification_check => {
             res.write(JSON.stringify(verification_check.status));
             res.end();
