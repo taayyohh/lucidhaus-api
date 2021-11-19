@@ -6,7 +6,6 @@
 const uniqueMessage = error => {
     let output
     try {
-        console.log('error', error)
         let fieldName = error.keyValue.tel
         output = `Looks like there's an account already associated with ${fieldName}`
     } catch (ex) {

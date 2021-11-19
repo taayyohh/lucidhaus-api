@@ -22,8 +22,6 @@ exports.confirmVerification = (req, res) => {
 }
 
 exports.sendEmailVerification = (req, res) => {
-    console.log('email', req.body.email)
-    console.log('req', req.body)
     twilio.verify.services(process.env.VERIFICATION_SID)
         .verifications
         .create({to: req.body.email, channel: 'email'})
