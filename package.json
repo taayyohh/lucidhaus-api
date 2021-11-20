@@ -1,7 +1,7 @@
 {
-  "name": "ecommerce",
-  "version": "1.0.0",
-  "description": "",
+  "name": "inclusive-guide",
+  "version": "0.6.0",
+  "description": "inclusive guide api",
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js"
