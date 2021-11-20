@@ -164,9 +164,9 @@ exports.submit = (req, res) => {
 
             Place.find({}, 'geojson').exec((err, existingPlace) => {
                 const placeExists = (existingPlace
-                    .filter(item => item.geojson[0]?.properties?.state === fields.state)
-                    .filter(item => item.geojson[0]?.properties?.city === fields.city)
-                    .filter(item => item.geojson[0]?.properties?.address === fields.address1)).length > 0
+                    .filter(item => item.geojson[0].properties.state === fields.state)
+                    .filter(item => item.geojson[0].properties.city === fields.city)
+                    .filter(item => item.geojson[0].properties.address === fields.address1)).length > 0
 
                 if (err) {
                     return res.status(409).json({
