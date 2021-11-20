@@ -164,9 +164,9 @@ exports.submit = (req, res) => {
 
             Place.find({}, 'geojson').exec((err, existingPlace) => {
                 const placeExists = (existingPlace
-                    .filter(item => item.geojson[0].properties.state === fields.state)
-                    .filter(item => item.geojson[0].properties.city === fields.city)
-                    .filter(item => item.geojson[0].properties.address === fields.address1)).length > 0
+                    .filter(item => item.geojson[0]?.properties?.state === fields.state)
+                    .filter(item => item.geojson[0]?.properties?.city === fields.city)
+                    .filter(item => item.geojson[0]?.properties?.address === fields.address1)).length > 0
 
                 if (err) {
                     return res.status(409).json({
@@ -400,7 +400,7 @@ exports.handlePageView = (req, res) => {
     place.views.push(req.body)
 
     User.findById(req.body.viewedBy).exec((err, user) => {
-        if(!user?.recentlyViewed.includes(place._id)) {
+        if(!!user && !user?.recentlyViewed.includes(place._id)) {
             if(user.recentlyViewed.length === 6) {
                 user.recentlyViewed.pop()
                 user.recentlyViewed.unshift(place._id)
@@ -427,9 +427,6 @@ exports.handlePageView = (req, res) => {
             })
         }
     })
-
-
-
 }
 
 
