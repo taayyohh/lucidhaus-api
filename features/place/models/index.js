@@ -69,13 +69,14 @@ const placeSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'BusinessOwner',
     }],
-    categories: [{
-        type: ObjectId,
-        ref: 'PlaceCategory',
-        default: () => {
-            return null
-        }
-    }],
+    // categories: [{
+    //     type: ObjectId,
+    //     ref: 'PlaceCategory',
+    //     default: () => {
+    //         return null
+    //     }
+    // }],
+    categories: [],
     communitiesServed: [{
         type: ObjectId,
         ref: 'CommunitiesServed',
