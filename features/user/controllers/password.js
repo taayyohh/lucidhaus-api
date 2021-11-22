@@ -108,7 +108,7 @@ exports.checkForVerification = () => {
                                 to: user.email,
                                 from: 'no-reply@inclusiveguide.com',
                                 subject: `Inclusive Guide: Verify your email!`,
-                                html: `https://beta.inclusiveguide.com/verify/${user.verificationToken}`
+                                html: `https://inclusiveguide.com/verify/${user.verificationToken}`
                             }
                             sgMail.send(verificationEmail)
                             user.confirmationAttempt = user.confirmationAttempt + 1

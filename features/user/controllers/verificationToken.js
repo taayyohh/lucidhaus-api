@@ -36,7 +36,7 @@ exports.create = (req, res) => {
                     to: req.profile.email,
                     from: 'no-reply@inclusiveguide.com',
                     subject: `Inclusive Guide: Verify your email!`,
-                    html: `https://beta.inclusiveguide.com/verify/${fields.verificationToken}`
+                    html: `https://inclusiveguide.com/verify/${fields.verificationToken}`
                 }
                 sgMail.send(verificationEmail)
 
@@ -119,7 +119,7 @@ exports.resend = (req, res) => {
         to: req.profile.email,
         from: 'no-reply@inclusiveguide.com',
         subject: `Inclusive Guide: Verify your email!`,
-        html: `https://beta.inclusiveguide.com/verify/${req.profile.verificationToken}`
+        html: `https://inclusiveguide.com/verify/${req.profile.verificationToken}`
     }
     sgMail.send(verificationEmail)
     res.json({success: 'success'})
