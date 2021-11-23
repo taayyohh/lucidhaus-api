@@ -3,3 +3,5 @@ node_modules
 .env
 # dependencies
 /node_modules
+
+.DS_Store
