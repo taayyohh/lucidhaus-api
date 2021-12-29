@@ -24,15 +24,7 @@ const eventSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
-<<<<<<< HEAD:features/event/models/index.js
     description: {
-=======
-    video: {
-        type: String,
-        trim: true,
-    },
-    photo: {
->>>>>>> a534292884f416c05e28c2c063a936980ba8dc70:models/post.js
         type: String,
         trim: true,
         required: true,

@@ -9,6 +9,7 @@ const expressValidator = require('express-validator')
 require('dotenv').config()
 
 //import routes
+<<<<<<< HEAD
 const authRoutes = require('./features/user/routes/auth')
 const artistRoutes = require('./features/artist/routes')
 const albumRoutes = require('./features/album/routes')
@@ -34,6 +35,20 @@ const foodOptionsRoutes = require('./features/place/routes/foodOptions')
 const languageSpokenRoutes = require('./features/place/routes/languageSpoken')
 const placeCategoryRoutes = require('./features/place/routes/placeCategory')
 const {checkForVerification} = require('./features/user/controllers/password')
+=======
+const authRoutes = require('./routes/auth')
+const userRoutes = require('./routes/user')
+const postRoutes = require('./routes/post')
+const collaboratorRoutes = require('./routes/collaborator')
+const eventRoutes = require('./routes/event')
+const braintreeRoutes = require('./routes/braintree')
+const s3Routes = require('./routes/s3')
+const productRoutes = require('./routes/product')
+const productCategoryRoutes = require('./routes/productCategory')
+const orderRoutes = require('./routes/order')
+const artistRoutes = require('./routes/artist')
+const albumRoutes = require('./routes/album')
+>>>>>>> a534292884f416c05e28c2c063a936980ba8dc70
 
 
 const app = express()
@@ -58,7 +73,11 @@ app.use('/api', artistRoutes)
 app.use('/api', albumRoutes)
 app.use('/api', eventRoutes)
 app.use('/api', collaboratorRoutes)
+<<<<<<< HEAD
 
+=======
+app.use('/api', eventRoutes)
+>>>>>>> a534292884f416c05e28c2c063a936980ba8dc70
 app.use('/api', braintreeRoutes)
 app.use('/api', orderRoutes)
 app.use('/api', placeRoutes)
