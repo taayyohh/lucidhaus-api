@@ -32,6 +32,12 @@ const productSchema = new mongoose.Schema({
         required: true,
         maxLength: 32
     },
+    internationalShippingCost: {
+        type: Number,
+        trim: true,
+        required: true,
+        maxLength: 32
+    },
     sold: {
         type: Number,
         default: 0

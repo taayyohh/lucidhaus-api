@@ -2,43 +2,42 @@ const express = require('express')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 const {userById} = require('../../user/controllers')
+
 const {
-    genderById,
-    genderBySlug,
+    eventById,
+    eventBySlug,
     create,
     read,
     remove,
     update,
+    getCollaboratorsCatalogue,
     list,
-} = require('../controllers/gender')
+    photo
+} = require('../controllers')
 
 
-router.get('/gender', list)
-router.get('/gender/:slug', read)
-router.get('/gender/by/id/:id', read)
-
+router.get('/event/:slug', read)
 router.post(
-    '/gender/create/:userId',
+    '/event/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/gender/:slug/:userId',
+router.delete('/event/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/gender/:slug/:userId',
-    requireSignIn,
-    isAuth,
-    isAdmin,
+router.put('/event/:slug',
     update
 )
 
+router.get('/events', list)
+
 router.param('userId', userById)
-router.param('id', genderById)
-router.param('slug', genderBySlug)
+router.param('eventId', eventById)
+router.param('slug', eventBySlug)
 
 module.exports = router

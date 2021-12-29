@@ -13,7 +13,7 @@ const ReviewSchema = new mongoose.Schema({
     reviewerAvatar: String,
     reviewerName: {
         type: String,
-        default: 'Inclusive Guide Reviewer',
+        default: 'LucidHaus Reviewer',
         maxLength: 500
     },
     safe: [],

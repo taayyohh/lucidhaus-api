@@ -1,10 +1,10 @@
-const Index = require('../models')
+const Product = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
 const {errorHandler} = require('../../../../utils/helpers/dbErrorHandler')
 
 exports.productById = (req, res, next, id) => {
-    Index.findById(id)
+    Product.findById(id)
         .populate('productCategory')
         .exec((err, product) => {
             if (err || !product) {
@@ -18,7 +18,7 @@ exports.productById = (req, res, next, id) => {
 }
 
 exports.productBySlug = (req, res, next, slug) => {
-    Index.findOne({slug: slug})
+    Product.findOne({slug: slug})
         .populate('productCategory')
         .exec((err, product) => {
             if (err || !product) {
@@ -32,7 +32,7 @@ exports.productBySlug = (req, res, next, slug) => {
 }
 
 exports.productsByCategory = (req, res, next, productCategory) => {
-    Index.find({category: productCategory})
+    Product.find({category: productCategory})
         .exec((err, products) => {
             if (err || !products) {
                 return res.status(400).json({
@@ -48,7 +48,7 @@ exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let product = new Index(fields)
+            let product = new Product(fields)
 
             product.save((err, result) => {
                 if (err) {
@@ -98,7 +98,7 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'Index deleted successfully'
+            message: 'Product deleted successfully'
         })
     })
 }
@@ -115,7 +115,7 @@ exports.list = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    Index.find()
+    Product.find()
         .populate('productCategory')
         .sort([[sortBy, order]])
         .limit(limit)
@@ -138,7 +138,7 @@ exports.listRelated = (req, res) => {
     let order = req.query.order ? req.query.order : 'asc'
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
 
-    Index.find({
+    Product.find({
         _id: {$ne: req.product},
         productCategory: req.product.productCategory
     })
@@ -157,7 +157,7 @@ exports.listRelated = (req, res) => {
 }
 
 exports.listCategories = (req, res) => {
-    Index.distinct('productCategory', {}, (err, categories) => {
+    Product.distinct('productCategory', {}, (err, categories) => {
         if (err) {
             return res.status(400).json({
                 message: 'no related products'
@@ -202,7 +202,7 @@ exports.listBySearch = (req, res) => {
         }
     }
 
-    Index.find(findArgs)
+    Product.find(findArgs)
         .populate('productCategory')
         .sort([[sortBy, order]])
         .skip(skip)
@@ -241,7 +241,7 @@ exports.listSearch = (req, res) => {
         }
 
         //find product based on query obj (search and cat)
-        Index.find(query, (err, products) => {
+        Product.find(query, (err, products) => {
             if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
@@ -262,7 +262,7 @@ exports.decreaseQuantity = (req, res, next) => {
         }
     })
 
-    Index.bulkWrite(bulkOps, {}, (error, products) => {
+    Product.bulkWrite(bulkOps, {}, (error, products) => {
         if (error) {
             return res.status(400).json({
                 error: 'Could not update product'

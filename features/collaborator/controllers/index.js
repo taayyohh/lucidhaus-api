@@ -1,35 +1,30 @@
-const ServiceAnimal = require('../models/serviceAnimal')
+const Collaborator = require('../models')
 const formidable = require('formidable')
 const _ = require('lodash')
-const fs = require('fs')
 const {errorHandler} = require('../../../utils/helpers/dbErrorHandler')
 
-
-exports.serviceAnimalById = (req, res, next, id) => {
-    const serviceAnimalId = id.substr(id.lastIndexOf('-') + 1)
-
-    ServiceAnimal.findById(id)
-        .exec((err, serviceAnimal) => {
-            if (err || !serviceAnimal) {
+exports.collaboratorById = (req, res, next, id) => {
+    Collaborator.findById(id)
+        .exec((err, collaborator) => {
+            if (err || !collaborator) {
                 return res.status(400).json({
-                    status: 410,
-                    error: 'serviceAnimal not found'
+                    error: 'marketplace not found'
                 })
             }
-            req.serviceAnimal = serviceAnimal
+            req.collaborator = collaborator
             next()
         })
 }
 
-exports.serviceAnimalBySlug = (req, res, next, slug) => {
-    ServiceAnimal.findOne({slug: slug})
-        .exec((err, serviceAnimal) => {
-            if (err || !serviceAnimal) {
+exports.collaboratorBySlug = (req, res, next, slug) => {
+    Collaborator.findOne({slug: slug})
+        .exec((err, collaborator) => {
+            if (err || !collaborator) {
                 return res.status(400).json({
-                    error: 'serviceAnimal not found'
+                    error: 'marketplace not found'
                 })
             }
-            req.serviceAnimal = serviceAnimal
+            req.collaborator = collaborator
             next()
         })
 }
@@ -38,9 +33,16 @@ exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields, files) => {
-            let serviceAnimal = new ServiceAnimal(fields)
+            if (err) {
+                return res.status(400).json({
+                    error: 'Image could not be uploaded'
+                })
+            }
 
-            serviceAnimal.save((err, result) => {
+            let collaborator = new Collaborator(fields)
+
+
+            collaborator.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -50,22 +52,23 @@ exports.create = (req, res) => {
                 res.json(result)
             })
         })
+
 }
 
 exports.read = (req, res) => {
-    return res.json(req.serviceAnimal)
+    return res.json(req.collaborator)
 }
 
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
-            let _id = req.serviceAnimal._id
-            let serviceAnimal = req.serviceAnimal
-            serviceAnimal = _.extend(serviceAnimal, fields)
+            let _id = req.collaborator._id
+            let collaborator = req.collaborator
+            collaborator = _.extend(collaborator, fields)
 
 
-            serviceAnimal.save((err, result) => {
+            collaborator.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -76,11 +79,12 @@ exports.update = (req, res) => {
             })
 
         })
+
 }
 
 exports.remove = (req, res) => {
-    let serviceAnimal = req.serviceAnimal
-    serviceAnimal.remove((err) => {
+    let collaborator = req.collaborator
+    collaborator.remove((err) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -88,26 +92,26 @@ exports.remove = (req, res) => {
         }
 
         res.json({
-            message: 'ServiceAnimal deleted successfully'
+            message: 'Collaborator deleted successfully'
         })
     })
 }
 
 exports.list = (req, res) => {
+    let order = req.query.order ? req.query.order : 'asc'
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    ServiceAnimal.find()
-        .sort([[sortBy]])
+    Collaborator.find()
+        .sort([[sortBy, order]])
         .limit(limit)
-        .exec((err, serviceAnimal) => {
+        .exec((err, collaborators) => {
             if (err) {
                 return res.status(400).json({
-                    message: 'serviceAnimal not found'
+                    message: 'admin not found'
                 })
             }
 
-            res.send(serviceAnimal)
+            res.send(collaborators)
         })
 }
-

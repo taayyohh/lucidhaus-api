@@ -45,8 +45,8 @@ router.put('/product/:slug/:userId',
 
 router.get('/products', list)
 router.get('/products/related/:slug', listRelated)
-router.get('/products/placeCategory', listCategories)
-router.get('/products/placeCategory/:productCategory', listProductsByCategory)
+router.get('/products/category', listCategories)
+router.get('/products/category/:productCategory', listProductsByCategory)
 router.post('/products/by/search', listBySearch)
 
 

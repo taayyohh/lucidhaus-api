@@ -6,32 +6,32 @@ const {create, categoryById, read, update, remove, list} = require('../controlle
 const {productCategoryBySlug} = require('../controllers/category')
 
 router.get(
-    '/product-placeCategory/:slug',
+    '/product-category/:slug',
     read
 )
 router.post(
-    '/product-placeCategory/create/:userId',
+    '/product-category/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
 router.put(
-    '/product-placeCategory/:categoryId/:userId',
+    '/product-category/:categoryId/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 router.delete(
-    '/product-placeCategory/:slug/:userId',
+    '/product-category/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
 router.get(
-    '/product-placeCategory',
+    '/product-categories',
     list
 )
 

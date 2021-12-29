@@ -2,43 +2,45 @@ const express = require('express')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 const {userById} = require('../../user/controllers')
+
 const {
-    bodyModificationById,
-    bodyModificationBySlug,
+    collaboratorById,
+    collaboratorBySlug,
     create,
     read,
     remove,
     update,
+    getCollaboratorsCatalogue,
     list,
-} = require('../controllers/bodyModification')
+    photo
+} = require('../controllers')
 
 
-router.get('/body-modification', list)
-router.get('/body-modification/:slug', read)
-router.get('/body-modification/by/id/:id', read)
-
+router.get('/collaborator/:slug', read)
 router.post(
-    '/body-modification/create/:userId',
+    '/collaborator/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/body-modification/:slug/:userId',
+router.delete('/collaborator/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/body-modification/:slug/:userId',
+router.put('/collaborator/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 
+router.get('/collaborators', list)
+
 router.param('userId', userById)
-router.param('id', bodyModificationById)
-router.param('slug', bodyModificationBySlug)
+router.param('collaboratorId', collaboratorById)
+router.param('slug', collaboratorBySlug)
 
 module.exports = router

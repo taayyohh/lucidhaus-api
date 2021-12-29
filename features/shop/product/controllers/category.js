@@ -7,10 +7,10 @@ exports.categoryById = (req, res, next, id) => {
     Category.findById(id).exec((err, category) => {
         if (err || !category) {
             return res.status(400).json({
-                error: 'product placeCategory does not exist'
+                error: 'product category does not exist'
             })
         }
-        req.category = category
+        req.productCategory = category
         next()
     })
 }
@@ -20,10 +20,10 @@ exports.productCategoryBySlug = (req, res, next, slug) => {
         .exec((err, category) => {
             if (err || !category) {
                 return res.status(400).json({
-                    error: 'product placeCategory not found'
+                    error: 'product category not found'
                 })
             }
-            req.category = category
+            req.productCategory = category
             next()
         })
 }
@@ -47,7 +47,7 @@ exports.create = (req, res) => {
 }
 
 exports.read = (req, res) => {
-    return res.json(req.category)
+    return res.json(req.productCategory)
 }
 
 exports.update = (req, res) => {
@@ -55,10 +55,10 @@ exports.update = (req, res) => {
     form.keepExtensions = true,
         form.parse(req, (err, fields) => {
 
-            let category = req.category
-           category = _.extend(category, fields)
+            let category = req.productCategory
+            category = _.extend(category, fields)
 
-           category.save((err, result) => {
+            category.save((err, result) => {
                 if (err) {
                     return res.status(400).json({
                         error: errorHandler(err)
@@ -72,7 +72,7 @@ exports.update = (req, res) => {
 }
 
 exports.remove = (req, res) => {
-    const category = req.category
+    const category = req.productCategory
     category.remove((err, data) => {
         if (err) {
             return res.status(400).json({

@@ -4,31 +4,6 @@ const {ObjectId, Types} = mongoose.Schema
 
 mongoose.plugin(slug);
 
-const geoJsonProperties = new mongoose.Schema({
-    address: String,
-    address2: String,
-    city: String,
-    country: {
-        type: String,
-        default: 'United States'
-    },
-    crossStreet: String,
-    description: String,
-    hours: {},
-    phoneFormatted: String,
-    phone: String,
-    postalCode: String,
-    state: String,
-    name: String,
-});
-
-const viewsSchema = new mongoose.Schema({
-    viewedBy: {
-        type: ObjectId,
-        ref: 'User'
-    },
-    viewedAt: Number
-});
 
 const placeSchema = new mongoose.Schema({
     accessibleDoorway: String,
@@ -87,25 +62,6 @@ const placeSchema = new mongoose.Schema({
         ref: 'FoodOptions',
     }],
     hours: {},
-    geojson: [
-        {
-            type: {
-                type: String,
-                default: 'Features'
-            },
-            geometry: {
-                type: {
-                    type: String,
-                    default: 'Point'
-                },
-                coordinates: []
-            },
-            properties: {
-                type: geoJsonProperties,
-                default: {}
-            }
-        }
-    ],
     isPendingSubmission: {
         type: Boolean,
         default: false
@@ -164,30 +120,6 @@ const placeSchema = new mongoose.Schema({
         type: String,
         default: 'place'
     },
-    views: [{
-        viewedBy: {
-            type: ObjectId,
-            ref: 'User'
-        },
-        viewedAt: Number
-    }],
-    website: String,
-    wheelchairElevator: {
-        type: Boolean,
-        default: false
-    },
-    wheelchairParking: {
-        type: Boolean,
-        default: false
-    },
-    wheelchairRamps: {
-        type: Boolean,
-        default: false
-    },
-    wheelchairRestroom: {
-        type: Boolean,
-        default: false
-    }
 }, {id: false})
 
 

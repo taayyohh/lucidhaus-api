@@ -6,69 +6,6 @@ const {ObjectId} = mongoose.Schema
 
 mongoose.plugin(slug);
 
-const IdentitySchema = new mongoose.Schema({
-    adaptiveEquipment: [{
-        type: ObjectId,
-        ref: 'AdaptiveEquipment'
-    }],
-    bodyModification: [{
-        type: ObjectId,
-        ref: 'BodyModification'
-    }],
-    blind: {
-        type: Boolean,
-        default: false
-    },
-    deaf: {
-        type: Boolean,
-        default: false
-    },
-    gender: [{
-        type: ObjectId,
-        ref: 'Gender'
-    }],
-    guideAnimal: {
-        type: Boolean,
-        default: false
-    },
-    languagePrimary: [{
-        type: ObjectId,
-        ref: 'Language'
-    }],
-    languageSecondary: [{
-        type: ObjectId,
-        ref: 'Language'
-    }],
-    methodOfCommunication: [{
-        type: ObjectId,
-        ref: 'MethodOfCommunication'
-    }],
-    physicalAppearance: [{
-        type: ObjectId,
-        ref: 'PhysicalAppearance'
-    }],
-    pronoun: [{
-        type: ObjectId,
-        ref: 'Pronoun'
-    }],
-    race: [{
-        type: ObjectId,
-        ref: 'Race'
-    }],
-    serviceAnimal: [{
-        type: ObjectId,
-        ref: 'ServiceAnimal'
-    }],
-    sexualOrientation: [{
-        type: ObjectId,
-        ref: 'SexualOrientation'
-    }],
-    transgender: {
-        type: Boolean,
-        default: false
-    },
-})
-
 const userSchema = new mongoose.Schema({
     avatar: {
         type: String,
@@ -101,25 +38,9 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    ethnicHispanicOrigin: {
-        type: Boolean,
-        default: false
-    },
-    flaggedReviews: [{
-        type: ObjectId,
-        ref: 'Review'
-    }],
-    handle: {
-        type: String,
-        default: ''
-    },
     hashed_password: {
         type: String,
         required: true,
-    },
-    identity: {
-        type: IdentitySchema,
-        default: () => ({})
     },
     nameFirst: {
         type: String,
@@ -136,13 +57,6 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: ''
     },
-    pendingPlaceSubmissions: [],
-    recentlyViewed: [
-        {
-            type: ObjectId,
-            ref: 'Place'
-        }
-    ],
     resetPasswordToken: {
         type: String,
         required: false

@@ -2,43 +2,45 @@ const express = require('express')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
 const {userById} = require('../../user/controllers')
+
 const {
-    sexualOrientationById,
-    sexualOrientationBySlug,
+    albumById,
+    albumBySlug,
     create,
     read,
     remove,
     update,
     list,
-} = require('../controllers/sexualOrientation')
+    photo
+} = require('../controllers')
 
 
-router.get('/sexual-orientation', list)
-router.get('/sexual-orientation/:slug', read)
-router.get('/sexual-orientation/by/id/:id', read)
-
+// router.get('/admin/:albumId', read)
+router.get('/album/:slug', read)
 router.post(
-    '/sexual-orientation/create/:userId',
+    '/album/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/sexual-orientation/:slug/:userId',
+router.delete('/album/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/sexual-orientation/:slug/:userId',
+router.put('/album/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 
+router.get('/albums', list)
+
 router.param('userId', userById)
-router.param('id', sexualOrientationById)
-router.param('slug', sexualOrientationBySlug)
+router.param('albumId', albumById)
+router.param('slug', albumBySlug)
 
 module.exports = router

@@ -1,8 +1,8 @@
-## Inclusive Guide API (api)
+## LucidHaus API (api)
 Repo: *https://github.com/inclusiveguide/api*
 
 ## Overview
-This Inclusive Guide API is a Javascript (node.js) application written using Express JS.
+This LucidHaus API is a Javascript (node.js) application written using Express JS.
 The API communicates with an instance of MongoDB's Atlas Database using
 **Mongoose** as the interface to interact with the database. All Media uploads (photo, video, large files)
 are handled via Amazon's AWS SDK and stored in a s3 endpoint.
@@ -21,7 +21,7 @@ used, however, those listed below are critical to the app.
 **Mongoose** - https://www.npmjs.com/package/mongoose
 
 ## Structure (api)
-**features** - This coorelates directly to the features directory defined in the Inclusive Guide (app) front end application.
+**features** - This coorelates directly to the features directory defined in the LucidHaus (app) front end application.
 Each child directory contains the **controllers**, **routes**, & **models** for each feature in the application.
 <br />
 ___

@@ -22,7 +22,7 @@ exports.recover = (req, res) => {
             user.save()
                 .then(user => {
                     // send email
-                    let link = "https://" + 'beta.inclusiveguide.com' + "/reset/" + user.resetPasswordToken
+                    let link = "https://" + 'lucid.haus' + "/reset/" + user.resetPasswordToken
                     const mailOptions = {
                         to: user.email,
                         from: process.env.FROM_EMAIL,
@@ -106,9 +106,9 @@ exports.checkForVerification = () => {
                         if (user.confirmationAttempt < 2) {
                             const verificationEmail = {
                                 to: user.email,
-                                from: 'no-reply@inclusiveguide.com',
-                                subject: `Inclusive Guide: Verify your email!`,
-                                html: `https://inclusiveguide.com/verify/${user.verificationToken}`
+                                from: 'no-reply@lucid.haus',
+                                subject: `LucidHaus: Verify your email!`,
+                                html: `https://lucid.haus/verify/${user.verificationToken}`
                             }
                             sgMail.send(verificationEmail)
                             user.confirmationAttempt = user.confirmationAttempt + 1

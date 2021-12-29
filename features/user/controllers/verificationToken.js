@@ -34,9 +34,9 @@ exports.create = (req, res) => {
 
                 const verificationEmail = {
                     to: req.profile.email,
-                    from: 'no-reply@inclusiveguide.com',
-                    subject: `Inclusive Guide: Verify your email!`,
-                    html: `https://inclusiveguide.com/verify/${fields.verificationToken}`
+                    from: 'no-reply@lucid.haus',
+                    subject: `LucidHaus: Verify your email!`,
+                    html: `https://lucid.haus/verify/${fields.verificationToken}`
                 }
                 sgMail.send(verificationEmail)
 
@@ -117,10 +117,12 @@ exports.verificationTokenByHex = (req, res, next, verificationToken) => {
 exports.resend = (req, res) => {
     const verificationEmail = {
         to: req.profile.email,
-        from: 'no-reply@inclusiveguide.com',
-        subject: `Inclusive Guide: Verify your email!`,
-        html: `https://inclusiveguide.com/verify/${req.profile.verificationToken}`
+        from: 'no-reply@lucid.haus',
+        subject: `LucidHaus: Verify your email!`,
+        html: `https://lucid.haus/verify/${req.profile.verificationToken}`
     }
+
+    console.log('req', req)
     sgMail.send(verificationEmail)
     res.json({success: 'success'})
 }

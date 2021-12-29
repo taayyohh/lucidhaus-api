@@ -1,44 +1,47 @@
 const express = require('express')
 const router = express.Router()
 const {requireSignIn, isAuth, isAdmin} = require('../../user/controllers/auth')
+
 const {userById} = require('../../user/controllers')
 const {
-    adaptiveEquipmentById,
-    adaptiveEquipmentBySlug,
+    artistById,
+    artistBySlug,
     create,
     read,
     remove,
     update,
+    getArtistsCatalogue,
     list,
-} = require('../controllers/adaptiveEquipment')
+    photo
+} = require('../controllers')
 
 
-router.get('/adaptive-equipment', list)
-router.get('/adaptive-equipment/:slug', read)
-router.get('/adaptive-equipment/by/id/:id', read)
-
+// router.get('/admin/:artistId', read)
+router.get('/artist/:slug', getArtistsCatalogue, read)
 router.post(
-    '/adaptive-equipment/create/:userId',
+    '/artist/create/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     create
 )
-router.delete('/adaptive-equipment/:slug/:userId',
+router.delete('/artist/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     remove
 )
-router.put('/adaptive-equipment/:slug/:userId',
+router.put('/artist/:slug/:userId',
     requireSignIn,
     isAuth,
     isAdmin,
     update
 )
 
+router.get('/artists', list)
+
 router.param('userId', userById)
-router.param('id', adaptiveEquipmentById)
-router.param('slug', adaptiveEquipmentBySlug)
+router.param('artistId', artistById)
+router.param('slug', artistBySlug)
 
 module.exports = router

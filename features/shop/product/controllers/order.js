@@ -30,7 +30,7 @@ exports.create = (req, res) => {
         }
 
         const emailData = {
-            to: 'team@lucidha.us',
+            to: 'team@lucid.haus',
             from: 'no-reply@lucid.haus',
             subject: `Yay! New Purchase: #${order.transactionId}`,
             html: `
@@ -44,16 +44,18 @@ exports.create = (req, res) => {
         const customerReceipt = {
             to: req.body.order.email,
             from: 'no-reply@lucid.haus',
-            subject: `Thanks for your purchase! - Inclusive Guide Order #${order.transactionId}`,
+            subject: `Thanks for your purchase! - LucidHaus Order #${order.transactionId}`,
             html: `
-            <img src="https://d1ogvuec9tg4jo.cloudfront.net/config/android-chrome-512x512.png" width="100" height="100" />
+            <img src="https://d1ogvuec9tg4jo.cloudfront.net/config/lh.png" width="150" height="150" />
             <p>We will send you an email when your order has shipped! Below are the details of the order:</p>
             <br />
+            <div >
+            </div>
             <p><strong>Order #:</strong> ${order.transactionId}</p>
             <p><strong>Order Total:</strong> $${order.amount}</p>
             <p><strong>Delivery Address:</strong> ${order.address} ${order.address2} ${order.city} ${order.zip} ${order.country}</p>
              <br />
-             <p>Questions? Email <a href="mailto:team@lucidha.us">team@lucidha.us</a></p>
+             <p>Questions? Email <a href="mailto:team@lucid.haus">team@lucid.haus</a></p>
              <br />
              <strong><3 <3 <3</strong>
            `

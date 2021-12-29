@@ -12,6 +12,9 @@ const productCategorySchema = new mongoose.Schema({
         unique: true,
         maxLength: 32
     },
+    description: {
+        type: String,
+    },
     slug: {
         type: String,
         slug: 'name',
