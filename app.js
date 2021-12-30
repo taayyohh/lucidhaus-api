@@ -17,7 +17,6 @@ const eventRoutes = require('./features/event/routes')
 
 const braintreeRoutes = require('./features/shop/product/routes/braintree')
 const orderRoutes = require('./features/shop/product/routes/order')
-const placeRoutes = require('./features/place/routes')
 const productRoutes = require('./features/shop/product/routes')
 const productCategoryRoutes = require('./features/shop/product/routes/category')
 const s3Routes = require('./features/site/routes/s3')
@@ -26,13 +25,6 @@ const userRoutes = require('./features/user/routes')
 const verificationTokenRoutes = require('./features/user/routes/verificationToken')
 
 
-/*place taxonomy */
-const bathroomRoutes = require('./features/place/routes/bathroom')
-const businessOwnerRoutes = require('./features/place/routes/businessOwner')
-const communitiesServedRoutes = require('./features/place/routes/communitiesServed')
-const foodOptionsRoutes = require('./features/place/routes/foodOptions')
-const languageSpokenRoutes = require('./features/place/routes/languageSpoken')
-const placeCategoryRoutes = require('./features/place/routes/placeCategory')
 const {checkForVerification} = require('./features/user/controllers/password')
 
 
@@ -61,7 +53,6 @@ app.use('/api', collaboratorRoutes)
 
 app.use('/api', braintreeRoutes)
 app.use('/api', orderRoutes)
-app.use('/api', placeRoutes)
 app.use('/api', productRoutes)
 app.use('/api', productCategoryRoutes)
 app.use('/api', s3Routes)
@@ -70,13 +61,6 @@ app.use('/api', userRoutes)
 app.use('/api', verificationTokenRoutes)
 
 /* place taxonomy */
-app.use('/api', bathroomRoutes)
-app.use('/api', businessOwnerRoutes)
-app.use('/api', communitiesServedRoutes)
-app.use('/api', foodOptionsRoutes)
-app.use('/api', languageSpokenRoutes)
-app.use('/api', placeCategoryRoutes)
-
 const port = process.env.port || 9000
 
 checkForVerification()
