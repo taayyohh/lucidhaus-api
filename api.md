@@ -63,3 +63,4 @@ TWILIO_ACCOUNT_SID<br />
 TWILIO_AUTH_TOKEN<br />
 VERIFICATION_SID<br />
 FROM_EMAIL<br />
+BRAINTREE_MERCHANT_ACCOUNT -- <br /> (use 'Sandbox' for dev, 'Production' for prod)
