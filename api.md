@@ -1,5 +1,5 @@
 ## LucidHaus API (api)
-Repo: *https://github.com/inclusiveguide/api*
+Repo: *https://github.com/taayyohh/lucidhaus-api*
 
 ## Overview
 This LucidHaus API is a Javascript (node.js) application written using Express JS.
@@ -46,3 +46,20 @@ ___
 <br />
 ___
 **user**- This directory contains the controllers, models, and routes specific to the User model.
+
+## Required .env variables 
+DATABASE<br />
+PORT<br />
+JWT_SECRET<br />
+BRAINTREE_MERCHANT_ID<br />
+BRAINTREE_PUBLIC_KEY<br />
+BRAINTREE_PRIVATE_KEY<br />
+AWS_ACCESS_KEY_ID<br />
+AWS_SECRET_ACCESS_KEY<br />
+S3_BUCKET<br />
+BUCKET_REGION<br />
+SENDGRID_API_KEY<br />
+TWILIO_ACCOUNT_SID<br />
+TWILIO_AUTH_TOKEN<br />
+VERIFICATION_SID<br />
+FROM_EMAIL<br />
