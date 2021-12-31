@@ -85,6 +85,16 @@ exports.getStatusValues = (req, res) => {
 }
 
 exports.updateOrderStatus = (req, res) => {
+    console.log('req body', req.body)
+
+    Order.findById(req.body.orderId).exec((err, order) => {
+        console.log('order', order)
+
+        if(req.body.status === 'Shipped') {
+            console.log('hii')
+        }
+    })
+
     Order.updateOne({_id: req.body.orderId}, {$set: {status: req.body.status}},
         (err, order) => {
             if (err) {

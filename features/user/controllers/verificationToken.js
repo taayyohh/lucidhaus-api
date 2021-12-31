@@ -122,7 +122,6 @@ exports.resend = (req, res) => {
         html: `https://lucid.haus/verify/${req.profile.verificationToken}`
     }
 
-    console.log('req', req)
     sgMail.send(verificationEmail)
     res.json({success: 'success'})
 }
