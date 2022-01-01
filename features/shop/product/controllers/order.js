@@ -1,4 +1,5 @@
 const {Order, cartItem} = require('../../order/models')
+const Product = require('../models')
 const {errorHandler} = require('../../../../utils/helpers/dbErrorHandler')
 
 const sgMail = require('@sendgrid/mail')
@@ -85,14 +86,46 @@ exports.getStatusValues = (req, res) => {
 }
 
 exports.updateOrderStatus = (req, res) => {
-    console.log('req body', req.body)
 
     Order.findById(req.body.orderId).exec((err, order) => {
-        console.log('order', order)
-
-        if(req.body.status === 'Shipped') {
-            console.log('hii')
+        if (req.body.status === 'Shipped') {
+            const customerReceipt = {
+                to: order.email,
+                from: 'no-reply@lucid.haus',
+                subject: `Your order has shipped! - LucidHaus Order #${order.transactionId}`,
+                html: `
+            <img src="https://d1ogvuec9tg4jo.cloudfront.net/config/lh.png" width="150" height="150" />
+            <p>Your order has shipped!</p>
+            <br />
+            <div >
+            </div>
+            <p><strong>Order #:</strong> ${order.transactionId}</p>
+            <p><strong>Order Total:</strong> $${order.amount}</p>
+            <p><strong>Delivery Address:</strong> ${order.address} ${order.address2} ${order.city} ${order.zip} ${order.country}</p>
+             <br />
+             <p>Questions? Email <a href="mailto:team@lucid.haus">team@lucid.haus</a></p>
+             <br />
+             <strong><3 <3 <3</strong>
+           `
+            }
+            sgMail.send(customerReceipt)
         }
+
+        // const products = []
+        // {order.products.map((p) => {
+        //     Product.findById(p._id).exec((err, product) => {
+        //         const productName = product.name
+        //         const productPhoto = `https://d1ogvuec9tg4jo.cloudfront.net/${product.photo}`
+        //         const productSlug = `https://lucid.haus/shop/${product.slug}`
+        //         const html = `<div style="display: flex; flex-direction: row;">
+        //                           <img src=${productPhoto} width="150" height="150" />
+        //                           <a href=${productSlug}>${productName}</a>
+        //                       </div>`
+        //
+        //         return products.push(html)
+        //     })
+        // })}
+        // console.log('PR', products)
     })
 
     Order.updateOne({_id: req.body.orderId}, {$set: {status: req.body.status}},
